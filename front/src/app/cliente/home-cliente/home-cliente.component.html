@@ -1,0 +1,36 @@
+<div class="container-fluid p-5">
+    <div class="d-flex flex-column text-center mb-5 pt-5">
+        <h1>Banco do TADS - BANTADS</h1>
+    </div>
+    <div class="row m-5 justify-content-center">
+        <!-- Mudar as rotas para as rotas certas -->
+        <div class="btn btn-outline-primary col-sm-3 m-4 p-3">
+            <span>Seu saldo é de: R$140,00</span>
+        </div>
+        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/altera-perfil']">
+            <div>
+                <span>Alterar perfil</span>
+            </div>
+        </a>
+        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/depositar']">
+            <div>
+                <span>Depositar</span>
+            </div>
+        </a>
+        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/sacar']">
+            <div>
+                <span>Sacar</span>
+            </div>
+        </a>
+        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/transferencia']">
+            <div>
+                <span>Transfrerência</span>
+            </div>
+        </a>
+        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/consulta-extrato']">
+            <div>
+                <span>Consultar extrato</span>
+            </div>
+        </a>
+    </div>
+</div>
