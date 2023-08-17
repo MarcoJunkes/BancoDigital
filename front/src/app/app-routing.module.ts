@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.component';
+import { AdminGerentesComponent } from './administrador';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'cliente/home',
     component: HomeClienteComponent
+  },
+  {
+    path: 'administrador/gerentes',
+    component: AdminGerentesComponent
   }
 ]
 
