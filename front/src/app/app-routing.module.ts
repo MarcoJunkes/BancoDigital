@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.component';
 import { AdminGerentesComponent } from './administrador';
+import { LoginRoutes } from './auth/auth-routing.module';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
   {
     path: 'administrador/gerentes',
     component: AdminGerentesComponent
-  }
+  },
+  ...LoginRoutes
 ]
 
 @NgModule({
