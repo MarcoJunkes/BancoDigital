@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AutocadastroComponent } from './autocadastro/autocadastro.component';
-import { LoginLogoutComponent } from './login-logout/login-logout.component';
 import { AlterarPerfilComponent } from './alterar-perfil/alterar-perfil.component';
 import { DepositoComponent } from './deposito/deposito.component';
 import { SaqueComponent } from './saque/saque.component';
@@ -15,8 +13,6 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    AutocadastroComponent,
-    LoginLogoutComponent,
     AlterarPerfilComponent,
     DepositoComponent,
     SaqueComponent,
