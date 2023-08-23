@@ -6,6 +6,7 @@ import { AdminGerentesComponent } from './administrador';
 import { LoginRoutes } from './auth/auth-routing.module';
 import { AlterarPerfilComponent } from './cliente/alterar-perfil/alterar-perfil.component';
 import { DepositoComponent } from './cliente/deposito/deposito.component';
+import { SaqueComponent } from './cliente/saque/saque.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'cliente/depositar',
     component: DepositoComponent
+  },
+  {
+    path: 'cliente/sacar',
+    component: SaqueComponent
   },
   {
     path: 'administrador/gerentes',

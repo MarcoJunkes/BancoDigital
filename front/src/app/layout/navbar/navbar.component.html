@@ -9,8 +9,8 @@
       <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
         <div class="navbar-nav mr-auto py-0"><!-- <div class="navbar-nav mr-auto py-0" *ngIf="usuarioLogado?.perfil === 'cliente'"> -->
           <a href="cliente/home" class="nav-item nav-link">Home</a>
-          <a href="#" class="nav-item nav-link">Sacar</a>
-          <a href="#" class="nav-item nav-link">Depositar</a>
+          <a href="#" class="nav-item nav-link" [routerLink]="['/cliente/sacar']">Sacar</a>
+          <a href="#" class="nav-item nav-link" [routerLink]="['/cliente/depositar']">Depositar</a>
           <a href="#" class="nav-item nav-link">Consulta de Saldo</a>
           <a href="#" class="nav-link">Logout</a><!-- <a class="nav-link" href="#" (click)="logout()">Logout</a> -->
         </div>
