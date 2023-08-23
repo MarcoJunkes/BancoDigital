@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminGerentesComponent } from './admin-gerentes/admin-gerentes.component';
 
 import { RouterModule } from '@angular/router';
+import { GerenteService } from '../gerente/services/gerente.service';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,9 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule
+  ],
+  providers: [
+    GerenteService
   ]
 })
 export class AdministradorModule { }
