@@ -5,6 +5,7 @@ import { HomeClienteComponent } from './cliente/home-cliente/home-cliente.compon
 import { AdminGerentesComponent } from './administrador';
 import { LoginRoutes } from './auth/auth-routing.module';
 import { AlterarPerfilComponent } from './cliente/alterar-perfil/alterar-perfil.component';
+import { DepositoComponent } from './cliente/deposito/deposito.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'cliente/alterar-perfil',
     component: AlterarPerfilComponent
+  },
+  {
+    path: 'cliente/depositar',
+    component: DepositoComponent
   },
   {
     path: 'administrador/gerentes',

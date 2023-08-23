@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    AdminGerentesComponent
+    AdminGerentesComponent,
   ],
   imports: [
     CommonModule,
