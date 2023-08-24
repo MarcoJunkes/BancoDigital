@@ -2,63 +2,21 @@
     <div class="d-flex flex-column text-center mb-5 pt-5">
       <h1 class="display-4 m-0">Consultar todos os clientes</h1>
     </div>
+
     <div class="row justify-content-center">
-        <div class="col-sm-8 mb-5">
-            <form onsubmit="event.preventDefault()">
-                <div class="form-group">
-                    <div class="col-4">
-                    <input
-                        #search
-                        type="text"
-                        class="form-control p-4"
-                        placeholder="CPF (12345678912)"
-                        numerico
-                    />
-                    </div>
-                    <div class="col-4">
-                    <button
-                        class="btn btn-primary py-2 px-5"
-                        type="button"
-                    >
-                        Pesquisar por CPF
-                    </button>
-                    <button
-                        class="col-4 btn btn-primary py-2 ml-2"
-                        type="button"
-                    >
-                        Limpar Pesquisa
-                    </button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-12 col-sm-8 mb-5">
+            <div class="form-group">
+                <input type="text" class="col-4 m-2" placeholder="CPF">
+                <button class="col-2 m-2 btn btn-primary">Pesquisa por CPF</button>
+                <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
+            </div>
         </div>
-        <div class="col-sm-8 mb-5">
-            <form onsubmit="event.preventDefault()">
-                <div class="form-group">
-                    <div class="col-4">
-                    <input
-                        #search
-                        type="text"
-                        class="form-control p-4"
-                        placeholder="Nome (Alfredo)"
-                    />
-                    </div>
-                    <div class="col-4">
-                    <button
-                        class="btn btn-primary py-2 px-5"
-                        type="button"
-                    >
-                        Pesquisar por nome
-                    </button>
-                    <button
-                        class="col-4 btn btn-primary py-2 ml-2"
-                        type="button"
-                    >
-                        Limpar Pesquisa
-                    </button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-12 col-sm-8 mb-5">
+            <div class="form-group">
+                <input type="text" class="col-4 m-2 mt-0" placeholder="Nome">
+                <button class="col-2 m-2 btn btn-primary">Pesquisa por nome</button>
+                <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
+            </div>
         </div>
         <div class="col-12 col-sm-8 mb-5">
             <table class="table table-striped">
@@ -71,7 +29,31 @@
                         <th style="width: 10%">Saldo</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr>
+                        <td>12345678912</td>
+                        <td>Ciclano</td>
+                        <td>Curitiba</td>
+                        <td>PR</td>
+                        <td>150,00</td>
+                    </tr>
+                    <tr>
+                        <td>45678912345</td>
+                        <td>Fulano</td>
+                        <td>Londrina</td>
+                        <td>PR</td>
+                        <td>500,00</td>
+                    </tr>
+                    <tr>
+                        <td>78945612378</td>
+                        <td>Beltrano</td>
+                        <td>Curitiba</td>
+                        <td>PR</td>
+                        <td>1500,00</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
+
     </div>
 </div>

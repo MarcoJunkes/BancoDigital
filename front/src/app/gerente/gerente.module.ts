@@ -10,9 +10,6 @@ import { ContultarTodosClientesComponent } from './contultar-todos-clientes/cont
   ],
   imports: [
     CommonModule
-  ],
-  exports: [
-    ContultarTodosClientesComponent
-  ],
+  ]
 })
 export class GerenteModule { }
