@@ -7,6 +7,7 @@ import { LoginRoutes } from './auth/auth-routing.module';
 import { AlterarPerfilComponent } from './cliente/alterar-perfil/alterar-perfil.component';
 import { DepositoComponent } from './cliente/deposito/deposito.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
+import { ContultarTodosClientesComponent } from './gerente/contultar-todos-clientes/contultar-todos-clientes.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'cliente/sacar',
     component: SaqueComponent
+  },
+  {
+    path: 'gerente/consultar-todos',
+    component: ContultarTodosClientesComponent
   },
   {
     path: 'administrador/gerentes',

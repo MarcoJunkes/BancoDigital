@@ -6,7 +6,7 @@ import { SaqueComponent } from './saque/saque.component';
 import { TransferenciaComponent } from './transferencia/transferencia.component';
 import { ConsultaSaldoComponent } from './consulta-saldo/consulta-saldo.component';
 import { ConsultaExtratoComponent } from './consulta-extrato/consulta-extrato.component';
-import { HomeClienteComponent } from './home-cliente';
+import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -24,9 +24,6 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule
-  ],
-  exports: [
-    HomeClienteComponent
   ]
 })
 export class ClienteModule { }
