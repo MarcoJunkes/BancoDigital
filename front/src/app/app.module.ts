@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ClienteModule } from './cliente';
-import { FormsModule } from '@angular/forms';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
 
@@ -15,8 +14,8 @@ import { ContaModule } from './conta';
     NavbarComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     ClienteModule,
     GerenteModule,
     ContaModule,

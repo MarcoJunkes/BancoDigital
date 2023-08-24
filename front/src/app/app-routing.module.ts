@@ -8,6 +8,7 @@ import { AlterarPerfilComponent } from './cliente/alterar-perfil/alterar-perfil.
 import { DepositoComponent } from './cliente/deposito/deposito.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
 import { ContultarTodosClientesComponent } from './gerente/contultar-todos-clientes/contultar-todos-clientes.component';
+import { ConsultaExtratoComponent } from './cliente/consulta-extrato/consulta-extrato.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,11 @@ const routes: Routes = [
   },
   {
     path: 'gerente/consultar-todos',
-    component: ContultarTodosClientesComponent
+    component: ContultarTodosClientesComponent,
+  },
+  {
+    path: 'cliente/consulta-extrato',
+    component: ConsultaExtratoComponent,
   },
   {
     path: 'administrador/gerentes',

@@ -1,1 +1,102 @@
-<p>consulta-extrato works!</p>
+<div class="container-fluid pt-5">
+  <div class="d-flex flex-column text-center mb-5 pt-5">
+    <h1 class="display-4 m-0">Extrato</h1>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 mb-5">
+      <div class="row">
+        <div class="col">
+          <label for="dataInicial">Data inicial</label>
+          <input type="date" id="dataInicial" name="dataInicial" class="form-control">
+        </div>
+        <div class="col">
+          <label for="dataFinal">Data final</label>
+          <input type="date" id="dataFinal" name="dataFinal" class="form-control">
+        </div>
+        <div class="col d-flex align-items-end">
+          <button class="btn btn-primary btn-sm mb-1 ml-2 padding-bottom-5" type="button">Filtrar</button>
+          <button class="btn btn-primary btn-sm mb-1 ml-2" type="button">Remover
+            Filtro</button>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="line text-muted"></div>
+        <div class="separator text-muted">
+          <time>26. 3. 2015</time>
+        </div>
+
+        <div class="panel card income">
+          <div class="panel-heading icon">
+            <i class="fa fa-plus"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Transferência</h5>
+            <div class="row card-text">
+              <div class="col-6">
+                <strong>Horário</strong> 13:00:00 <br>
+                <strong>Valor</strong> R$ 100,00
+              </div>
+              <div class="col-6">
+                <strong>Origem</strong> Ciclano <br>
+                <strong>Destino</strong> Você
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel card expense">
+          <div class="panel-heading icon">
+            <i class="fa fa-minus"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Transferência</h5>
+            <div class="row card-text">
+              <div class="col-6">
+                <strong>Horário</strong> 13:00:00 <br>
+                <strong>Valor</strong> R$ 100,00
+              </div>
+              <div class="col-6">
+                <strong>Origem</strong> Você <br>
+                <strong>Destino</strong> Ciclano
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="separator text-muted">
+          <time>25. 3. 2015</time>
+        </div>
+        
+        <div class="panel card income">
+          <div class="panel-heading icon">
+            <i class="fa fa-plus"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Depósito</h5>
+            <div class="row card-text">
+              <div class="col-6">
+                <strong>Horário</strong> 13:00:00 <br>
+                <strong>Valor</strong> R$ 100,00
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel card expense">
+          <div class="panel-heading icon">
+            <i class="fa fa-minus"></i>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Saque</h5>
+            <div class="row card-text">
+              <div class="col-6">
+                <strong>Horário</strong> 13:00:00 <br>
+                <strong>Valor</strong> R$ 100,00
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
