@@ -27,12 +27,12 @@
             <div class="control-group">
               <label for="valor">Valor para transferência:</label>
               <input 
-                type="number"
+                type="text"
                 class="form-control p-4"
                 id="valor"
                 name="valor"
-                placeholder="Exemplo: 123,00"
-                mask="R$ XXXXX.XX"
+                placeholder="Exemplo: R$ 123,00"
+                prefix="R$ " mask="separator.2" thousandSeparator="."
                 required
               />
               <div  
