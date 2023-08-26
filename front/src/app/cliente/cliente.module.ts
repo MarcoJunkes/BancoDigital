@@ -7,6 +7,7 @@ import { TransferenciaComponent } from './transferencia/transferencia.component'
 import { ConsultaExtratoComponent } from './consulta-extrato/consulta-extrato.component';
 import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 import { RouterModule } from '@angular/router';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 
 
@@ -21,7 +22,12 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers: [
+    provideNgxMask(),
   ]
 })
 export class ClienteModule { }
