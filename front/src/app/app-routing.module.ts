@@ -39,12 +39,12 @@ const routes: Routes = [
     component: SaqueComponent
   },
   {
-    path: 'gerente/consultar-todos',
-    component: ContultarTodosClientesComponent,
-  },
-  {
     path: 'gerente/tela-inicial-gerente',
     component: TelaInicialGerenteComponent
+  },
+  {
+    path: 'gerente/consultar-todos',
+    component: ContultarTodosClientesComponent,
   },
   {
     path: 'cliente/consulta-extrato',
