@@ -10,6 +10,7 @@ import { SaqueComponent } from './cliente/saque/saque.component';
 import { ContultarTodosClientesComponent } from './gerente/contultar-todos-clientes/contultar-todos-clientes.component';
 import { ConsultaExtratoComponent } from './cliente/consulta-extrato/consulta-extrato.component';
 import { TransferenciaComponent } from './cliente/transferencia/transferencia.component';
+import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela-inicial-gerente.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
   {
     path: 'gerente/consultar-todos',
     component: ContultarTodosClientesComponent,
+  },
+  {
+    path: 'gerente/tela-inicial-gerente',
+    component: TelaInicialGerenteComponent
   },
   {
     path: 'cliente/consulta-extrato',
