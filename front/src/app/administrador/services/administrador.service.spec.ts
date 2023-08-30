@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GerenteService } from './gerente.service';
+import { AdministradorService } from './administrador.service';
 
-describe('GerenteService', () => {
-  let service: GerenteService;
+describe('AdministradorService', () => {
+  let service: AdministradorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GerenteService);
+    service = TestBed.inject(AdministradorService);
   });
 
   it('should be created', () => {

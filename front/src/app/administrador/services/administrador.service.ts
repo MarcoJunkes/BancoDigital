@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 
-const LS_CHAVE: string = "gerentes";
+const LS_CHAVE: string = "admin";
 
 @Injectable({
   providedIn: 'root'
 })
-export class GerenteService {
+export class AdministradorService {
 
   constructor() { }
   
