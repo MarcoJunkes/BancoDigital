@@ -8,6 +8,7 @@ import { ClienteModule } from './cliente';
 import { FormsModule } from '@angular/forms';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
+import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,12 @@ import { ContaModule } from './conta';
     ClienteModule,
     GerenteModule,
     ContaModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [
+    NgbModalConfig, 
+    NgbModal
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

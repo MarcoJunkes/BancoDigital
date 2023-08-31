@@ -25,29 +25,32 @@
                         <th style="width: 10%">Cidade</th>
                         <th style="width: 10%">Estado</th>
                         <th style="width: 10%">Saldo</th>
+                        <th style="width: 10%"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>12345678912</td>
-                        <td>Ciclano</td>
-                        <td>Curitiba</td>
-                        <td>PR</td>
-                        <td>150,00</td>
-                    </tr>
-                    <tr>
-                        <td>45678912345</td>
-                        <td>Fulano</td>
-                        <td>Londrina</td>
-                        <td>PR</td>
-                        <td>500,00</td>
-                    </tr>
+                    <!-- Ordenado em ordem crescente dos nomes -->
                     <tr>
                         <td>78945612378</td>
                         <td>Beltrano</td>
                         <td>Curitiba</td>
                         <td>PR</td>
                         <td>1500,00</td>
+                        <td>
+                            <a  title="Visualizar" alt="Visualizar" class="btn btn-primary btn-sm mb-1"
+                            (click)="abrirModalCliente()"
+                            > <!--[routerLink]="['/gerente/modal-cliente']"--> <!--Depois tentar implementar com routerlink-->
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                            <!-- Se precisar colocar mais botão, colocar mais tag a -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>12345678912</td>
+                        <td>Ciclano</td>
+                        <td>Curitiba</td>
+                        <td>PR</td>
+                        <td>150,00</td>
                     </tr>
                 </tbody>
             </table>

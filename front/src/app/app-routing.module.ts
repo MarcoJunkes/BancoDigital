@@ -8,6 +8,7 @@ import { AlterarPerfilComponent } from './cliente/alterar-perfil/alterar-perfil.
 import { DepositoComponent } from './cliente/deposito/deposito.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
 import { ContultarTodosClientesComponent } from './gerente/contultar-todos-clientes/contultar-todos-clientes.component';
+import { ModalClienteComponent } from './gerente/modal-cliente/modal-cliente.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'gerente/consultar-todos',
     component: ContultarTodosClientesComponent
+  },
+  {
+    path: 'gerente/modal-cliente', // Depois precisa inserir por id
+    component: ModalClienteComponent
   },
   {
     path: 'administrador/gerentes',
