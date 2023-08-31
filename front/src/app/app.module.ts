@@ -5,10 +5,10 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ClienteModule } from './cliente';
-import { FormsModule } from '@angular/forms';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
 import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -16,8 +16,9 @@ import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap'
     NavbarComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
+    AuthModule,
     ClienteModule,
     GerenteModule,
     ContaModule,

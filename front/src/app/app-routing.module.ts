@@ -9,6 +9,9 @@ import { DepositoComponent } from './cliente/deposito/deposito.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
 import { ContultarTodosClientesComponent } from './gerente/contultar-todos-clientes/contultar-todos-clientes.component';
 import { ModalClienteComponent } from './gerente/modal-cliente/modal-cliente.component';
+import { ConsultaExtratoComponent } from './cliente/consulta-extrato/consulta-extrato.component';
+import { TransferenciaComponent } from './cliente/transferencia/transferencia.component';
+import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela-inicial-gerente.component';
 
 const routes: Routes = [
   {
@@ -29,12 +32,24 @@ const routes: Routes = [
     component: DepositoComponent
   },
   {
+    path: 'cliente/transferencia',
+    component: TransferenciaComponent
+  },
+  {
     path: 'cliente/sacar',
     component: SaqueComponent
   },
   {
+    path: 'gerente/tela-inicial-gerente',
+    component: TelaInicialGerenteComponent
+  },
+  {
     path: 'gerente/consultar-todos',
-    component: ContultarTodosClientesComponent
+    component: ContultarTodosClientesComponent,
+  },
+  {
+    path: 'cliente/consulta-extrato',
+    component: ConsultaExtratoComponent,
   },
   {
     path: 'gerente/modal-cliente', // Depois precisa inserir por id
