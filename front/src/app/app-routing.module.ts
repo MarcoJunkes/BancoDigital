@@ -12,6 +12,7 @@ import { ModalClienteComponent } from './gerente/modal-cliente/modal-cliente.com
 import { ConsultaExtratoComponent } from './cliente/consulta-extrato/consulta-extrato.component';
 import { TransferenciaComponent } from './cliente/transferencia/transferencia.component';
 import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela-inicial-gerente.component';
+import { ConsultarClienteComponent } from './gerente/consultar-cliente/consultar-cliente.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'gerente/tela-inicial-gerente',
     component: TelaInicialGerenteComponent
+  },
+  {
+    path: 'gerente/consultar-cliente',
+    component: ConsultarClienteComponent
   },
   {
     path: 'gerente/consultar-todos',
