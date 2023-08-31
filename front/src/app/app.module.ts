@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ClienteModule } from './cliente';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
+import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
@@ -21,6 +22,11 @@ import { AuthModule } from './auth/auth.module';
     ClienteModule,
     GerenteModule,
     ContaModule,
+    NgbModule,
+  ],
+  providers: [
+    NgbModalConfig, 
+    NgbModal
   ],
   bootstrap: [AppComponent]
 })

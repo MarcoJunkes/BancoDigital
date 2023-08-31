@@ -8,6 +8,7 @@ import { AlterarPerfilComponent } from './cliente/alterar-perfil/alterar-perfil.
 import { DepositoComponent } from './cliente/deposito/deposito.component';
 import { SaqueComponent } from './cliente/saque/saque.component';
 import { ContultarTodosClientesComponent } from './gerente/contultar-todos-clientes/contultar-todos-clientes.component';
+import { ModalClienteComponent } from './gerente/modal-cliente/modal-cliente.component';
 import { ConsultaExtratoComponent } from './cliente/consulta-extrato/consulta-extrato.component';
 import { TransferenciaComponent } from './cliente/transferencia/transferencia.component';
 import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela-inicial-gerente.component';
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'cliente/consulta-extrato',
     component: ConsultaExtratoComponent,
+  },
+  {
+    path: 'gerente/modal-cliente', // Depois precisa inserir por id
+    component: ModalClienteComponent
   },
   {
     path: 'administrador/gerentes',
