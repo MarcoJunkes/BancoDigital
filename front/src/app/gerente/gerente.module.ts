@@ -4,12 +4,14 @@ import { ContultarTodosClientesComponent } from './contultar-todos-clientes/cont
 import { ModalClienteComponent } from './modal-cliente/modal-cliente.component';
 import { TelaInicialGerenteComponent } from './tela-inicial-gerente/tela-inicial-gerente.component';
 import { RouterModule } from '@angular/router';
+import { ConsultarClienteComponent } from './consultar-cliente/consultar-cliente.component';
 
 @NgModule({
   declarations: [
     ContultarTodosClientesComponent,
-    ModalClienteComponent
+    ModalClienteComponent,
     TelaInicialGerenteComponent,
+    ConsultarClienteComponent,
   ],
   imports: [
     CommonModule,
