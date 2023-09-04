@@ -5,6 +5,7 @@ import { ModalClienteComponent } from './modal-cliente/modal-cliente.component';
 import { TelaInicialGerenteComponent } from './tela-inicial-gerente/tela-inicial-gerente.component';
 import { RouterModule } from '@angular/router';
 import { ConsultarClienteComponent } from './consultar-cliente/consultar-cliente.component';
+import { ModalTelaInicialComponent } from './modal-tela-inicial/modal-tela-inicial.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { ConsultarClienteComponent } from './consultar-cliente/consultar-cliente
     ModalClienteComponent,
     TelaInicialGerenteComponent,
     ConsultarClienteComponent,
+    ModalTelaInicialComponent,
   ],
   imports: [
     CommonModule,

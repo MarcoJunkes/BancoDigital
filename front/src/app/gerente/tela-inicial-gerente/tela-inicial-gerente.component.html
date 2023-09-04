@@ -18,8 +18,8 @@
                     <td>111.111.111-11</td>
                     <td>10.008,37</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Aprovar</button>
-                        <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#recusar1" aria-expanded="false" aria-controls="recusar1">Recusar</button>
+                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-danger btn-sm" type="button" (click)="abrirModal('Recusar')">Recusar</button>
                     </td>
                 </tr>
                 <tr>
@@ -27,8 +27,8 @@
                     <td>555.666.777-88</td>
                     <td>5.118,00</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Aprovar</button>
-                        <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#recusar2" aria-expanded="false" aria-controls="recusar2">Recusar</button>
+                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-danger btn-sm" type="button">Recusar</button>
                     </td>
                 </tr>
                 <tr>
@@ -36,40 +36,15 @@
                     <td>999.000.111-22</td>
                     <td>16.338,00</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Aprovar</button>
-                        <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#recusar3" aria-expanded="false" aria-controls="recusar3">Recusar</button>
+                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-danger btn-sm" type="button">Recusar</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="collapse" id="recusar1">
-        <div class="card mt-3">
-            <div class="card-header">
-                <h3 class="card-title">Recusar</h3>
-            </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label for="inputState" class="form-label">Motivação</label>
-                    <select id="inputState" class="form-select">
-                        <option selected>Selecione</option>
-                        <option>Motivo 1</option>
-                        <option>Motivo 2</option>
-                        <option>Outro</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="razao" class="form-label">Razão</label>
-                    <input type="text" class="form-control" id="razao" placeholder="Digite aqui...">
-                </div>
-                <button class="btn btn-primary">Enviar</button>
-            </div>
-        </div>
-    </div>
-
-
-    <a class="btn btn-primary btn-sm mt-3">Consultar Cliente</a>
+    <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-cliente']">Consultar Cliente</a>
     <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-todos']">Consultar Todos</a>
     <a class="btn btn-primary btn-sm mt-3">Consultar Melhores</a>
 </div>
