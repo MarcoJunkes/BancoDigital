@@ -15,6 +15,7 @@ import { ConsultaExtratoComponent } from './cliente/consulta-extrato/consulta-ex
 import { TransferenciaComponent } from './cliente/transferencia/transferencia.component';
 import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela-inicial-gerente.component';
 import { ConsultarClienteComponent } from './gerente/consultar-cliente/consultar-cliente.component';
+import { HomeAdmComponent } from './administrador/home-adm/home-adm.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,10 @@ const routes: Routes = [
   {
     path: 'administrador/gerentes/editar/:id',
     component: EditarGerenteComponent
+  },
+  {
+    path: 'administrador',
+    component: HomeAdmComponent
   },
   ...LoginRoutes
 ]

@@ -8,13 +8,15 @@ import { AdministradorService } from './services/administrador.service';
 import { ListarGerenteComponent } from './listar-gerente/listar-gerente.component';
 import { InserirGerenteComponent } from './inserir-gerente/inserir-gerente.component';
 import { EditarGerenteComponent } from './editar-gerente/editar-gerente.component';
+import { HomeAdmComponent } from './home-adm/home-adm.component';
 
 @NgModule({
   declarations: [
     AdminGerentesComponent,
     ListarGerenteComponent,
     InserirGerenteComponent,
-    EditarGerenteComponent
+    EditarGerenteComponent,
+    HomeAdmComponent
   ],
   imports: [
     CommonModule,
