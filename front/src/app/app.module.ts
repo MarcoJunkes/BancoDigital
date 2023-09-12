@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout';
 import { AppRoutingModule } from './app-routing.module';
 import { ClienteModule } from './cliente';
+import { FormsModule } from '@angular/forms';
+import { AdministradorModule } from './administrador/administrador.module';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
 import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     AuthModule,
     ClienteModule,
+    AdministradorModule,
     GerenteModule,
     ContaModule,
     NgbModule,
