@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DepositoComponent } from './deposito.component';
+import { EditarGerenteComponent } from './editar-gerente.component';
 
-describe('DepositoComponent', () => {
-  let component: DepositoComponent;
-  let fixture: ComponentFixture<DepositoComponent>;
+describe('EditarGerenteComponent', () => {
+  let component: EditarGerenteComponent;
+  let fixture: ComponentFixture<EditarGerenteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DepositoComponent ]
+      declarations: [ EditarGerenteComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DepositoComponent);
+    fixture = TestBed.createComponent(EditarGerenteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

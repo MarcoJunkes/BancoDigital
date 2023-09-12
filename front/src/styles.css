@@ -5649,6 +5649,17 @@ a.close.disabled {
   outline: 0;
 }
 
+.overlay {
+  background: #000;
+  height: 100vh;
+  left: 0;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 10;
+}
+
 .modal-dialog {
   position: relative;
   width: auto;
@@ -9854,3 +9865,4 @@ h6 {
   padding: 0;
   list-style-type: none;
 }
+

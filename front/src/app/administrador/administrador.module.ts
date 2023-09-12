@@ -3,14 +3,26 @@ import { CommonModule } from '@angular/common';
 import { AdminGerentesComponent } from './admin-gerentes/admin-gerentes.component';
 
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AdministradorService } from './services/administrador.service';
+import { ListarGerenteComponent } from './listar-gerente/listar-gerente.component';
+import { InserirGerenteComponent } from './inserir-gerente/inserir-gerente.component';
+import { EditarGerenteComponent } from './editar-gerente/editar-gerente.component';
 
 @NgModule({
   declarations: [
-    AdminGerentesComponent
+    AdminGerentesComponent,
+    ListarGerenteComponent,
+    InserirGerenteComponent,
+    EditarGerenteComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
+  ],
+  providers: [
+    AdministradorService
   ]
 })
 export class AdministradorModule { }

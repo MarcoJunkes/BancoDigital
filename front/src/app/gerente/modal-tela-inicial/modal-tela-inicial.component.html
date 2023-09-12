@@ -1,0 +1,51 @@
+<!--Modal para aceitar-->
+<div *ngIf="acao === 'Aprovar'">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="fechar" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body text-center">
+        <h4 class="modal-title">Cliente Aprovado</h4>
+        <br>
+        <h2>Cliente Aprovado!</h2>
+        <br>
+        <h4>Um e-mail contendo uma senha aleatória foi enviado ao cliente!</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Fechar</button>
+    </div>
+</div>
+
+<!--Modal para Recusar-->
+<div *ngIf="acao === 'Recusar'">
+    <div class="moodal-header">
+        <button type="button" class="close" aria-label="fechar" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="card mt-3">
+        <div class="card-header">
+            <h3 class="card-title">Recusar</h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="inputState" class="form-label">Motivação</label>
+                <select id="inputState" class="form-select">
+                    <option selected>Selecione</option>
+                    <option>Motivo 1</option>
+                    <option>Motivo 2</option>
+                    <option>Outro</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="razao" class="form-label">Razão</label>
+                <input type="text" class="form-control" id="razao" placeholder="Digite aqui...">
+            </div>
+            <button class="btn btn-primary">Enviar</button>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Fechar</button>
+    </div>
+</div>
