@@ -10,6 +10,7 @@ import { AdministradorModule } from './administrador/administrador.module';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
 import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
     GerenteModule,
     ContaModule,
     NgbModule,
+    HttpClientModule,
   ],
   providers: [
     NgbModalConfig, 

@@ -30,30 +30,21 @@
                 </thead>
                 <tbody>
                     <!-- Ordenado em ordem crescente dos nomes -->
-                    <tr>
-                        <td>78945612378</td>
-                        <td>Beltrano</td>
-                        <td>Curitiba</td>
-                        <td>PR</td>
-                        <td>1500,00</td>
+                    <tr *ngFor="let cliente of clientes">
+                        <td> {{cliente.cpf}}</td>
+                        <td> {{cliente.nome}}</td>
+                        <td> {{cliente.cidade}}</td>
+                        <td> {{cliente.estado}}</td>
+                        <td> {{cliente.saldo}}</td> <!--aplicar máscara para mostrar o R$ na frente e vírgula para os centavos-->
                         <td>
-                            <a  title="Visualizar" alt="Visualizar" class="btn btn-primary btn-sm mb-1"
-                            (click)="abrirModalCliente()"
-                            > <!--[routerLink]="['/gerente/modal-cliente']"--> <!--Depois tentar implementar com routerlink-->
+                            <button type="button" class="btn btn0xs btn-info" (click)="abrirModalCliente(cliente)">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
-                            </a>
-                            <!-- Se precisar colocar mais botão, colocar mais tag a -->
+                            </button>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>12345678912</td>
-                        <td>Ciclano</td>
-                        <td>Curitiba</td>
-                        <td>PR</td>
-                        <td>150,00</td>
                     </tr>
                 </tbody>
             </table>
+            <p *ngIf="clientes.length==0">Nenhum cliente cadastrado.</p>
         </div>
     </div>
 </div>

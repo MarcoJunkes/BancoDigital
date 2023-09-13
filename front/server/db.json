@@ -1,0 +1,28 @@
+{
+    "clientes": [
+        {
+            "id": 1,
+            "cpf": "123.456.789-12",
+            "nome": "João",
+            "cidade": "Curitiba",
+            "estado": "PR",
+            "saldo": 1542
+        },
+        {
+            "id": 2,
+            "cpf": "456.789.123-12",
+            "nome": "Maria",
+            "cidade": "Curitiba",
+            "estado": "PR",
+            "saldo": 2456
+        },
+        {
+            "id": 3,
+            "cpf": "789.123.456-12",
+            "nome": "Ciclano",
+            "cidade": "Curitiba",
+            "estado": "PR",
+            "saldo": 4569
+        }
+    ]
+}
