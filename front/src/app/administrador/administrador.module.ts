@@ -9,6 +9,7 @@ import { ListarGerenteComponent } from './listar-gerente/listar-gerente.componen
 import { InserirGerenteComponent } from './inserir-gerente/inserir-gerente.component';
 import { EditarGerenteComponent } from './editar-gerente/editar-gerente.component';
 import { HomeAdmComponent } from './home-adm/home-adm.component';
+import { ConsultarClientesAdmComponent } from './consultar-clientes-adm/consultar-clientes-adm.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HomeAdmComponent } from './home-adm/home-adm.component';
     ListarGerenteComponent,
     InserirGerenteComponent,
     EditarGerenteComponent,
-    HomeAdmComponent
+    HomeAdmComponent,
+    ConsultarClientesAdmComponent
   ],
   imports: [
     CommonModule,
