@@ -21,7 +21,7 @@ import { ConsultarClientesAdmComponent } from './administrador/consultar-cliente
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'cliente/home',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
