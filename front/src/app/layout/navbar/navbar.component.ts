@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-// import { LoginService } from '../../auth/services/login.service';
-// import { Usuario } from '../../shared';
+import { LoginService } from '../../auth/services/login.service';
+import { Usuario } from '../../shared';
 
 @Component({
   selector: 'app-navbar',
@@ -10,15 +10,15 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   constructor(
     private router: Router,
-    // private loginService: LoginService
+    private loginService: LoginService
   ) {}
 
-  // get usuarioLogado(): Usuario | null {
-  //     return this.loginService.usuarioLogado;
-  // }
+  get usuarioLogado(): Usuario | null {
+    return this.loginService.usuarioLogado;
+  }
 
-  // logout() {
-  //   this.loginService.logout();
-  //   this.router.navigate(['/login']);
-  // }
+  logout() {
+    this.loginService.logout();
+    this.router.navigate(['/login']);
+  }
 }

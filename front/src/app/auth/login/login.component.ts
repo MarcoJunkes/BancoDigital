@@ -49,9 +49,9 @@ export class LoginComponent {
 
   redirecionaUsuarioLogado() {
     if (this.loginService.usuarioLogado.perfil === "cliente")
-      this.router.navigate(["/home/cliente"]);
+      this.router.navigate(["/cliente/home"]);
     else if (this.loginService.usuarioLogado.perfil === "gerente") {
-      this.router.navigate(["/home/gerente"]);
+      this.router.navigate(["/gerente/home"]);
     } else {
       this.router.navigate(["/administrador"]);
     }
