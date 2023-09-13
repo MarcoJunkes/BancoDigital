@@ -4,23 +4,23 @@ import { ContultarTodosClientesComponent } from './contultar-todos-clientes/cont
 import { ModalClienteComponent } from './modal-cliente/modal-cliente.component';
 import { GerenteService } from './services/gerente.service';
 import { FormsModule } from '@angular/forms';
-
+import { TelaInicialGerenteComponent } from './tela-inicial-gerente/tela-inicial-gerente.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     ContultarTodosClientesComponent,
-    ModalClienteComponent
+    ModalClienteComponent,
+    TelaInicialGerenteComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
   ],
   providers: [
-    GerenteService
+    GerenteService,
+    RouterModule,
   ]
 })
 export class GerenteModule {
-  // constructor(
-  //   private router: Router
-  // ) {}
 }

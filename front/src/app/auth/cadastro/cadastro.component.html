@@ -18,7 +18,6 @@
             pattern="^[a-zA-Z\s]+$"
           />
           <div 
-            *ngIf="nome.invalid && (nome.dirty || nome.touched)" 
             class="alert alert-danger">
             <div>Por favor, preencha seu nome</div>
             <div>Números e caracteres especiais não são permitidos</div>
@@ -84,7 +83,7 @@
               id="salario"
               name="salario"
               placeholder="Seu salário"
-              mask="R$ XXXXX.XX"
+              prefix="R$ " mask="separator.2" thousandSeparator="."
               required 
             />
             <div 
@@ -189,7 +188,7 @@
             >
           </div>
         </div>
-        <div>
+        <div class="d-flex justify-content-end">
           <button
             class="btn btn-primary py-3 px-5"
             type="submit"
@@ -197,7 +196,7 @@
             Cadastrar
           </button>
           <button
-            class="btn btn-primary py-3 px-5 ml-5"
+            class="btn btn-secondary py-3 px-5 ml-5"
             type="submit"
           >
             Limpar
