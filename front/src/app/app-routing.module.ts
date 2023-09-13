@@ -16,6 +16,7 @@ import { TransferenciaComponent } from './cliente/transferencia/transferencia.co
 import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela-inicial-gerente.component';
 import { ConsultarClienteComponent } from './gerente/consultar-cliente/consultar-cliente.component';
 import { HomeAdmComponent } from './administrador/home-adm/home-adm.component';
+import { ConsultarClientesAdmComponent } from './administrador/consultar-clientes-adm/consultar-clientes-adm.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
   {
     path: 'administrador',
     component: HomeAdmComponent
+  },
+  {
+    path: 'administrador/clientes',
+    component: ConsultarClientesAdmComponent
   },
   ...LoginRoutes
 ]
