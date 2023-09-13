@@ -20,10 +20,10 @@ import { ModalTelaInicialComponent } from './modal-tela-inicial/modal-tela-inici
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
   ],
   providers: [
     GerenteService,
-    RouterModule,
   ]
 })
 export class GerenteModule {

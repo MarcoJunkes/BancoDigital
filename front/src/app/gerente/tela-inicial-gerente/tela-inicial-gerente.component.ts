@@ -4,8 +4,7 @@ import { ModalTelaInicialComponent } from '../modal-tela-inicial/modal-tela-inic
 
 @Component({
   selector: 'app-tela-inicial-gerente',
-  templateUrl: './tela-inicial-gerente.component.html',
-  styleUrls: ['./tela-inicial-gerente.component.css']
+  templateUrl: './tela-inicial-gerente.component.html'
 })
 export class TelaInicialGerenteComponent {
   constructor(private modalService: NgbModal){}
