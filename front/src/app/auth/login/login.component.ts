@@ -48,11 +48,12 @@ export class LoginComponent {
   }
 
   redirecionaUsuarioLogado() {
-    // TODO: redirecionar para a página correta, de acordo com cada perfil
-    // if (this.loginService.usuarioLogado.perfil === Perfil.CLIENTE)
-    //   this.router.navigate(["/home"]);
-    // else {
-    //   this.router.navigate(["/pagina/inicial/funcionario"]);
-    // }
+    if (this.loginService.usuarioLogado.perfil === "cliente")
+      this.router.navigate(["/home/cliente"]);
+    else if (this.loginService.usuarioLogado.perfil === "gerente") {
+      this.router.navigate(["/home/gerente"]);
+    } else {
+      this.router.navigate(["/administrador"]);
+    }
   }
 }

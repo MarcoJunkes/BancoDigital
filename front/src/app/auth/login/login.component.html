@@ -59,6 +59,8 @@
               class="btn btn-primary py-3 px-5" 
               type="submit" 
               id="entrarBotao"
+              [disabled]="!formLogin.form.valid"
+              (click)="logar()"
             >
               Entrar
             </button>
