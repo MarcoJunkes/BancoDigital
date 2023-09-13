@@ -18,8 +18,8 @@
                     <td>111.111.111-11</td>
                     <td>10.008,37</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Aprovar</button>
-                        <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#recusar1" aria-expanded="false" aria-controls="recusar1">Recusar</button>
+                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-danger btn-sm" type="button" (click)="abrirModal('Recusar')">Recusar</button>
                     </td>
                 </tr>
                 <tr>
@@ -27,8 +27,8 @@
                     <td>555.666.777-88</td>
                     <td>5.118,00</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Aprovar</button>
-                        <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#recusar2" aria-expanded="false" aria-controls="recusar2">Recusar</button>
+                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-danger btn-sm" type="button">Recusar</button>
                     </td>
                 </tr>
                 <tr>
@@ -36,14 +36,13 @@
                     <td>999.000.111-22</td>
                     <td>16.338,00</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Aprovar</button>
-                        <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#recusar3" aria-expanded="false" aria-controls="recusar3">Recusar</button>
+                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-danger btn-sm" type="button">Recusar</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
     <div class="collapse" id="recusar1">
         <div class="card mt-3">
             <div class="card-header">
@@ -71,6 +70,7 @@
 
     <a class="btn btn-primary btn-sm mt-3">Consultar Cliente</a>
     <!-- <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-todos']">Consultar Todos</a> --> <!--[Tiago] Comentei rapidinho, pq está dando erro. Já tento resolver -->
+    <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-todos']">Consultar Todos</a>
     <a class="btn btn-primary btn-sm mt-3">Consultar Melhores</a>
 </div>
 
