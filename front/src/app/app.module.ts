@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { GerenteModule } from './gerente';
 import { ContaModule } from './conta';
 import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap'
     GerenteModule,
     ContaModule,
     NgbModule,
+    HttpClientModule,
   ],
   providers: [
     NgbModalConfig, 

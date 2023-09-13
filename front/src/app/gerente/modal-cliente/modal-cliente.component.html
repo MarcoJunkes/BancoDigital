@@ -3,17 +3,18 @@
           (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
-  <!-- <h4 class="modal-title" id="modalLabel"> Cliente </h4> -->
+  <h4 class="modal-title" id="modalLabel"> Cliente </h4>
 </div>
+
 <div class="modal-body text-center">
-  <h4 class="modal-title">Dados do cliente</h4>
-  <br>
-  <p>CPF: 78945612378</p> <!--{{ cliente.cpf }}-->
-  <p>Nome: Beltrano</p>
-  <p>Cidade: Curitiba</p>
-  <p>Estado: PR</p>
-  <p>Saldo: R$ 1500,00</p>
-  <p>Nº da conta: 001</p>
+  <div>
+    <h4>Dados do cliente</h4>
+    <p>CPF: {{cliente.cpf}}</p>
+    <p>Nome: {{cliente.nome}}</p>
+    <p>Cidade: {{cliente.cidade}}</p>
+    <p>Estado: {{cliente.estado}}</p>
+    <p>Saldo: {{cliente.saldo}}</p>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark"

@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContultarTodosClientesComponent } from './contultar-todos-clientes/contultar-todos-clientes.component';
 import { ModalClienteComponent } from './modal-cliente/modal-cliente.component';
-// import { Router } from '@angular/router';
+import { GerenteService } from './services/gerente.service';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,11 @@ import { ModalClienteComponent } from './modal-cliente/modal-cliente.component';
     ModalClienteComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+  ],
+  providers: [
+    GerenteService
   ]
 })
 export class GerenteModule {
