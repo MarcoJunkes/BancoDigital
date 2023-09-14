@@ -6,7 +6,10 @@
             "nome": "João",
             "cidade": "Curitiba",
             "estado": "PR",
-            "saldo": 1542
+            "saldo": 1542,
+            "dataCriacao": "2023-01-01",
+            "limite": 2500,
+            "gerente": "Fulano"
         },
         {
             "id": 2,
@@ -14,7 +17,10 @@
             "nome": "Maria",
             "cidade": "Curitiba",
             "estado": "PR",
-            "saldo": 2456
+            "saldo": 2456,
+            "dataCriacao": "2023-05-16",
+            "limite": 5000,
+            "gerente": "Alen"
         },
         {
             "id": 3,
@@ -22,7 +28,10 @@
             "nome": "Ciclano",
             "cidade": "Curitiba",
             "estado": "PR",
-            "saldo": 4569
+            "saldo": 4569,
+            "dataCriacao": "2023-07-25",
+            "limite": 6000,
+            "gerente": "Marcio"
         }
     ]
 }
