@@ -1,1 +1,218 @@
-<p>alterar-perfil works!</p>
+<div class="container-fluid pt-5">
+  <div class="d-flex flex-column text-center mb-5 pt-5">
+    <h1 class="display-4 m-0">Perfil</h1>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 mb-5">
+      <div id="success"></div>
+      <div>
+        <div class="row">
+          <div class="col-md-6 h4">
+            <p><span class="font-weight-bold">Saldo</span> R$ 123,00</p>
+          </div>
+          <div class="col-md-6 h4">
+            <p><span class="font-weight-bold">Gerente</span> Fulano</p>
+          </div>
+        </div>
+      </div>
+      <form>
+        <div class="control-group">
+          <label for="nome">Nome:</label>
+          <input 
+            type="text"
+            class="form-control p-4"
+            id="nome"
+            name="nome"
+            placeholder="Seu nome"
+            required
+            pattern="^[a-zA-Z\s]+$"
+          />
+          <div  
+            class="alert alert-danger">
+            <div>Por favor, preencha seu nome</div>
+            <div>Números e caracteres especiais não são permitidos</div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="name">E-mail:</label>
+          <input
+            type="email"
+            class="form-control p-4"
+            id="email"
+            name="email"
+            placeholder="Seu e-mail"
+            required
+            email
+          />
+          <div 
+            class="alert alert-danger">
+            <div>Por favor, preencha seu e-mail</div>
+            <div>Por favor, digite um e-mail válido (ex: abc@example.com)</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="cpf">CPF:</label>
+            <input 
+              type="text"
+              class="form-control p-4"
+              id="cpf"
+              name="cpf"
+              placeholder="CPF"
+              mask="XXX.XXX.XXX-XX"
+              disabled
+            />
+            <div 
+              class="alert alert-danger">
+              <div>Por favor, preencha seu CPF</div>
+              <div>Por favor, preencha seu CPF</div>
+            </div>
+          </div>
+          <div class="col">
+            <label for="telefone">Telefone:</label>
+            <input 
+              type="text"
+              class="form-control p-4"
+              id="telefone"
+              name="telefone"
+              placeholder="Seu telefone"
+              mask="(XX) XXXXX-XXXX"
+              required 
+            />
+            <div 
+              class="alert alert-danger">
+              <div>Por favor, preencha seu telefone</div>
+              <div>Por favor, preencha seu telefone</div>
+            </div>
+          </div>
+          <div class="col">
+            <label for="salario">Salário:</label>
+            <input 
+              type="text"
+              class="form-control p-4"
+              id="salario"
+              name="salario"
+              placeholder="Seu salário"
+              prefix="R$ " mask="separator.2" thousandSeparator="."
+              required 
+            />
+            <div 
+              class="alert alert-danger">
+              <div>Por favor, preencha seu salário</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="cep">CEP:</label>
+            <input 
+              type="text"
+              class="form-control p-4"
+              id="cep"
+              name="cep"
+              placeholder="Seu CEP"
+              mask="XXXXX-XXX"
+              required
+            />
+            <div 
+              class="alert alert-danger">
+              <div>Por favor, preencha seu CEP</div>
+              <div>Por favor, preencha seu CEP</div>
+            </div>
+          </div>
+          <div class="col text-center align-self-center">
+            <button 
+              class="btn btn-primary py-2 px-5"
+              type="button"
+            >
+              Pesquisar endereço
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <label for="numero">Número:</label>
+            <input 
+              type="number"
+              placeholder="Número"
+              class="form-control p-4"
+              id="numero"
+              name="numero"
+              required
+              min="1"
+            >
+            <div 
+              class="alert alert-danger">
+              <div>Por favor, preencha o número do endereço</div>
+              <div>Por favor, preencha um número positivo</div>
+            </div>
+          </div>
+          <div class="col-10">
+            <label for="rua">Rua:</label>
+            <input 
+              type="text"
+              placeholder="Rua"
+              class="form-control p-4"
+              id="rua"
+              name="rua"
+              required
+              readonly
+              >
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <label for="estado">Estado:</label>
+            <input 
+              type="text"
+              placeholder="Estado"
+              class="form-control p-4"
+              id="estado"
+              name="estado"
+              required
+              readonly
+            >
+          </div>
+          <div class="col">
+            <label for="cidade">Cidade:</label>
+            <input 
+              type="text"
+              placeholder="Cidade"
+              class="form-control p-4"
+              id="cidade"
+              name="cidade"
+              required
+              readonly
+            >
+          </div>
+          <div class="col">
+            <label for="bairro">Bairro:</label>
+            <input 
+              type="text"
+              placeholder="Bairro"
+              class="form-control p-4"
+              id="bairro"
+              name="bairro"
+              required
+              readonly
+            >
+          </div>
+        </div>
+        <div>
+          <button
+            class="btn btn-primary py-3 px-5"
+            type="submit"
+          >
+            Cadastrar
+          </button>
+          <button
+            class="btn btn-primary py-3 px-5 ml-5"
+            type="submit"
+          >
+            Limpar
+          </button>
+        </div>
+      </form>
+      </div>
+  </div>
+</div>

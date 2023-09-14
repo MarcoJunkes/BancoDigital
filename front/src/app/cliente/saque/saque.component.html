@@ -1,1 +1,29 @@
-<p>saque works!</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Realizar Saque</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="valor">Valor do Saque</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">R$</span>
+                                </div>
+                                <input type="number" class="form-control border-success" id="valor" placeholder="Digite o valor" required>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button id="saque" type="submit" class="btn btn-success">Confirmar Saque</button>
+                            <a class="btn btn-secondary ml-2" [routerLink]="['/cliente/home']">Voltar à Tela Inicial</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

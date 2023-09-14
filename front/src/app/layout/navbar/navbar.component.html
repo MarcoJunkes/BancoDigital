@@ -1,36 +1,25 @@
 <div class="container-fluid p-0">
   <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5">
       <a href="" class="navbar-brand d-block d-lg-none">
-        <h1 class="m-0 display-5 text-capitalize font-italic text-white"><span class="text-primary">LOL</span></h1>
+        <h1 class="m-0 display-5 text-capitalize font-italic text-white"><span class="text-primary">BANTADS</span></h1>
       </a>
       <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
         <div class="navbar-nav mr-auto py-0"><!-- <div class="navbar-nav mr-auto py-0" *ngIf="usuarioLogado?.perfil === 'cliente'"> -->
-          <a href="cliente/home" class="nav-item nav-link">Home</a>
-          <a href="#" class="nav-item nav-link">Sacar</a>
-          <a href="#" class="nav-item nav-link">Depositar</a>
+          <a href="cliente/home" class="nav-item nav-link">(Cliente ->)Home</a>
+          <a href="#" class="nav-item nav-link" [routerLink]="['/cliente/sacar']">Sacar</a>
+          <a href="#" class="nav-item nav-link" [routerLink]="['/cliente/depositar']">Depositar</a>
           <a href="#" class="nav-item nav-link">Consulta de Saldo</a>
           <a href="#" class="nav-link">Logout</a><!-- <a class="nav-link" href="#" (click)="logout()">Logout</a> -->
         </div>
-        <!-- <div class="navbar-nav mr-auto py-0"><div class="navbar-nav mr-auto py-0" *ngIf="usuarioLogado?.perfil === 'funcionario'">
-          <a href="pagina/inicial/funcionario" class="nav-item nav-link">Home</a>
-          <a href="visualizao/pedido/funcionario" class="nav-item nav-link">Pedidos</a>
-          <a href="roupa/listar" class="nav-item nav-link">Roupas</a>
-          <a href="funcionario/listar" class="nav-item nav-link">Funcionários</a>
-          <div class="dropdown" ngbDropdown>
-            <a class="dropdown-item dropdown-toggle nav-item nav-link" ngbDropdownToggle id="relatoriosDropdown" role="button">
-              Relatórios
-            </a>
-            <div ngbDropdownMenu aria-labelledby="relatoriosDropdown" class="dropdown-menu">
-              <a ngbDropdownItem href="relatorios">Relatório de Clientes</a>
-              <a ngbDropdownItem href="relatorios-clientes-fieis">Relatório de Clientes Fiéis</a>
-              <a ngbDropdownItem href="relatorios-receitas">Relatório de Receitas</a>
-            </div>
-          </div>
-          <a href="#">Logout</a><a class="nav-link" href="#" (click)="logout()">Logout</a>
-        </div> -->
+        <div class="navbar-nav mr-auto py-0"><!-- <div class="navbar-nav mr-auto py-0"><div class="navbar-nav mr-auto py-0" *ngIf="usuarioLogado?.perfil === 'funcionario'"> -->
+          <a href="#" class="nav-item nav-link" [routerLink]="['/gerente/tela-inicial-gerente']">(Gerente ->)Home</a>
+          <a href="#" class="nav-item nav-link" [routerLink]="['/gerente/consultar-todos']">Consultar todos clientes</a>
+          <a href="#" class="nav-item nav-link"[routerLink]="['/gerente/consultar-cliente']">Consultar cliente</a>
+          <a href="#" class="nav.link">Logout</a><!-- <a href="#">Logout</a><a class="nav-link" href="#" (click)="logout()">Logout</a> -->
+        </div>
         <!-- <div class="navbar-nav mr-auto py-0"><div class="navbar-nav mr-auto py-0" *ngIf="usuarioLogado == null">
           <a href="cadastro" class="nav-item nav-link">Cadastro</a>
           <a href="login" class="nav-item nav-link">Login</a>

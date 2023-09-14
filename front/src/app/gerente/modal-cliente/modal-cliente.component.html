@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <button type="button" class="close" aria-label="Fechar"
+          (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title" id="modalLabel"> Cliente </h4>
+</div>
+
+<div class="modal-body text-center">
+  <div>
+    <h4>Dados do cliente</h4>
+    <p>CPF: {{cliente.cpf}}</p>
+    <p>Nome: {{cliente.nome}}</p>
+    <p>Cidade: {{cliente.cidade}}</p>
+    <p>Estado: {{cliente.estado}}</p>
+    <p>Saldo: {{cliente.saldo}}</p>
+    <h4>Dados da conta do cliente</h4>
+    <p>Data criação: {{cliente.dataCriacao}}</p>
+    <p>Limite: {{cliente.limite}}</p>
+    <p>Gerente: {{cliente.gerente}}</p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark"
+          (click)="activeModal.close()">Fechar</button>
+</div>
