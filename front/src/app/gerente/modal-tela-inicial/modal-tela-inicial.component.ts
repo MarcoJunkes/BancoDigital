@@ -3,8 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-modal-tela-inicial',
-  templateUrl: './modal-tela-inicial.component.html',
-  styleUrls: ['./modal-tela-inicial.component.css']
+  templateUrl: './modal-tela-inicial.component.html'
 })
 export class ModalTelaInicialComponent implements OnInit {
   @Input() acao: string | undefined;
