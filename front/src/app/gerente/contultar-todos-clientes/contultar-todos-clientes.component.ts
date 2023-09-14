@@ -14,7 +14,6 @@ import { HttpHeaders } from '@angular/common/http';
 export class ContultarTodosClientesComponent implements OnInit {
 
   clientes: Cliente[] = [];
-  contas: Conta[] = [];
 
   constructor(private gerenteService : GerenteService,
               private modalService: NgbModal){}
