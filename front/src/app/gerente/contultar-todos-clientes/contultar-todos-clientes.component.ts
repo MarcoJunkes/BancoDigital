@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
 import { GerenteService } from '../services/gerente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
+import { Conta } from 'src/app/shared/models/conta.model';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -13,6 +14,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class ContultarTodosClientesComponent implements OnInit {
 
   clientes: Cliente[] = [];
+  contas: Conta[] = [];
 
   constructor(private gerenteService : GerenteService,
               private modalService: NgbModal){}
