@@ -17,6 +17,7 @@ import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela
 import { ConsultarClienteComponent } from './gerente/consultar-cliente/consultar-cliente.component';
 import { HomeAdmComponent } from './administrador/home-adm/home-adm.component';
 import { ConsultarClientesAdmComponent } from './administrador/consultar-clientes-adm/consultar-clientes-adm.component';
+import { ConsultarTresMelhoresClientesComponent } from './gerente/consultar-tres-melhores-clientes/consultar-tres-melhores-clientes.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'gerente/consultar-todos',
     component: ContultarTodosClientesComponent,
+  },
+  {
+    path: 'gerente/consultar-tres-melhores',
+    component: ConsultarTresMelhoresClientesComponent,
   },
   {
     path: 'cliente/consulta-extrato',
