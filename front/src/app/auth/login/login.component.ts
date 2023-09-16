@@ -51,7 +51,7 @@ export class LoginComponent {
     if (this.loginService.usuarioLogado.perfil === "cliente")
       this.router.navigate(["/cliente/home"]);
     else if (this.loginService.usuarioLogado.perfil === "gerente") {
-      this.router.navigate(["/gerente/home"]);
+      this.router.navigate(["/gerente/tela-inicial-gerente"]);
     } else {
       this.router.navigate(["/administrador"]);
     }

@@ -22,13 +22,13 @@ export class LoginService {
   }
 
   login(login: Login): Observable<Usuario | null> {
-    let usu = new Usuario(1, "Razer-Func", login.email, login.senha, "cliente");
+    let usu = new Usuario('1', "Razer-Func", login.email, login.senha, '1111-1111', 'R. Abc' ,"cliente");
     if (login.email == login.senha) {
       if (login.email?.startsWith("admin")) {
-        usu = new Usuario(1, "Razer-Admin", login.email, login.senha, "admin");
+        usu = new Usuario('1', "Razer-Admin", login.email, login.senha, '1111-1111', 'R. Abc', "admin");
       }
       else if (login.email?.startsWith("gerente")) {
-        usu = new Usuario(1, "Razer-Gerente", login.email, login.senha, "gerente");
+        usu = new Usuario('1', "Razer-Gerente", login.email, login.senha, '1111-1111', 'R. Abc', "gerente");
       }
       return of(usu);
     }
