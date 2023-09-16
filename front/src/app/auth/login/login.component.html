@@ -3,17 +3,17 @@
     <h1 class="display-4 m-0">Login</h1>
   </div>
   <div class="row justify-content-center">
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      message
+    <div *ngIf="message" class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{message}}
       <a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="$event.preventDefault()">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="desabilitarBanner()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
 
     <div class="col-12 col-sm-8 mb-5">
       <div class="login-form">
-        <form>
+        <form #formLogin="ngForm">
           <div class="control-group">
             <label for="email">E-mail:</label>
             <input 
@@ -22,13 +22,16 @@
               id="email"
               name="email"
               placeholder="E-mail"
+              [(ngModel)]="login.email"
+              #email="ngModel"
               required
               email
             />
             <div 
+              *ngIf="email.errors && (email.dirty || email.touched)" 
               class="alert alert-danger">
-              <div>Por favor, digite seu email</div>
-              <div>Por favor, digite um email válido (ex: abc@example.com)</div>
+              <div [hidden]="!email.errors['required']">Por favor, digite seu email</div>
+              <div [hidden]="!email.errors['email']">Por favor, digite um email válido (ex: abc@example.com)</div>
             </div>
           </div>
           <div class="control-group">
@@ -39,13 +42,16 @@
               id="senha"
               name="senha"
               placeholder="Senha" 
+              [(ngModel)]="login.senha"
+              #senha="ngModel"
               required
               minlength="6"
             />
             <div 
+              *ngIf="senha.errors && (senha.dirty || senha.touched)" 
               class="alert alert-danger">
-              <div>Por favor, digite sua senha</div>
-              <div>A senha deve conter ao menos 6 caracteres</div>
+              <div [hidden]="!senha.errors['required']">Por favor, digite sua senha</div>
+              <div [hidden]="!senha.errors['minlength']">A senha deve conter ao menos 6 caracteres</div>
             </div>
           </div>
           <div class="btn-group">
@@ -53,6 +59,8 @@
               class="btn btn-primary py-3 px-5" 
               type="submit" 
               id="entrarBotao"
+              [disabled]="!formLogin.form.valid"
+              (click)="logar()"
             >
               Entrar
             </button>
