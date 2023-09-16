@@ -7,5 +7,6 @@ export class Usuario {
     public telefone?: string,
     public endereco?: string,
     public perfil?: string,
+    public salario?: number,
   ){}
 }
