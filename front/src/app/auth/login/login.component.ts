@@ -56,4 +56,8 @@ export class LoginComponent {
       this.router.navigate(["/administrador"]);
     }
   }
+
+  desabilitarBanner() {
+    this.message = '';
+  }
 }

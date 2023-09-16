@@ -6,7 +6,7 @@
     <div *ngIf="message" class="alert alert-danger alert-dismissible fade show" role="alert">
       {{message}}
       <a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="$event.preventDefault()">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="desabilitarBanner()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
