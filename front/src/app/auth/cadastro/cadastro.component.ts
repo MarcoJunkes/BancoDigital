@@ -12,14 +12,10 @@ export class CadastroComponent implements OnInit {
   public endereco!: Endereco;
   public usuario!: Usuario;
   public message!: string;
-  // public loading: boolean;
   @ViewChild('formCadastro') formCadastro!: NgForm;
 
   constructor(
-    private viacepService: ViaCepService, 
-    // private cadastroService: CadastroService,
-    private loginService: LoginService,
-    private router: Router,
+    private viacepService: ViaCepService,
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +40,7 @@ export class CadastroComponent implements OnInit {
   }
 
   cadastro() {
-    // if (this.formCadastro.invalid) return;
+    if (this.formCadastro.invalid) return;
     this.formCadastro.reset({});
   }
 }
