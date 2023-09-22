@@ -3,14 +3,13 @@
         <h1>Banco do TADS - BANTADS</h1>
     </div>
     <div class="row m-5 justify-content-center">
-        <!-- Mudar as rotas para as rotas certas -->
         <div class="btn btn-success col-sm-3 m-4 p-3" *ngIf="saldo > 0">
             <span>Seu saldo é de: R$ {{saldo}}</span>
         </div>
         <div class="btn btn-danger col-sm-3 m-4 p-3" *ngIf="saldo < 0">
             <span>Seu saldo é de: R$ {{saldo}}</span>
         </div>
-        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/altera-perfil']">
+        <a class="btn btn-primary btn-lg mb-1 col-sm-3 m-4 p-3" [routerLink]="['/cliente/alterar-perfil']">
             <div>
                 <span>Alterar perfil</span>
             </div>

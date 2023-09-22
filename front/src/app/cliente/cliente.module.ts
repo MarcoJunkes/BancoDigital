@@ -8,6 +8,7 @@ import { ConsultaExtratoComponent } from './consulta-extrato/consulta-extrato.co
 import { HomeClienteComponent } from './home-cliente/home-cliente.component';
 import { RouterModule } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -22,6 +23,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     NgxMaskDirective,
     NgxMaskPipe,
