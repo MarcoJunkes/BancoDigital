@@ -1,0 +1,50 @@
+<div class="container-fluid pt-5">
+    <div class="d-flex flex-column text-center mb-5 pt-5">
+      <h1 class="display-4 m-0">Consultar os 3 melhores clientes</h1>
+    </div>
+
+    <div class="row  justify-content-center">
+        <div class="col-8">
+            <input type="text" class="col-3 m-2" placeholder="CPF">
+            <button class="col-3 m-2 btn btn-primary">Pesquisar por CPF</button>
+            <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
+
+            <input type="text" class="col-6 m-2" placeholder="Nome">
+            <button class="col-3 m-2 btn btn-primary">Pesquisar por nome</button>
+            <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 mb-5">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 10%">CPF</th>
+                        <th style="width: 10%">Nome</th>
+                        <th style="width: 10%">Cidade</th>
+                        <th style="width: 10%">Estado</th>
+                        <th style="width: 10%">Saldo</th>
+                        <th style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ordenado em ordem crescente dos nomes -->
+                    <tr  *ngFor="let cliente of clientes.slice(0, 3)">
+                        <td> {{cliente.cpf}}</td>
+                        <td> {{cliente.nome}}</td>
+                        <td> {{cliente.cidade}}</td>
+                        <td> {{cliente.estado}}</td>
+                        <td> {{cliente.saldo}}</td> <!--aplicar máscara para mostrar o R$ na frente e vírgula para os centavos-->
+                        <td>
+                            <button type="button" class="btn btn-xs btn-info" (click)="abrirModalCliente(cliente)">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p *ngIf="clientes.length==0">Nenhum cliente cadastrado.</p>
+        </div>
+    </div>
+</div>

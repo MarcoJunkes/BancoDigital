@@ -17,6 +17,7 @@
         <div class="navbar-nav mr-auto py-0" *ngIf="usuarioLogado?.perfil === 'gerente'">
           <a href="#" class="nav-item nav-link" [routerLink]="['/gerente/tela-inicial-gerente']">Home</a>
           <a href="#" class="nav-item nav-link" [routerLink]="['/gerente/consultar-todos']">Consultar clientes</a>
+          <a href="#" class="nav-item nav-link" [routerLink]="['/gerente/consultar-tres-melhores']">Consultar os 3 melhores clientes</a>
           <a href="#" class="nav-item nav-link" [routerLink]="['/gerente/consultar-cliente']">Consultar cliente</a>
           <a href="#" class="nav-link" (click)="logout()">Logout</a>
         </div>

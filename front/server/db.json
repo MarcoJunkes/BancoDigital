@@ -35,6 +35,18 @@
             "limite": 6000,
             "gerente": "Marcio",
             "salario": 2000
+        },
+        {
+            "id": 4,
+            "cpf": "789.789.456-12",
+            "nome": "Beltrano",
+            "cidade": "Curitiba",
+            "estado": "PR",
+            "saldo": 2563,
+            "dataCriacao": "2023-07-25",
+            "limite": 8000,
+            "gerente": "Maria",
+            "salario": 2000
         }
     ]
 }

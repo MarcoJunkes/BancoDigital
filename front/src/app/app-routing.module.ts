@@ -17,6 +17,7 @@ import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela
 import { ConsultarClienteComponent } from './gerente/consultar-cliente/consultar-cliente.component';
 import { HomeAdmComponent } from './administrador/home-adm/home-adm.component';
 import { ConsultarClientesAdmComponent } from './administrador/consultar-clientes-adm/consultar-clientes-adm.component';
+import { ConsultarTresMelhoresClientesComponent } from './gerente/consultar-tres-melhores-clientes/consultar-tres-melhores-clientes.component';
 import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
@@ -92,6 +93,22 @@ const routes: Routes = [
   {
     path: 'gerente/consultar-todos',
     component: ContultarTodosClientesComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
+  },
+  {
+    path: 'gerente/consultar-tres-melhores',
+    component: ConsultarTresMelhoresClientesComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
+  },
+  {
+    path: 'cliente/consulta-extrato',
+    component: ConsultaExtratoComponent,
     canActivate: [AuthGuard],
     data: {
       role: ['gerente']

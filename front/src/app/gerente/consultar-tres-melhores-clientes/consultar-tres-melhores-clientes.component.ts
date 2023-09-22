@@ -7,19 +7,13 @@ import { Conta } from 'src/app/shared/models/conta.model';
 import { HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-contultar-todos-clientes',
-  templateUrl: './contultar-todos-clientes.component.html'
+  selector: 'app-consultar-tres-melhores-clientes',
+  templateUrl: './consultar-tres-melhores-clientes.component.html'
 })
-
-export class ContultarTodosClientesComponent implements OnInit {
-
+export class ConsultarTresMelhoresClientesComponent implements OnInit {
   clientes: Cliente[] = [];
-
-  mostrar: Array<{}> = [1,2,3];
-
   constructor(private gerenteService : GerenteService,
               private modalService: NgbModal){}
-
   ngOnInit(): void {
     this.clientes = [];
     this.listarTodos();

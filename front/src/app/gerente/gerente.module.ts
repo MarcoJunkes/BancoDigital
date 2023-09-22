@@ -8,6 +8,7 @@ import { TelaInicialGerenteComponent } from './tela-inicial-gerente/tela-inicial
 import { RouterModule } from '@angular/router';
 import { ConsultarClienteComponent } from './consultar-cliente/consultar-cliente.component';
 import { ModalTelaInicialComponent } from './modal-tela-inicial/modal-tela-inicial.component';
+import { ConsultarTresMelhoresClientesComponent } from './consultar-tres-melhores-clientes/consultar-tres-melhores-clientes.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ModalTelaInicialComponent } from './modal-tela-inicial/modal-tela-inici
     TelaInicialGerenteComponent,
     ConsultarClienteComponent,
     ModalTelaInicialComponent,
+    ConsultarTresMelhoresClientesComponent,
   ],
   imports: [
     CommonModule,
