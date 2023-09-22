@@ -1,6 +1,6 @@
 <div class="container-fluid pt-5">
     <div class="d-flex flex-column text-center mb-5 pt-5">
-      <h1 class="display-4 m-0">Consultar todos os clientes</h1>
+      <h1 class="display-4 m-0">Consultar os 3 melhores clientes</h1>
     </div>
 
     <div class="row  justify-content-center">
@@ -30,14 +30,14 @@
                 </thead>
                 <tbody>
                     <!-- Ordenado em ordem crescente dos nomes -->
-                    <tr *ngFor="let cliente of clientes; let i = index;">
+                    <tr  *ngFor="let cliente of clientes.slice(0, 3)">
                         <td> {{cliente.cpf}}</td>
                         <td> {{cliente.nome}}</td>
                         <td> {{cliente.cidade}}</td>
                         <td> {{cliente.estado}}</td>
                         <td> {{cliente.saldo}}</td> <!--aplicar máscara para mostrar o R$ na frente e vírgula para os centavos-->
                         <td>
-                            <button type="button" class="btn btn0xs btn-info" (click)="abrirModalCliente(cliente)">
+                            <button type="button" class="btn btn-xs btn-info" (click)="abrirModalCliente(cliente)">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </button>
                         </td>

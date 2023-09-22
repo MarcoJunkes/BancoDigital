@@ -15,6 +15,8 @@ export class ContultarTodosClientesComponent implements OnInit {
 
   clientes: Cliente[] = [];
 
+  mostrar: Array<{}> = [1,2,3];
+
   constructor(private gerenteService : GerenteService,
               private modalService: NgbModal){}
 
