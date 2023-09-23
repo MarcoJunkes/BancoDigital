@@ -8,14 +8,14 @@
       <div>
         <div class="row">
           <div class="col-md-6 h4">
-            <p><span class="font-weight-bold">Saldo</span> R$ 123,00</p>
+            <p><span class="font-weight-bold">Saldo</span> R${{saldo}}</p>
           </div>
           <div class="col-md-6 h4">
-            <p><span class="font-weight-bold">Gerente</span> Fulano</p>
+            <p><span class="font-weight-bold">Gerente</span> {{gerente}}</p>
           </div>
         </div>
       </div>
-      <form>
+      <form #formAlterarPerfil="ngForm">
         <div class="control-group">
           <label for="nome">Nome:</label>
           <input 
@@ -24,13 +24,16 @@
             id="nome"
             name="nome"
             placeholder="Seu nome"
+            [(ngModel)]="usuario.nome"
+            #nome="ngModel"
             required
             pattern="^[a-zA-Z\s]+$"
           />
-          <div  
+          <div 
+            *ngIf="nome.invalid && (nome.dirty || nome.touched)" 
             class="alert alert-danger">
-            <div>Por favor, preencha seu nome</div>
-            <div>Números e caracteres especiais não são permitidos</div>
+            <div [hidden]="!nome.errors?.['required']">Por favor, preencha seu nome</div>
+            <div [hidden]="!nome.errors?.['pattern']">Números e caracteres especiais não são permitidos</div>
           </div>
         </div>
         <div class="control-group">
@@ -41,13 +44,16 @@
             id="email"
             name="email"
             placeholder="Seu e-mail"
+            [(ngModel)]="usuario.email"
+            #email="ngModel"
             required
             email
           />
           <div 
+            *ngIf="email.invalid && (email.dirty || email.touched)"
             class="alert alert-danger">
-            <div>Por favor, preencha seu e-mail</div>
-            <div>Por favor, digite um e-mail válido (ex: abc@example.com)</div>
+            <div [hidden]="!email.errors?.['required']">Por favor, preencha seu e-mail</div>
+            <div [hidden]="!email.errors?.['email']">Por favor, digite um e-mail válido (ex: abc@example.com)</div>
           </div>
         </div>
         <div class="row">
@@ -59,14 +65,11 @@
               id="cpf"
               name="cpf"
               placeholder="CPF"
+              [(ngModel)]="usuario.cpf"
+              #cpf="ngModel"
               mask="XXX.XXX.XXX-XX"
               disabled
             />
-            <div 
-              class="alert alert-danger">
-              <div>Por favor, preencha seu CPF</div>
-              <div>Por favor, preencha seu CPF</div>
-            </div>
           </div>
           <div class="col">
             <label for="telefone">Telefone:</label>
@@ -76,13 +79,16 @@
               id="telefone"
               name="telefone"
               placeholder="Seu telefone"
+              [(ngModel)]="usuario.telefone"
+              #telefone="ngModel"
               mask="(XX) XXXXX-XXXX"
               required 
             />
             <div 
+              *ngIf="telefone.invalid && (telefone.dirty || telefone.touched)" 
               class="alert alert-danger">
-              <div>Por favor, preencha seu telefone</div>
-              <div>Por favor, preencha seu telefone</div>
+              <div [hidden]="!telefone.errors?.['required']">Por favor, preencha seu telefone</div>
+              <div [hidden]="!telefone.errors?.['mask']">Por favor, preencha seu telefone</div>
             </div>
           </div>
           <div class="col">
@@ -93,12 +99,15 @@
               id="salario"
               name="salario"
               placeholder="Seu salário"
+              [(ngModel)]="usuario.salario"
+              #salario="ngModel"
               prefix="R$ " mask="separator.2" thousandSeparator="."
               required 
             />
             <div 
+              *ngIf="salario.invalid && (salario.dirty || salario.touched)"
               class="alert alert-danger">
-              <div>Por favor, preencha seu salário</div>
+              <div [hidden]="!salario.errors?.['required']">Por favor, preencha seu salário</div>
             </div>
           </div>
         </div>
@@ -111,19 +120,23 @@
               id="cep"
               name="cep"
               placeholder="Seu CEP"
+              [(ngModel)]="endereco.cep"
+              #cep="ngModel"
               mask="XXXXX-XXX"
               required
             />
             <div 
+              *ngIf="cep.invalid && (cep.dirty || cep.touched)" 
               class="alert alert-danger">
-              <div>Por favor, preencha seu CEP</div>
-              <div>Por favor, preencha seu CEP</div>
+              <div [hidden]="!cep.errors?.['required']">Por favor, preencha seu CEP</div>
+              <div [hidden]="!cep.errors?.['mask']">Por favor, preencha seu CEP</div>
             </div>
           </div>
           <div class="col text-center align-self-center">
             <button 
               class="btn btn-primary py-2 px-5"
               type="button"
+              (click)="buscaEndereco()"
             >
               Pesquisar endereço
             </button>
@@ -138,13 +151,16 @@
               class="form-control p-4"
               id="numero"
               name="numero"
+              [(ngModel)]="endereco.numero"
+              #numero="ngModel"
               required
               min="1"
             >
             <div 
+              *ngIf="numero.invalid && (numero.dirty || numero.touched)" 
               class="alert alert-danger">
-              <div>Por favor, preencha o número do endereço</div>
-              <div>Por favor, preencha um número positivo</div>
+              <div [hidden]="!numero.errors?.['required']">Por favor, preencha o número do endereço</div>
+              <div [hidden]="!numero.errors?.['min']">Por favor, preencha um número positivo</div>
             </div>
           </div>
           <div class="col-10">
@@ -155,6 +171,8 @@
               class="form-control p-4"
               id="rua"
               name="rua"
+              [(ngModel)]="endereco.rua"
+              #rua="ngModel"
               required
               readonly
               >
@@ -169,6 +187,8 @@
               class="form-control p-4"
               id="estado"
               name="estado"
+              [(ngModel)]="endereco.estado"
+              #estado="ngModel"
               required
               readonly
             >
@@ -181,6 +201,8 @@
               class="form-control p-4"
               id="cidade"
               name="cidade"
+              [(ngModel)]="endereco.cidade"
+              #cidade="ngModel"
               required
               readonly
             >
@@ -193,6 +215,8 @@
               class="form-control p-4"
               id="bairro"
               name="bairro"
+              [(ngModel)]="endereco.bairro"
+              #bairro="ngModel"
               required
               readonly
             >
@@ -202,14 +226,16 @@
           <button
             class="btn btn-primary py-3 px-5"
             type="submit"
+            (click)="alterarPerfil()"
           >
             Cadastrar
           </button>
           <button
-            class="btn btn-primary py-3 px-5 ml-5"
+            class="btn btn-secondary py-3 px-5 ml-5"
             type="submit"
+            [routerLink]="['/cliente/home']"
           >
-            Limpar
+            Voltar a tela inicial
           </button>
         </div>
       </form>
