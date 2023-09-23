@@ -38,10 +38,6 @@ export class AlterarPerfilComponent implements OnInit {
       });
   }
 
-  limpar() {
-    this.formAlterarPerfil.reset({});
-  }
-
   alterarPerfil() {
     if (this.formAlterarPerfil.invalid) return;
     this.formAlterarPerfil.reset({});
