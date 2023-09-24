@@ -29,6 +29,7 @@
             class="btn btn-primary py-3 px-5"
             type="submit"
             [disabled]="!depositoForm.form.valid"
+            (click)="depositar()"
           >
             Depositar
           </button>
