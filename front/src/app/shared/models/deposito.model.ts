@@ -1,5 +1,3 @@
-export class Deposito {
-  constructor(
-    public valor?: number,
-  ) {}
-}
+import { Operacao } from "./operacao.model";
+
+export class Deposito extends Operacao {}
