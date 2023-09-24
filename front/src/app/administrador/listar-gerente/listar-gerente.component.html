@@ -1,33 +1,47 @@
-<h1>Gerentes</h1>
-<table class="table table-striped table-bordered table-hover">
-    <tbody>
-        <tr>
+<div class="container-fluid pt-5">
+  <div class="d-flex flex-column text-center mb-5 pt-5">
+    <h1 class="display-4 m-0">Gerentes</h1>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 mb-5">
+      <table class="table table-striped table-bordered table-hover">
+        <tbody>
+          <tr>
             <th>Nome</th>
             <th>Email</th>
             <th>CPF</th>
             <th>Telefone</th>
             <th class="text-center">
-                <a [routerLink]="['/administrador/gerentes/novo']" href="#" title="Novo" alt="Novo" class="btn btn-xs btn-success">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Novo
-                </a>
+              <a 
+                [routerLink]="['/administrador/gerentes/novo']"
+                href="#"
+                title="Novo"
+                alt="Novo"
+                class="btn btn-xs btn-success"
+              >
+                <i class="fa fa-plus" aria-hidden="true"></i>Novo
+              </a>
             </th>
-        </tr>
-        <tr *ngFor="let gerente of gerentes">
+          </tr>
+          <tr *ngFor="let gerente of gerentes">
             <td>{{gerente.nome}} </td>
             <td> {{gerente.email}} </td>
             <td>{{gerente.cpf}} </td>
             <td> {{gerente.telefone}} </td>
             <td class="text-center" style="width: 300px">
-                <a href="#" title="Editar" alt="Editar" class="btn btn-xs btn-info"
-                    [routerLink]="['/administrador/gerentes/editar', gerente.id]">
-                    <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                </a>
-                <a href="#" title="Remover" alt="Remover" class="btn btn-xs btn-danger"
-                    (click)="remover($event,gerente)">
-                    <i class="fa fa-times" aria-hidden="true"></i> Remover
-                </a>
+              <a href="#" title="Editar" alt="Editar" class="btn btn-xs btn-info"
+                [routerLink]="['/administrador/gerentes/editar', gerente.id]">
+                <i class="fa fa-edit" aria-hidden="true"></i> Editar
+              </a>
+              <a href="#" title="Remover" alt="Remover" class="btn btn-xs btn-danger"
+                (click)="remover($event,gerente)">
+                <i class="fa fa-times" aria-hidden="true"></i> Remover
+              </a>
             </td>
-        </tr>
-    </tbody>
-</table>
-<p *ngIf="gerentes.length==0">Nenhuma pessoa cadastrada.</p>
+          </tr>
+          <p *ngIf="gerentes.length === 0">Nenhum gerente cadastrad.</p>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

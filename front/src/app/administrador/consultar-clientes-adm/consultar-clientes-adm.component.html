@@ -1,94 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-  <body>
-
-    <!-- Cabeçalho da página -->
-    
-
-    <!-- Corpo da página -->
-    <main class="container">
-      <h2 class="mb-4">
-        Listagem de clientes
-      </h2>
-
-      <!-- Filtro de visualização de atendimentos -->
-     <div class="mt-3">
-        
-
-        <!-- Tabela de atendimentos -->
-        <table class="table table-hover">
-          <thead class="c-thead">
-            <tr class="text-center">
-              <th scope="col">#</th>
-              <th scope="col">Cliente</th>
-              <th scope="col">CPF</th>
-              <th scope="col">Limite de crédito</th>
-              <th scope="col">Gerente</th>
-              <th scope="col">Saldo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="c-clickable text-center" data-href="">
-              <th scope="row">23</th>
-              <td>Harry Potter</td>
-              <td>004.365.317-01</td>
-              <td>R$9.000.000,00</td>
-              <td>João Simão</td>
-              <td>R$1.000.000,00</td>
-            </tr>
-            <tr class="c-clickable text-center" data-href="">
-              <th scope="row">24</th>
-              <td>Frodo</td>
-              <td>004.365.317-01</td>
-              <td>R$2.000.000,00</td>
-              <td>Jorge Ulysses</td>
-              <td>R$500.000,00</td>
-            </tr>
-            
-         
-          </tbody>
-        </table>
-      </div>
-<!--MODAL RECUSAR-->
-            
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Recusar</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Nome:</label>
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Motivo:</label>
-                  <textarea class="form-control" id="message-text"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-              <button type="button" class="btn btn-primary">Enviar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
-
-    </main>
-
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/scripts.js"></script>
-  </body>
-</html>
+<div class="container-fluid pt-5">
+  <div class="d-flex flex-column text-center mb-5 pt-5">
+    <h1 class="display-4 m-0">Listagem de clientes</h1>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 mb-5">
+      <table class="table table-hover">
+        <thead class="c-thead">
+          <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Limite de crédito</th>
+            <th scope="col">Gerente</th>
+            <th scope="col">Saldo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="c-clickable text-center" data-href="">
+            <th scope="row">23</th>
+            <td>Harry Potter</td>
+            <td>004.365.317-01</td>
+            <td>R$9.000.000,00</td>
+            <td>João Simão</td>
+            <td>R$1.000.000,00</td>
+          </tr>
+          <tr class="c-clickable text-center" data-href="">
+            <th scope="row">24</th>
+            <td>Frodo</td>
+            <td>004.365.317-01</td>
+            <td>R$2.000.000,00</td>
+            <td>Jorge Ulysses</td>
+            <td>R$500.000,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

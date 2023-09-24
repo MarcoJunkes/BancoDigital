@@ -4,8 +4,7 @@ import { Gerente } from 'src/app/shared/models/gerente.model';
 
 @Component({
   selector: 'app-listar-gerente',
-  templateUrl: './listar-gerente.component.html',
-  styleUrls: ['./listar-gerente.component.css']
+  templateUrl: './listar-gerente.component.html'
 })
 export class ListarGerenteComponent implements OnInit {
 
@@ -27,6 +26,4 @@ export class ListarGerenteComponent implements OnInit {
       this.gerentes = this.listarTodos();
     }
   }
-
-
 }
