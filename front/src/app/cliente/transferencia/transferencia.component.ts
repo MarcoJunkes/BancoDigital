@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Transferencia } from 'src/app/shared';
+import { OperacaoDirecao, OperacaoTipo, Transferencia } from 'src/app/shared';
+import { OperacaoService } from '../services/operacao.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transferencia',
@@ -10,19 +12,15 @@ export class TransferenciaComponent implements OnInit {
   public transferencia!: Transferencia;
   @ViewChild('transferenciaForm') transferenciaForm!: NgForm;
 
-  constructor() {
-
-  }
+  constructor(private readonly operacaoService: OperacaoService, private router: Router) {}
 
   ngOnInit(): void {
-    this.transferencia = new Transferencia();
+    this.transferencia = new Transferencia(OperacaoTipo.TRANSFERENCIA, new Date().toISOString().split('T')[0], OperacaoDirecao.SAIDA);
   }
 
   transferir(): void {
-    console.log(this.transferencia);
-  }
-
-  voltar(): void {
-    console.log('voltar');
+    this.operacaoService.salvar(this.transferencia).subscribe(
+      () => this.router.navigate(['/cliente/home'])
+    );
   }
 }
