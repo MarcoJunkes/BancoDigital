@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
 import { GerenteService } from '../services/gerente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
-import { Conta } from 'src/app/shared/models/conta.model';
-import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-consultar-tres-melhores-clientes',
@@ -12,8 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class ConsultarTresMelhoresClientesComponent implements OnInit {
   clientes: Cliente[] = [];
-  constructor(private gerenteService : GerenteService,
-              private modalService: NgbModal){}
+  constructor(private gerenteService : GerenteService){}
   ngOnInit(): void {
     this.clientes = [];
     this.listarTodos();
@@ -34,7 +29,6 @@ export class ConsultarTresMelhoresClientesComponent implements OnInit {
   }
   
   abrirModalCliente(cliente: Cliente) {
-    const modalRef = this.modalService.open(ModalClienteComponent);
-    modalRef.componentInstance.cliente = cliente;
+    this.gerenteService.abrirModalCliente(cliente)
   }
 }

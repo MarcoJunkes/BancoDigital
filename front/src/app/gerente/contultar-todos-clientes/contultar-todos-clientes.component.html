@@ -5,12 +5,13 @@
 
     <div class="row  justify-content-center">
         <div class="col-8">
-            <input type="text" class="col-3 m-2" placeholder="CPF">
-            <button class="col-3 m-2 btn btn-primary">Pesquisar por CPF</button>
-            <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
-
+            <form #formCpf="ngForm">
+                <input type="text" class="col-3 m-2" placeholder="CPF">
+                <button class="col-3 m-2 btn btn-primary" (click)="abrirModalCliente({id: 1, cpf: '123.456.789-12', nome: 'Tiago', cidade: 'Curitiba', estado: 'PR', gerente: 'Fulano', limite: 1000, salario: 1000, saldo: 2500})">Pesquisar por CPF</button>
+                <button class="col-2 m-2 btn btn-primary" (click)="limparForm()">Limpar pesquisa</button>
+            </form>
             <input type="text" class="col-6 m-2" placeholder="Nome">
-            <button class="col-3 m-2 btn btn-primary">Pesquisar por nome</button>
+            <button class="col-3 m-2 btn btn-primary" (click)="abrirModalCliente({id: 1, cpf: '123.456.789-12', nome: 'Tiago', cidade: 'Curitiba', estado: 'PR', gerente: 'Fulano', limite: 1000, salario: 1000, saldo: 2500})">Pesquisar por nome</button>
             <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
         </div>
     </div>
@@ -35,7 +36,7 @@
                         <td> {{cliente.nome}}</td>
                         <td> {{cliente.cidade}}</td>
                         <td> {{cliente.estado}}</td>
-                        <td> {{cliente.saldo}}</td> <!--aplicar máscara para mostrar o R$ na frente e vírgula para os centavos-->
+                        <td> {{cliente.saldo | currency: 'BRL'}}</td>
                         <td>
                             <button type="button" class="btn btn0xs btn-info" (click)="abrirModalCliente(cliente)">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
