@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminGerentesComponent } from './admin-gerentes/admin-gerentes.component';
 
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,10 +9,10 @@ import { InserirGerenteComponent } from './inserir-gerente/inserir-gerente.compo
 import { EditarGerenteComponent } from './editar-gerente/editar-gerente.component';
 import { HomeAdmComponent } from './home-adm/home-adm.component';
 import { ConsultarClientesAdmComponent } from './consultar-clientes-adm/consultar-clientes-adm.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
-    AdminGerentesComponent,
     ListarGerenteComponent,
     InserirGerenteComponent,
     EditarGerenteComponent,
@@ -23,10 +22,13 @@ import { ConsultarClientesAdmComponent } from './consultar-clientes-adm/consulta
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
   providers: [
-    AdministradorService
+    AdministradorService,
+    provideNgxMask(),
   ]
 })
 export class AdministradorModule { }
