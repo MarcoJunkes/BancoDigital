@@ -11,12 +11,12 @@ export enum OperacaoTipo {
 
 export class Operacao {
   constructor(
-    public id?: number,
     public tipo?: OperacaoTipo,
-    public valor?: number,
     public data?: string,
+    public direcao?: OperacaoDirecao,
+    public id?: number,
+    public valor?: number,
     public origem?: string,
     public destino?: string,
-    public direcao?: OperacaoDirecao
   ) {}
 }
