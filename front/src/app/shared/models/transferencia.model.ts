@@ -1,6 +1,3 @@
-export class Transferencia {
-  constructor(
-    public contaDestino?: number,
-    public valor?: number
-  ) {}
-}
+import { Operacao } from "./operacao.model";
+
+export class Transferencia extends Operacao {}

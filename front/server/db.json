@@ -48,5 +48,39 @@
             "gerente": "Maria",
             "salario": 2000
         }
+    ],
+    "operacoes": [
+        {
+            "id": 1,
+            "tipo": "transferencia",
+            "valor": 100,
+            "data": "2023-01-01",
+            "origem": "Fulano",
+            "destino": "João",
+            "direcao": "entrada"
+        },
+        {
+            "id": 2,
+            "tipo": "transferencia",
+            "valor": 100,
+            "data": "2023-01-01",
+            "origem": "Fulano",
+            "destino": "João",
+            "direcao": "saida"
+        },
+        {
+            "id": 3,
+            "tipo": "deposito",
+            "valor": 100,
+            "data": "2023-01-02",
+            "direcao": "entrada"
+        },
+        {
+            "id": 4,
+            "tipo": "saque",
+            "valor": 100,
+            "data": "2023-01-02",
+            "direcao": "saida"
+        }
     ]
 }
