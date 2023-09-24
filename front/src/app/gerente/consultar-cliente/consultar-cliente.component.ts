@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
+import { Cliente } from 'src/app/shared/models/cliente.model';
+import { GerenteService } from '../services/gerente.service';
 
 @Component({
   selector: 'app-consultar-cliente',
   templateUrl: './consultar-cliente.component.html'
 })
 export class ConsultarClienteComponent {
+  clientes: Cliente[] = [];
+
   constructor(
-    private modalService: NgbModal
+    private gerenteService : GerenteService
   ){}
-  abrirModalCliente() {
-    const modalRef = this.modalService.open(ModalClienteComponent);
-    // modalRef.componentInstance.cliente = cliente;
+
+  abrirModalCliente(cliente: Cliente) {
+    this.gerenteService.abrirModalCliente(cliente)
   }
 }

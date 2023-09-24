@@ -12,7 +12,7 @@ export class TelaInicialGerenteComponent implements OnInit{
   clientes: Cliente[] = [];
 
   constructor(private modalService: NgbModal, private gerenteService: GerenteService){}
-
+  
   abrirModal(acao: string){
     const modalRef = this.modalService.open(ModalTelaInicialComponent);
     modalRef.componentInstance.acao = acao;

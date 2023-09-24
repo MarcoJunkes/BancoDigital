@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GerenteService } from '../services/gerente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
-import { Conta } from 'src/app/shared/models/conta.model';
-import { HttpHeaders } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-contultar-todos-clientes',
@@ -15,10 +12,9 @@ export class ContultarTodosClientesComponent implements OnInit {
 
   clientes: Cliente[] = [];
 
-  mostrar: Array<{}> = [1,2,3];
+  @ViewChild('formCpf') formCpf!: NgForm;
 
-  constructor(private gerenteService : GerenteService,
-              private modalService: NgbModal){}
+  constructor(private gerenteService : GerenteService){}
 
   ngOnInit(): void {
     this.clientes = [];
@@ -40,7 +36,11 @@ export class ContultarTodosClientesComponent implements OnInit {
   }
   
   abrirModalCliente(cliente: Cliente) {
-    const modalRef = this.modalService.open(ModalClienteComponent);
-    modalRef.componentInstance.cliente = cliente;
+    this.gerenteService.abrirModalCliente(cliente)
+  }
+
+  limparForm() {
+    console.log('Ok')
+    this.formCpf.reset({});
   }
 }
