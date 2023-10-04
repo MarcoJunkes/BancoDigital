@@ -13,7 +13,6 @@ export class AdministradorService {
   listarTodos(): Gerente[]{
     const gerentes = localStorage[LS_CHAVE];
     return gerentes ? JSON.parse(gerentes) : [];
-  
   }
 
   inserir(gerente: Gerente): void{

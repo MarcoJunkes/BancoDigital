@@ -17,72 +17,150 @@ import { TelaInicialGerenteComponent } from './gerente/tela-inicial-gerente/tela
 import { ConsultarClienteComponent } from './gerente/consultar-cliente/consultar-cliente.component';
 import { HomeAdmComponent } from './administrador/home-adm/home-adm.component';
 import { ConsultarClientesAdmComponent } from './administrador/consultar-clientes-adm/consultar-clientes-adm.component';
+import { ConsultarTresMelhoresClientesComponent } from './gerente/consultar-tres-melhores-clientes/consultar-tres-melhores-clientes.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'cliente/home',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: 'cliente/home',
-    component: HomeClienteComponent
+    component: HomeClienteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['cliente']
+    }
   },
   {
     path: 'cliente/alterar-perfil',
-    component: AlterarPerfilComponent
+    component: AlterarPerfilComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['cliente']
+    }
   },
   {
     path: 'cliente/depositar',
-    component: DepositoComponent
+    component: DepositoComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['cliente']
+    }
   },
   {
     path: 'cliente/transferencia',
-    component: TransferenciaComponent
+    component: TransferenciaComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['cliente']
+    }
   },
   {
     path: 'cliente/sacar',
-    component: SaqueComponent
-  },
-  {
-    path: 'gerente/tela-inicial-gerente',
-    component: TelaInicialGerenteComponent
-  },
-  {
-    path: 'gerente/consultar-cliente',
-    component: ConsultarClienteComponent
-  },
-  {
-    path: 'gerente/consultar-todos',
-    component: ContultarTodosClientesComponent,
+    component: SaqueComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['cliente']
+    }
   },
   {
     path: 'cliente/consulta-extrato',
     component: ConsultaExtratoComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['cliente']
+    }
+  },
+  {
+    path: 'gerente/tela-inicial-gerente',
+    component: TelaInicialGerenteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
+  },
+  {
+    path: 'gerente/consultar-cliente',
+    component: ConsultarClienteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
+  },
+  {
+    path: 'gerente/consultar-todos',
+    component: ContultarTodosClientesComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
+  },
+  {
+    path: 'gerente/consultar-tres-melhores',
+    component: ConsultarTresMelhoresClientesComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
+  },
+  {
+    path: 'cliente/consulta-extrato',
+    component: ConsultaExtratoComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
   },
   {
     path: 'gerente/modal-cliente', // Depois precisa inserir por id
-    component: ModalClienteComponent
+    component: ModalClienteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['gerente']
+    }
   },
   {
     path: 'administrador/gerentes',
-    component: ListarGerenteComponent
+    component: ListarGerenteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'administrador/gerentes/novo',
-    component: InserirGerenteComponent
+    component: InserirGerenteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'administrador/gerentes/editar/:id',
-    component: EditarGerenteComponent
+    component: EditarGerenteComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'administrador',
-    component: HomeAdmComponent
+    component: HomeAdmComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'administrador/clientes',
-    component: ConsultarClientesAdmComponent
+    component: ConsultarClientesAdmComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['admin']
+    }
   },
   ...LoginRoutes
 ]

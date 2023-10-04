@@ -1,9 +1,9 @@
 <div class="modal-header">
+  <h4 class="modal-title" id="modalLabel"> Cliente </h4>
   <button type="button" class="close" aria-label="Fechar"
           (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
-  <h4 class="modal-title" id="modalLabel"> Cliente </h4>
 </div>
 
 <div class="modal-body text-center">
@@ -13,10 +13,10 @@
     <p>Nome: {{cliente.nome}}</p>
     <p>Cidade: {{cliente.cidade}}</p>
     <p>Estado: {{cliente.estado}}</p>
-    <p>Saldo: {{cliente.saldo}}</p>
+    <p>Saldo: {{cliente.saldo | currency: 'BRL'}}</p>
     <h4>Dados da conta do cliente</h4>
-    <p>Data criação: {{cliente.dataCriacao}}</p>
-    <p>Limite: {{cliente.limite}}</p>
+    <p>Data criação: {{cliente.dataCriacao | date : 'dd/MM/yyyy'}}</p>
+    <p>Limite: {{cliente.limite | currency: 'BRL'}}</p>
     <p>Gerente: {{cliente.gerente}}</p>
   </div>
 </div>

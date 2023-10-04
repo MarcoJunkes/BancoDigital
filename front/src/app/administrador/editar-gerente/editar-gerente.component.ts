@@ -6,8 +6,7 @@ import { Gerente } from 'src/app/shared/models/gerente.model';
 
 @Component({
   selector: 'app-editar-gerente',
-  templateUrl: './editar-gerente.component.html',
-  styleUrls: ['./editar-gerente.component.css']
+  templateUrl: './editar-gerente.component.html'
 })
 export class EditarGerenteComponent implements OnInit {
 

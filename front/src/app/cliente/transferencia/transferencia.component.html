@@ -4,7 +4,7 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-12 col-sm-8 mb-5">
-      <form>
+      <form #transferenciaForm="ngForm">
         <div class="row">
           <div class="col">
             <div class="control-group">
@@ -15,11 +15,14 @@
                 id="contaDestino"
                 name="contaDestino"
                 placeholder="Exemplo: 12345-5"
+                [(ngModel)]="transferencia.destino"
+                #contaDestino="ngModel"
                 required
               />
               <div  
+                *ngIf="contaDestino.invalid && (contaDestino.dirty || contaDestino.touched)"
                 class="alert alert-danger">
-                <div>Por favor, preencha o número da conta</div>
+                <div [hidden]="!contaDestino.errors?.['required']">Por favor, preencha o número da conta</div>
               </div>
             </div>
           </div>
@@ -32,12 +35,15 @@
                 id="valor"
                 name="valor"
                 placeholder="Exemplo: R$ 123,00"
+                [(ngModel)]="transferencia.valor"
+                #valor="ngModel"
                 prefix="R$ " mask="separator.2" thousandSeparator="."
                 required
               />
-              <div  
+              <div 
+                *ngIf="valor.invalid && (valor.dirty || valor.touched)"
                 class="alert alert-danger">
-                <div>Por favor, preencha o valor a ser transferido</div>
+                <div [hidden]="!valor.errors?.['required']">Por favor, preencha o valor a ser transferido</div>
               </div>
             </div>
           </div>
@@ -46,14 +52,17 @@
           <button
             class="btn btn-primary py-3 px-5"
             type="submit"
+            [disabled]="!transferenciaForm.form.valid"
+            (click)="transferir()"
           >
             Transferir
           </button>
           <button
             class="btn btn-secondary py-3 px-5 ml-5"
             type="submit"
+            [routerLink]="['/cliente/home']"
           >
-            Voltar
+            Voltar à Tela Inicial
           </button>
         </div>
       </form>
