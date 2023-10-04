@@ -6,7 +6,8 @@ public class Usuario implements Serializable {
     private int id;
     private String nome;
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Usuario(int id, String nome) {
         this.id = id;
