@@ -35,7 +35,7 @@
                         <td> {{cliente.nome}}</td>
                         <td> {{cliente.cidade}}</td>
                         <td> {{cliente.estado}}</td>
-                        <td> {{cliente.saldo | currency: 'BRL'}}</td> <!--aplicar máscara para mostrar o R$ na frente e vírgula para os centavos-->
+                        <td> {{cliente.saldo | currency: 'BRL'}}</td>
                         <td>
                             <button type="button" class="btn btn-xs btn-info" (click)="abrirModalCliente(cliente)">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
