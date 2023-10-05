@@ -1,0 +1,10 @@
+version: '3.2'
+
+services:
+  auth-service:
+    build: ./auth-service
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./auth-service:/app
