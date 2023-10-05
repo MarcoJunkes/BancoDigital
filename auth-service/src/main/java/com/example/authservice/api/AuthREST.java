@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 public class AuthREST {
+    // TODO: get login and cadastro from database
+    // TODO: use DTO to hide password
     private static List<Login> usuarios = new ArrayList<>();
 
     @PostMapping("/login")
