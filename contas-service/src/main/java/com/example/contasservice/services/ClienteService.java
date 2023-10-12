@@ -38,4 +38,16 @@ public class ClienteService {
     public Cliente getByCpf(String cpf) {
         return clienteRepository.getByCpf(cpf);
     }
+
+    public void aprovarCliente(String cpf) {
+        Conta conta = contaRepository.getByClienteCpf(cpf);
+        conta.setStatus(Conta.StatusConta.ATIVA);
+        contaRepository.save(conta);
+    }
+
+    public void rejeitarCliente(String cpf) {
+        Conta conta = contaRepository.getByClienteCpf(cpf);
+        conta.setStatus(Conta.StatusConta.REJEITADA);
+        contaRepository.save(conta);
+    }
 }
