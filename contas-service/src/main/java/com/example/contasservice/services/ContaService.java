@@ -31,7 +31,7 @@ public class ContaService {
         }
         conta.setGerente(null);
         conta.setSaldo(0f);
-        conta.setStatus("pendente");
+        conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
         return contaRepository.save(conta);
     }
 

@@ -9,13 +9,21 @@ import java.util.Date;
 @Entity
 @Table(name="conta")
 public class Conta implements Serializable {
+    public enum StatusConta {
+        PENDENTE_APROVACAO,
+        ATIVA,
+        REJEITADA,
+        BLOQUEADA,
+        CANCELADA;
+    }
+
     @Id
     @GeneratedValue(generator = "id_sequence_movimentacao")
     @SequenceGenerator(name = "id_sequence_movimentacao", sequenceName = "movimentacao_id_sequence", allocationSize = 1)
-    @Column(name="id")
+    @Column(name="numero")
     private Long numero;
     @Column(name="status")
-    private String status;
+    private StatusConta status;
     @Column(name="limite")
     private Float limite;
     @Column(name="saldo")
@@ -32,7 +40,7 @@ public class Conta implements Serializable {
 
     public Conta() {}
 
-    public Conta(Long numero, String status, Float limite, Float saldo, Date dataCriacao, Gerente gerente, Cliente cliente) {
+    public Conta(Long numero, StatusConta status, Float limite, Float saldo, Date dataCriacao, Gerente gerente, Cliente cliente) {
         this.numero = numero;
         this.status = status;
         this.limite = limite;
@@ -50,11 +58,11 @@ public class Conta implements Serializable {
         this.numero = numero;
     }
 
-    public String getStatus() {
+    public StatusConta getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusConta status) {
         this.status = status;
     }
 
