@@ -1,5 +1,6 @@
 package com.example.contasservice.services;
 
+import com.example.contasservice.dtos.ListagemContaResponseDTO;
 import com.example.contasservice.dtos.NovaContaRequestDTO;
 import com.example.contasservice.models.Cliente;
 import com.example.contasservice.models.Conta;
@@ -32,5 +33,17 @@ public class ContaService {
         conta.setSaldo(0f);
         conta.setStatus("pendente");
         return contaRepository.save(conta);
+    }
+
+    public Conta getByCliente(String cpf) {
+        return contaRepository.getByClienteCpf(cpf);
+    }
+
+    public ListagemContaResponseDTO getByGerente(String cpf) {
+        ListagemContaResponseDTO listagemContaResponseDTO = new ListagemContaResponseDTO();
+        listagemContaResponseDTO.setNumeroClientes(contaRepository.countByGerenteCpf(cpf));
+        listagemContaResponseDTO.setSaldoPositivo(contaRepository.sumPositiveSaldoByGerenteCpf(cpf));
+        listagemContaResponseDTO.setSaldoNegativo(contaRepository.sumNegativeSaldoByGerenteCpf(cpf));
+        return listagemContaResponseDTO;
     }
 }
