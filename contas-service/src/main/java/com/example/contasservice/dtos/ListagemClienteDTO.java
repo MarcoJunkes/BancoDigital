@@ -4,6 +4,13 @@ public class ListagemClienteDTO {
     private String cpf;
     private Float saldo;
 
+    public ListagemClienteDTO() {}
+
+    public ListagemClienteDTO(String cpf, Float saldo) {
+        this.cpf = cpf;
+        this.saldo = saldo;
+    }
+
     public String getCpf() {
         return cpf;
     }

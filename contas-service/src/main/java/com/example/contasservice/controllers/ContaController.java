@@ -54,4 +54,9 @@ public class ContaController {
 
         return ResponseEntity.ok(conta);
     }
+
+    @GetMapping("/contas/top3")
+    public ResponseEntity listarTop3() {
+        return ResponseEntity.ok(contaService.getTop3());
+    }
 }

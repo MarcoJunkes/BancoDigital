@@ -1,5 +1,6 @@
 package com.example.contasservice.services;
 
+import com.example.contasservice.dtos.ListagemClienteDTO;
 import com.example.contasservice.dtos.ListagemContaResponseDTO;
 import com.example.contasservice.dtos.NovaContaRequestDTO;
 import com.example.contasservice.models.Cliente;
@@ -9,6 +10,9 @@ import com.example.contasservice.repositories.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -45,5 +49,18 @@ public class ContaService {
         listagemContaResponseDTO.setSaldoPositivo(contaRepository.sumPositiveSaldoByGerenteCpf(cpf));
         listagemContaResponseDTO.setSaldoNegativo(contaRepository.sumNegativeSaldoByGerenteCpf(cpf));
         return listagemContaResponseDTO;
+    }
+
+    public List<ListagemClienteDTO> getTop3() {
+        List<ListagemClienteDTO> contas = new ArrayList<>();
+        List rawTop3Contas = contaRepository.getTop3();
+        for (Object contaRaw: rawTop3Contas) {
+            String cpf = (String) ((Object[]) contaRaw)[0];
+            Float saldo = (Float) ((Object[]) contaRaw)[1];
+            ListagemClienteDTO cliente = new ListagemClienteDTO(cpf, saldo);
+            contas.add(cliente);
+        }
+
+        return contas;
     }
 }
