@@ -1,7 +1,5 @@
 package com.example.contasservice.repositories;
 
-import com.example.contasservice.dtos.ListagemClienteDTO;
-import com.example.contasservice.dtos.ListagemContaResponseDTO;
 import com.example.contasservice.models.Conta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

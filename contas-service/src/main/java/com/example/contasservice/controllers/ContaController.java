@@ -1,6 +1,7 @@
 package com.example.contasservice.controllers;
 
 import com.example.contasservice.dtos.NovaContaRequestDTO;
+import com.example.contasservice.exceptions.NoGerenteOnDatabase;
 import com.example.contasservice.models.Cliente;
 import com.example.contasservice.models.Conta;
 import com.example.contasservice.services.ClienteService;
@@ -28,15 +29,17 @@ public class ContaController {
             return new ResponseEntity<>("Cliente já possui conta", null, HttpStatus.CONFLICT);
         }
 
-        Conta contaCriada = contaService.criarConta(novaConta);
-
-        URI uriContaCriada = null;
         try {
-            uriContaCriada = new URI("/contas/"+contaCriada.getNumero());
+            Conta contaCriada = contaService.criarConta(novaConta);
+
+            URI uriContaCriada = new URI("/contas/"+contaCriada.getNumero());
+
+            return ResponseEntity.created(uriContaCriada).build();
+        } catch (NoGerenteOnDatabase e) {
+            return new ResponseEntity<>("Não há gerentes cadastrados", null, HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        return ResponseEntity.created(uriContaCriada).build();
     }
 
     @GetMapping("/contas")

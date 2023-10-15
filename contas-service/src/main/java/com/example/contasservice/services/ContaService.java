@@ -3,10 +3,13 @@ package com.example.contasservice.services;
 import com.example.contasservice.dtos.ListagemClienteDTO;
 import com.example.contasservice.dtos.ListagemContaResponseDTO;
 import com.example.contasservice.dtos.NovaContaRequestDTO;
+import com.example.contasservice.exceptions.NoGerenteOnDatabase;
 import com.example.contasservice.models.Cliente;
 import com.example.contasservice.models.Conta;
+import com.example.contasservice.models.Gerente;
 import com.example.contasservice.repositories.ClienteRepository;
 import com.example.contasservice.repositories.ContaRepository;
+import com.example.contasservice.repositories.GerenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +24,17 @@ public class ContaService {
     private ContaRepository contaRepository;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private GerenteRepository gerenteRepository;
 
-    public Conta criarConta(NovaContaRequestDTO novaContaRequest) {
+    public Conta criarConta(NovaContaRequestDTO novaContaRequest) throws NoGerenteOnDatabase {
+        List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
+        if (gerenteRaw.size() == 0) {
+            throw new NoGerenteOnDatabase();
+        }
+        String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
+        Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
+
         Cliente novoCliente = new Cliente();
         novoCliente.setCpf(novaContaRequest.getCpf());
         novoCliente.setNome(novaContaRequest.getNome());
@@ -33,7 +45,8 @@ public class ContaService {
         if (novaContaRequest.getSalario() >= 2000) {
             conta.setLimite(novaContaRequest.getSalario() / 2);
         }
-        conta.setGerente(null);
+
+        conta.setGerente(gerente);
         conta.setSaldo(0f);
         conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
         return contaRepository.save(conta);
