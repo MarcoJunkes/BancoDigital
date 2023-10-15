@@ -24,4 +24,5 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
         "ORDER BY conta.saldo DESC LIMIT 3"
     )
     List<Object> getTop3();
+    List<Conta> getByGerenteCpf(String cpf);
 }
