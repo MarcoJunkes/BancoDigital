@@ -1,9 +1,9 @@
 package com.example.contasservice.services;
 
-import com.example.contasservice.dtos.ListagemClienteDTO;
-import com.example.contasservice.dtos.ListagemContaResponseDTO;
-import com.example.contasservice.dtos.NovaContaRequestDTO;
-import com.example.contasservice.exceptions.NoGerenteOnDatabase;
+import com.example.contasservice.dtos.*;
+import com.example.contasservice.exceptions.ContaNotFound;
+import com.example.contasservice.exceptions.GerenteNotFound;
+import com.example.contasservice.exceptions.ValorNegativoBadRequest;
 import com.example.contasservice.models.Cliente;
 import com.example.contasservice.models.Conta;
 import com.example.contasservice.models.Gerente;
@@ -27,10 +27,10 @@ public class ContaService {
     @Autowired
     private GerenteRepository gerenteRepository;
 
-    public Conta criarConta(NovaContaRequestDTO novaContaRequest) throws NoGerenteOnDatabase {
+    public Conta criarConta(NovaContaRequestDTO novaContaRequest) throws GerenteNotFound {
         List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
         if (gerenteRaw.size() == 0) {
-            throw new NoGerenteOnDatabase();
+            throw new GerenteNotFound();
         }
         String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
         Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
@@ -75,5 +75,49 @@ public class ContaService {
         }
 
         return contas;
+    }
+
+    public void sacar(Long numero, SaqueDTO saqueDTO) throws ContaNotFound, ValorNegativoBadRequest {
+        Conta conta = contaRepository.findById(numero).get();
+        if (conta == null) {
+            throw new ContaNotFound();
+        }
+
+        if ((saqueDTO.getValor() + conta.getLimite()) < 0) {
+            throw new ValorNegativoBadRequest("valor");
+        }
+        Float novoSaldo = conta.getSaldo() + conta.getLimite() - saqueDTO.getValor();
+        if (novoSaldo < 0) {
+            throw new ValorNegativoBadRequest("saldo");
+        }
+
+        conta.setSaldo(conta.getSaldo() - saqueDTO.getValor());
+        contaRepository.save(conta);
+    }
+
+    public void depositar(Long numero, DepositoDTO depositoDTO) throws ContaNotFound {
+        Conta conta = contaRepository.findById(numero).get();
+        if (conta == null) {
+            throw new ContaNotFound();
+        }
+        conta.setSaldo(conta.getSaldo() + depositoDTO.getValor());
+        contaRepository.save(conta);
+    }
+
+    public void transferir(Long contaOrigemId, TransferenciaDTO transferenciaDTO) throws ContaNotFound, ValorNegativoBadRequest {
+        Conta contaOrigem = contaRepository.findById(contaOrigemId).get();
+        Conta contaDestino = contaRepository.findById(transferenciaDTO.getContaDestino()).get();
+        if (contaOrigem == null || contaDestino == null) {
+            throw new ContaNotFound();
+        }
+
+        Float novoSaldo = contaOrigem.getSaldo() + contaOrigem.getLimite() - transferenciaDTO.getValor();
+        if (novoSaldo < 0) {
+            throw new ValorNegativoBadRequest("saldo");
+        }
+        contaOrigem.setSaldo(contaOrigem.getSaldo() - transferenciaDTO.getValor());
+        contaDestino.setSaldo(contaDestino.getSaldo() + transferenciaDTO.getValor());
+        contaRepository.save(contaOrigem);
+        contaRepository.save(contaDestino);
     }
 }

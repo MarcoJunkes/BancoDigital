@@ -1,7 +1,6 @@
 package com.example.contasservice.services;
 
 import com.example.contasservice.dtos.NovoGerenteRequestDTO;
-import com.example.contasservice.exceptions.NoGerenteOnDatabase;
 import com.example.contasservice.models.Conta;
 import com.example.contasservice.models.Gerente;
 import com.example.contasservice.repositories.ContaRepository;
