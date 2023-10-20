@@ -1,0 +1,13 @@
+package br.net.crudgerente;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CrudGerenteApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CrudGerenteApplication.class, args);
+	}
+
+}
