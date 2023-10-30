@@ -1,15 +1,15 @@
 version: '3.2'
 
 services:
-  # auth-service:
-  #   build: ./auth-service
-  #   restart: always
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - ./auth-service:/app
-  #   networks:
-  #     - bandtads
+  auth-service:
+    build: ./auth-service
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./auth-service:/app
+    networks:
+      - bandtads
     
   auth-service-db:
     image: mongo
@@ -20,21 +20,21 @@ services:
       - "27017:27017"
     volumes:
       - ./auth-service-db:/data/db
-    # networks:
-    #   - bandtads
+    networks:
+      - bandtads
 
-  # contas-service-db:
-  #   image: postgres:latest
-  #   restart: always
-  #   ports:
-  #     - "5432:5432"
-  #   environment:
-  #     POSTGRES_USER: contas_service_db
-  #     POSTGRES_PASSWORD: contas_service_db
-  #     POSTGRES_DB: contas_service_db
-  #   volumes:
-  #     - ./contas-service-db:/var/lib/postgresql/data
+  contas-service-db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: contas_service_db
+      POSTGRES_PASSWORD: contas_service_db
+      POSTGRES_DB: contas_service_db
+    volumes:
+      - ./contas-service-db:/var/lib/postgresql/data
 
-# networks:
-#   bandtads:
-#     driver: bridge
+networks:
+  bandtads:
+    driver: bridge
