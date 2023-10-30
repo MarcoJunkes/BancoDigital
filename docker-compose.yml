@@ -1,22 +1,40 @@
 version: '3.2'
 
 services:
-  auth-service:
-    build: ./auth-service
-    restart: always
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./auth-service:/app
-
-  contas-service-db:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "5432:5432"
+  # auth-service:
+  #   build: ./auth-service
+  #   restart: always
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./auth-service:/app
+  #   networks:
+  #     - bandtads
+    
+  auth-service-db:
+    image: mongo
     environment:
-      POSTGRES_USER: contas_service_db
-      POSTGRES_PASSWORD: contas_service_db
-      POSTGRES_DB: contas_service_db
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
     volumes:
-      - ./contas-service-db:/var/lib/postgresql/data
+      - ./auth-service-db:/data/db
+    # networks:
+    #   - bandtads
+
+  # contas-service-db:
+  #   image: postgres:latest
+  #   restart: always
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: contas_service_db
+  #     POSTGRES_PASSWORD: contas_service_db
+  #     POSTGRES_DB: contas_service_db
+  #   volumes:
+  #     - ./contas-service-db:/var/lib/postgresql/data
+
+# networks:
+#   bandtads:
+#     driver: bridge
