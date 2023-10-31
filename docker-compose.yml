@@ -2,12 +2,30 @@ version: '3.2'
 
 services:
   auth-service:
-    build: ./auth-service
+    build: ./back/auth-service
     restart: always
     ports:
       - "8080:8080"
+    depends_on:
+      - auth-service-db
+    environment:
+      - MONGODB_HOST=auth-service-db
     volumes:
-      - ./auth-service:/app
+      - ./back/auth-service:/app
+    networks:
+      - bantads_network
+
+  auth-service-db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./auth-service-db:/data/db
+    networks:
+      - bantads_network
 
   contas-service-db:
     image: postgres:latest
@@ -20,3 +38,9 @@ services:
       POSTGRES_DB: contas_service_db
     volumes:
       - ./contas-service-db:/var/lib/postgresql/data
+    networks:
+      - bantads_network
+
+networks:
+  bantads_network:
+    driver: bridge

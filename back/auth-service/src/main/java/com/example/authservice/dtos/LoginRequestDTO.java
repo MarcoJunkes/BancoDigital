@@ -1,17 +1,9 @@
-package com.example.authservice.api;
+package com.example.authservice.dtos;
 
-import java.io.Serializable;
+public class LoginRequestDTO {
 
-public class Login implements Serializable {
     private String email;
     private String senha;
-
-    public Login() {}
-
-    public Login(String email, String senha) {
-        this.email = email;
-        this.senha = senha;
-    }
 
     public String getEmail() {
         return email;
