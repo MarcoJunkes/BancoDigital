@@ -41,7 +41,7 @@ services:
     networks:
       - bantads_network
 
-    rabbitmq:
+  rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
     ports:
