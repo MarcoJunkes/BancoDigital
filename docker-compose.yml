@@ -41,18 +41,31 @@ services:
     networks:
       - bantads_network
 
+  contas-service:
+    build: ./back/contas-service
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - contas-service-db
+    environment:
+      - JDBC_DATABASE_URL=jdbc:postgresql://contas-service-db:5432/contas_service_db
+    volumes:
+      - ./back/contas-service:/app
+    networks:
+      - bantads_network
+
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
     ports:
-        - 5672:5672
-        - 15672:15672
+      - 5672:5672
+      - 15672:15672
     volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
-        - bantads_network
-
+      - bantads_network
 
 networks:
   bantads_network:
