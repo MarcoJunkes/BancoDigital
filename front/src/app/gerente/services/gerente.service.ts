@@ -6,13 +6,14 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-const LS_CHAVE: string = "cliente";
+// const LS_CHAVE: string = "cliente";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GerenteService {
-  BASE_URL = "http://localhost:3000/clientes/"; //Caso dê erro, tirar a última barra
+  // BASE_URL = "http://localhost:3000/clientes"; //Api Gateway
+  BASE_URL = "http://localhost:5000/clientes"; // Direto com o MS
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

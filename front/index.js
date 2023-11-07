@@ -19,6 +19,8 @@ app.use( bodyParser.json() )
 
 const clientesServiceProxy = httpProxy('http://localhost:5000');
 const contasServiceProxy = httpProxy('http://localhost:5001');
+const gerentesServiceProxy = httpProxy('http://localhost:5002');
+// Auth service precisa de Api gateway?
 
 function verifyJWT(req, res, next){
     const token = req.headers['x-access-token'];
@@ -59,6 +61,9 @@ app.get('/clientes', verifyJWT, (req, res, next) => {
 
 app.get('/contas', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
+})
+app.get('/gerentes', verifyJWT, (req, res, next) => {
+    gerentesServiceProxy(req, res, next);
 })
 
 // Configurações do app
