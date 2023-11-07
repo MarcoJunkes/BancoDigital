@@ -64,4 +64,8 @@ public class GerenteREST {
             lista.removeIf(g -> g.getId() == id);
         return gerente;
     }
+
+    static {
+        lista.add(new Gerente(1, "Nome", "email@email.com", "08200774961", "41991984525"));
+    }
 }

@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 
 export class ContultarTodosClientesComponent implements OnInit {
 
+
   clientes: Cliente[] = [];
 
   @ViewChild('formCpf') formCpf!: NgForm;
