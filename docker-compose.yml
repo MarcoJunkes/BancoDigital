@@ -41,6 +41,20 @@ services:
     networks:
       - bantads_network
 
+  gerente-service-db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: gerente_service_db
+      POSTGRES_PASSWORD: gerente_service_db
+      POSTGRES_DB: gerente_service_db
+    volumes:
+      - ./gerente-service-db:/var/lib/postgresql/data
+    networks:
+      - bantads_network
+
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
@@ -53,6 +67,17 @@ services:
     networks:
         - bantads_network
 
+  crudgerente:
+    build: ./back/crud-gerente
+    restart: always
+    ports:
+      - 5000:3100
+    networks:
+      - bantads_network
+    volumes:
+      - ./back/crud-gerente:/app
+    depends_on:
+      - gerente-service-db
 
 networks:
   bantads_network:
