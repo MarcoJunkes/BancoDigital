@@ -12,8 +12,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   providedIn: 'root'
 })
 export class GerenteService {
-  // BASE_URL = "http://localhost:3000/clientes"; //Api Gateway
-  BASE_URL = "http://localhost:5000/clientes"; // Direto com o MS
+  BASE_URL = "http://localhost:3000/clientes"; //Api Gateway
+  // BASE_URL = "http://localhost:5000/clientes"; // Direto com o MS
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
