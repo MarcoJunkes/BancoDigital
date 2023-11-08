@@ -69,29 +69,29 @@ services:
     networks:
       - bantads_network
 
+  gerente-service:
+    build: ./back/crud-gerente
+    restart: always
+    ports:
+      - "8082:3100"
+    depends_on:
+      - gerente-service-db
+    volumes:
+      - ./back/crud-gerente:/app
+    networks:
+      - bantads_network
+
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
     ports:
-      - 5672:5672
-      - 15672:15672
+        - 5672:5672
+        - 15672:15672
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
-      - bantads_network
-
-  crudgerente:
-    build: ./back/crud-gerente
-    restart: always
-    ports:
-      - 5000:3100
-    networks:
-      - bantads_network
-    volumes:
-      - ./back/crud-gerente:/app
-    depends_on:
-      - gerente-service-db
+        - bantads_network
 
 networks:
   bantads_network:

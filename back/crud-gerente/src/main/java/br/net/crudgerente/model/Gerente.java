@@ -2,20 +2,15 @@ package br.net.crudgerente.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="tb_gerente")
-public class Gerente implements Serializable{
-    private static final Long serialVersionUID = 1L;
-
+@Table(name="gerente")
+public class Gerente implements Serializable {
     @Id
-    @GeneratedValue
-    @Column(name="id_gerente")
+    @GeneratedValue(generator = "id_sequence_gerente")
+    @SequenceGenerator(name = "id_sequence_gerente", sequenceName = "gerente_id_sequence", allocationSize = 1)
+    @Column(name="id")
     private Long id;
     @Column(name="nome")
     private String nome;

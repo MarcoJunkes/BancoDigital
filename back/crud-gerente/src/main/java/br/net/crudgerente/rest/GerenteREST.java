@@ -1,6 +1,5 @@
 package br.net.crudgerente.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,6 @@ public class GerenteREST {
     private GerenteRepository repo;
     @Autowired
     private ModelMapper mapper;
-
-    public static List<Gerente> lista = new ArrayList<>();
 
     @GetMapping("/gerentes")
     public List<Gerente> obterGerentes(){
@@ -69,9 +66,5 @@ public class GerenteREST {
             return mapper.map(gerente, Gerente.class);
         }
         return gerente;
-    }
-
-    static {
-        lista.add(new Gerente(1, "Nome", "email@email.com", "08200774961", "41991984525"));
     }
 }
