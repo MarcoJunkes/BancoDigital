@@ -1,6 +1,5 @@
 package br.net.crudgerente.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,6 @@ public class GerenteREST {
     private GerenteRepository repo;
     @Autowired
     private ModelMapper mapper;
-
-    public static List<Gerente> lista = new ArrayList<>();
 
     @GetMapping("/gerentes")
     public List<Gerente> obterGerentes(){
