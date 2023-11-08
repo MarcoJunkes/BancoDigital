@@ -2,18 +2,30 @@ package br.net.crudgerente.model;
 
 import java.io.Serializable;
 
-public class Gerente implements Serializable{
-    private int id;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="gerente")
+public class Gerente implements Serializable {
+    @Id
+    @GeneratedValue(generator = "id_sequence_gerente")
+    @SequenceGenerator(name = "id_sequence_gerente", sequenceName = "gerente_id_sequence", allocationSize = 1)
+    @Column(name="id")
+    private Long id;
+    @Column(name="nome")
     private String nome;
+    @Column(name="email")
     private String email;
+    @Column(name="cpf")
     private String cpf;
+    @Column(name="telefone")
     private String telefone;
 
     public Gerente(){
         super();
     }
 
-    public Gerente(int id, String nome, String email, String cpf, String telefone){
+    public Gerente(Long id, String nome, String email, String cpf, String telefone){
         super();
         this.id = id;
         this.nome = nome;
@@ -22,11 +34,11 @@ public class Gerente implements Serializable{
         this.telefone = telefone;
     }
 
-    public int getId(){
+    public Long getId(){
         return id;
     }
 
-    public void setId(int id){
+    public void setId(Long id){
         this.id = id;
     }
 
