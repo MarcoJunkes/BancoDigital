@@ -45,7 +45,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: gerente_service_db
       POSTGRES_PASSWORD: gerente_service_db
