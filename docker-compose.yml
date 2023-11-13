@@ -16,7 +16,7 @@ services:
       - bantads_network
 
   auth-service-db:
-    image: mongo
+    image: mongo:4.4.18
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
