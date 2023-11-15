@@ -23,7 +23,7 @@ public class MessageController {
     @GetMapping("/publish")
     public ResponseEntity<String> sendMessage(@RequestParam("message") String message){
         NovaContaEvent novaContaEvent = new NovaContaEvent();
-        novaContaEvent.setCpf("11");
+        novaContaEvent.setCpf(message);
         novaContaEvent.setNome("nome");
         novaContaEvent.setSalario(2000f);
 

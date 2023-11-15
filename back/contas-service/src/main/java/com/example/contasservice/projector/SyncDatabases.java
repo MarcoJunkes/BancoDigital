@@ -36,7 +36,6 @@ public class SyncDatabases {
         contaRead.setGerenteCpf(contaCriada.getGerenteCpf());
         contaRead.setGerenteNome(contaCriada.getGerenteNome());
 
-        System.out.println("deu boa");
         contaReadRepository.save(contaRead);
     }
 
@@ -48,18 +47,24 @@ public class SyncDatabases {
 
     @RabbitListener(queues = "contas_service__movimentacao__database_sync")
     public void syncMovimentacao(MovimentacaoEvent movimentacaoEvent) {
-        ContaRead contaReadOrigem = contaReadRepository.findById(movimentacaoEvent.getMovimentacao().getContaOrigem().getNumero()).get();
-        ContaRead contaReadDestino = contaReadRepository.findById(movimentacaoEvent.getMovimentacao().getContaDestino().getNumero()).get();
-        Movimentacao movimentacao = movimentacaoEvent.getMovimentacao();
+        ContaRead contaReadOrigem = contaReadRepository.findById(movimentacaoEvent.getContaOrigemId()).get();
+
         MovimentacaoRead movimentacaoRead = new MovimentacaoRead();
-        movimentacaoRead.setValor(movimentacao.getValor());
-        movimentacaoRead.setData(movimentacao.getData());
-        movimentacaoRead.setId(movimentacao.getId());
+        movimentacaoRead.setValor(movimentacaoEvent.getValor());
+        movimentacaoRead.setData(movimentacaoEvent.getData());
+        movimentacaoRead.setId(movimentacaoEvent.getId());
         movimentacaoRead.setContaOrigem(contaReadOrigem);
-        movimentacaoRead.setContaDestino(contaReadDestino);
-        movimentacaoRead.setDirecao(movimentacao.getDirecao());
-        movimentacaoRead.setClienteCpf(movimentacao.getCliente().getCpf());
-        movimentacaoRead.setTipo(movimentacao.getTipo());
+
+        Long contaDestinoId = movimentacaoEvent.getContaDestinoId() != null ? movimentacaoEvent.getContaDestinoId() : null;
+        if (contaDestinoId != null) {
+            ContaRead contaReadDestino = contaReadRepository.findById(movimentacaoEvent.getContaDestinoId()).get();
+            movimentacaoRead.setContaDestino(contaReadDestino);
+        }
+
+        movimentacaoRead.setDirecao(movimentacaoEvent.getDirecao());
+        movimentacaoRead.setClienteCpf(movimentacaoEvent.getClienteCpf());
+        movimentacaoRead.setTipo(movimentacaoEvent.getTipo());
+
         movimentacaoReadRepository.save(movimentacaoRead);
     }
 

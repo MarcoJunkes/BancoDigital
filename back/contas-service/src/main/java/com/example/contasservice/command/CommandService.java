@@ -207,7 +207,14 @@ public class CommandService {
 
     private void sendMovimentacaoSyncEvent (Movimentacao movimentacao) {
         MovimentacaoEvent movimentacaoEvent = new MovimentacaoEvent();
-        movimentacaoEvent.setMovimentacao(movimentacao);
+        movimentacaoEvent.setId(movimentacao.getId());
+        movimentacaoEvent.setClienteCpf(movimentacao.getCliente().getCpf());
+        movimentacaoEvent.setContaOrigemId(movimentacao.getContaOrigem().getNumero());
+        movimentacaoEvent.setContaDestinoId(movimentacao.getContaDestino() != null ? movimentacao.getContaDestino().getNumero() : null);
+        movimentacaoEvent.setDirecao(movimentacao.getDirecao());
+        movimentacaoEvent.setTipo(movimentacao.getTipo());
+        movimentacaoEvent.setData(movimentacao.getData());
+        movimentacaoEvent.setValor(movimentacao.getValor());
         rabbitTemplate.convertAndSend("contas_service__movimentacao__database_sync", movimentacaoEvent);
     }
 
