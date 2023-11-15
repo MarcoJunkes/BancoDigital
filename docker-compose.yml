@@ -81,6 +81,16 @@ services:
     networks:
       - bantads_network
 
+  saga-inserir-gerente:
+    build: ./SAGAs/inserir_gerente
+    restart: always
+    ports:
+      - "8083:3200"
+    volumes:
+      - ./SAGAs/inserir_gerente:/app
+    networks:
+      - bantads_network
+
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
