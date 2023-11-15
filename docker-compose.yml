@@ -9,7 +9,7 @@ services:
     depends_on:
       - auth-service-db
     environment:
-      - MONGODB_HOST=auth-service-db
+      - MONGODB_HOST=dac-auth-service-db-1
     volumes:
       - ./back/auth-service:/app
     networks:

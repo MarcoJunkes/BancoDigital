@@ -1,8 +1,7 @@
-import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from "@angular/common/http";
+import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpInterceptor } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { LoginService } from "../auth/services/login.service";
-import { HttpInterceptor } from "./http-interceptors.module";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

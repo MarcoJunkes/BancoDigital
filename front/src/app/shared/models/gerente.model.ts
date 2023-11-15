@@ -1,6 +1,6 @@
 export class Gerente {
     constructor(
-        public id?: number,
+        public id?: string, /*Estava number, mas estava dando erro */
         public nome?: string,
         public email?: string,
         public cpf?: string,

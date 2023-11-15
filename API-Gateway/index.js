@@ -1,4 +1,4 @@
-require("dotenv-safe").config();
+/*require("dotenv-safe").config();
 const jwt = require('jsonwebtoken');
 var http = require('http');
 const express = require('express')
@@ -9,6 +9,21 @@ var bodyParser = require('body-parser')
 var logger = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+*/
+
+require("dotenv-safe").config();
+const jwt = require("jsonwebtoken");
+const http = require("http");
+const express = require("express");
+const httpProxy = require("express-http-proxy");
+const cors = require("cors");
+const app = express();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
+const helmet = require("helmet");
+const axios = require("axios");
+
 
 app.use(cors({
   origin: 'http://localhost:4200'
@@ -24,15 +39,16 @@ app.use( bodyParser.json() )
 
 const clientesServiceProxy = httpProxy('http://localhost:5003');
 const contasServiceProxy = httpProxy('http://localhost:5001');
-const gerentesServiceProxy = httpProxy('http://localhost:5002');
+const gerentesServiceProxy = httpProxy('http://172.18.0.6:3100');
 
-const authServiceProxy = httpProxy('http://localhost:8080', {
+const authServiceProxy = httpProxy('http://172.18.0.8:8080', {
     proxyReqBodyDecorator: function(bodyContent, srcReq) {
         try {
             retBody = {};
-            retBody.login = bodyContent.user;
-            retBody.senha = bodyContent.password;
+            retBody.email = bodyContent.email; // retBody.email a variável depois do ponto precisa ser igual ao REST
+            retBody.senha = bodyContent.senha; // bodyContent.email a variável depois do ponto precisa ser igual ao que for declarado no Postman
             bodyContent = retBody;
+            // console.log(retBody);
         }
         catch(e) {
             console.log('- ERRO: ' + e);
@@ -45,13 +61,18 @@ const authServiceProxy = httpProxy('http://localhost:8080', {
         return proxyReqOpts;
     },
     userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
+        console.log(proxyRes.statusCode);
         if (proxyRes.statusCode == 200) {
             var str = Buffer.from(proxyResData).toString('utf-8');
+            // var str = proxyResData.toString()
+            console.log(str)
             var objBody = JSON.parse(str)
+            console.log('chegou')
             const id = objBody.id
             const token = jwt.sign({ id }, process.env.SECRET, {
                 expiresIn: 300 // expira em 5 min
             });
+            console.log(token)
             userRes.status(200);
             return { auth: true, token: token, data: objBody };
         }
@@ -59,17 +80,22 @@ const authServiceProxy = httpProxy('http://localhost:8080', {
             userRes.status(401);
             return {message: 'Login inválido!'};
         }
-    }
-});
+    }    
+}); 
+
+
+
 
 function verifyJWT(req, res, next){
     const token = req.headers['x-access-token'];
-    // const token = req.headers['authorization'].replace('Bearer ', '');
+    console.log('Token', token);
     if (!token)
         return res.status(401).json({ auth: false, message: 'Token não fornecido.' });
     jwt.verify(token, process.env.SECRET, function(err, decoded) {
-        if (err)
+        if (err) {
+            console.log('Erro: ', err);
             return res.status(500).json({ auth: false, message: 'Falha ao autenticar o token.'});
+        }
 
         // se tudo estiver ok, salva no request para uso posterior
         req.userId = decoded.id;
@@ -94,7 +120,12 @@ app.get('/clientes', verifyJWT, (req, res, next) => {
 app.get('/contas', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 })
+
 app.get('/gerentes', verifyJWT, (req, res, next) => {
+    gerentesServiceProxy(req, res, next);
+})
+
+app.post('/gerentes', verifyJWT, (req, res, next) => {
     gerentesServiceProxy(req, res, next);
 })
 

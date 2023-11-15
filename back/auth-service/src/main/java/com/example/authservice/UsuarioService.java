@@ -1,6 +1,7 @@
 package com.example.authservice;
 
 import com.example.authservice.dtos.LoginRequestDTO;
+import com.example.authservice.dtos.CadastroRequestDTO;
 import com.mongodb.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,9 +25,9 @@ public class UsuarioService {
         return null;
     }
 
-    public void cadastro(LoginRequestDTO loginRequest) throws Exception {
-        String senha = passwordEncoder.encode(loginRequest.getSenha());
-        Usuario usuario = new Usuario(loginRequest.getEmail(), senha);
+    public void cadastro(CadastroRequestDTO cadastroRequest) throws Exception {
+        String senha = passwordEncoder.encode(cadastroRequest.getSenha());
+        Usuario usuario = new Usuario(cadastroRequest.getEmail(), senha, cadastroRequest.getPerfil());
         try {
             usuarioRepository.save(usuario);
         } catch (DuplicateKeyException e) {
