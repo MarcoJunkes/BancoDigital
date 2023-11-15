@@ -1,6 +1,8 @@
 package com.example.contasservice.event;
 
-public class NovaContaEvent {
+import java.io.Serializable;
+
+public class NovaContaEvent implements Serializable {
     private String cpf;
     private String nome;
     private Float salario;

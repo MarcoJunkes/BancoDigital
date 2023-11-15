@@ -1,5 +1,6 @@
 package net.javaguides.springboot.publisher;
 
+import net.javaguides.springboot.controller.NovaContaEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -26,9 +27,8 @@ public class RabbitMQProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(String message){
-
-        LOGGER.info(String.format("Message sent -> %s", message));
-        rabbitTemplate.convertAndSend(exchange, routingKey, message);
+    public void sendMessage(NovaContaEvent novaContaEvent){
+        LOGGER.info(String.format("Message sent -> %s", novaContaEvent.getCpf()));
+        rabbitTemplate.convertAndSend("contas_service__novo_cliente", novaContaEvent);
     }
 }

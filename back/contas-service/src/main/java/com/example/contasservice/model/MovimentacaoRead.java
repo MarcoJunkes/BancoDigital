@@ -16,15 +16,83 @@ public class MovimentacaoRead implements Serializable {
     @Column(name="id")
     private Long id;
     @Column(name="tipo")
-    private String tipo;
+    private Movimentacao.TipoMovimentacao tipo;
     @Column(name="data")
     private Date data;
+    @ManyToOne()
+    @JoinColumn(name="id_conta_origem")
+    private ContaRead contaOrigem;
+    @ManyToOne()
+    @JoinColumn(name="id_conta_destino")
+    private ContaRead contaDestino;
     @Column(name="id_cliente_origem")
-    private String clienteOrigemCpf;
-    @Column(name="id_cliente_destino")
-    private String clienteDestinoCpf;
+    private String clienteCpf;
     @Column(name="valor")
     private Float valor;
     @Column(name="direcao")
-    private String direcao;
+    private Movimentacao.DirecaoMovimentacao direcao;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Movimentacao.TipoMovimentacao getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Movimentacao.TipoMovimentacao tipo) {
+        this.tipo = tipo;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public ContaRead getContaOrigem() {
+        return contaOrigem;
+    }
+
+    public void setContaOrigem(ContaRead contaOrigem) {
+        this.contaOrigem = contaOrigem;
+    }
+
+    public ContaRead getContaDestino() {
+        return contaDestino;
+    }
+
+    public void setContaDestino(ContaRead contaDestino) {
+        this.contaDestino = contaDestino;
+    }
+
+    public String getClienteCpf() {
+        return clienteCpf;
+    }
+
+    public void setClienteCpf(String clienteCpf) {
+        this.clienteCpf = clienteCpf;
+    }
+
+    public Float getValor() {
+        return valor;
+    }
+
+    public void setValor(Float valor) {
+        this.valor = valor;
+    }
+
+    public Movimentacao.DirecaoMovimentacao getDirecao() {
+        return direcao;
+    }
+
+    public void setDirecao(Movimentacao.DirecaoMovimentacao direcao) {
+        this.direcao = direcao;
+    }
 }

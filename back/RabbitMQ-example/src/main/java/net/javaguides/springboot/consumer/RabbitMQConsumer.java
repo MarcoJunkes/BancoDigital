@@ -13,4 +13,10 @@ public class RabbitMQConsumer {
     public void consume(String message){
         LOGGER.info(String.format("Message received -> %s", message));
     }
+
+//    @RabbitListener(queues = {"contas_service__novo_cliente__database_sync"})
+//    public void consumeOther(NovaContaResponse message){
+//        LOGGER.info(String.format("Message received -> %s", message));
+//        LOGGER.info(String.format("Message received -> %s", message));
+//    }
 }

@@ -11,6 +11,9 @@ import com.example.contasservice.model.Cliente;
 import com.example.contasservice.model.Conta;
 import com.example.contasservice.model.Gerente;
 import com.example.contasservice.model.Movimentacao;
+import com.example.contasservice.projector.ContaEvent;
+import com.example.contasservice.projector.MovimentacaoEvent;
+import com.example.contasservice.projector.NovaContaDto;
 import com.example.contasservice.repository.write.ClienteRepository;
 import com.example.contasservice.repository.write.ContaRepository;
 import com.example.contasservice.repository.write.GerenteRepository;
@@ -48,11 +51,9 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__novo_cliente")
     public void createConta(NovaContaEvent novaContaEvent) {
-        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", new NovaContaEvent());
-
         List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
         if (gerenteRaw.isEmpty()) {
-            rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync");
+            rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", new NovaContaEvent());
         }
         String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
         Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
@@ -71,9 +72,20 @@ public class CommandService {
         conta.setGerente(gerente);
         conta.setSaldo(0f);
         conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
-        contaRepository.save(conta);
+        Conta contaSaved = contaRepository.save(conta);
+        NovaContaDto novaContaDto = new NovaContaDto();
+        novaContaDto.setNumero(contaSaved.getNumero());
+        novaContaDto.setLimite(contaSaved.getLimite());
+        novaContaDto.setSaldo(contaSaved.getSaldo());
+        novaContaDto.setDataCriacao(contaSaved.getDataCriacao());
+        novaContaDto.setStatus(contaSaved.getStatus());
+        novaContaDto.setGerenteCpf(contaSaved.getGerente().getCpf());
+        novaContaDto.setGerenteNome(contaSaved.getGerente().getNome());
+        novaContaDto.setClienteCpf(contaSaved.getCliente().getCpf());
+        novaContaDto.setClienteNome(contaSaved.getCliente().getNome());
 
-        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaEvent);
+        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaDto);
+        rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", novaContaDto);
     }
 
 //    @RabbitListener(queues="contas_service__alterar_perfil")
@@ -102,8 +114,8 @@ public class CommandService {
         movimentacao.setCliente(conta.getCliente());
         movimentacaoRepository.save(movimentacao);
 
-        // TODO: send event to db sync
-//        rabbitTemplate.convertAndSend("contas_service__deposito__database_sync", movimentacao);
+        // send event to db sync
+        sendMovimentacaoSyncEvent(movimentacao);
     }
 
     public void sacar(Long numero, SaqueDTO saqueDTO) throws ContaNotFound, ValorNegativoBadRequest {
@@ -132,8 +144,8 @@ public class CommandService {
         movimentacao.setCliente(conta.getCliente());
         movimentacaoRepository.save(movimentacao);
 
-        // TODO: send event to db sync
-//        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", saque);
+        // send event to db sync
+        sendMovimentacaoSyncEvent(movimentacao);
     }
 
     public void transferir(Long contaOrigemId, TransferenciaDTO transferenciaDTO) throws ContaNotFound, ValorNegativoBadRequest {
@@ -162,6 +174,8 @@ public class CommandService {
         movimentacaoSaida.setCliente(contaOrigem.getCliente());
         movimentacaoRepository.save(movimentacaoSaida);
 
+        sendMovimentacaoSyncEvent(movimentacaoSaida);
+
         Movimentacao movimentacaoEntrada = new Movimentacao();
         movimentacaoEntrada.setTipo(Movimentacao.TipoMovimentacao.TRANSFERENCIA);
         movimentacaoEntrada.setData(new Date());
@@ -172,8 +186,7 @@ public class CommandService {
         movimentacaoEntrada.setCliente(contaDestino.getCliente());
         movimentacaoRepository.save(movimentacaoEntrada);
 
-        // TODO: send event to db sync
-//        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", transferencia);
+        sendMovimentacaoSyncEvent(movimentacaoEntrada);
     }
 
     public void aprovarConta(String cpf) {
@@ -181,8 +194,7 @@ public class CommandService {
         conta.setStatus(Conta.StatusConta.ATIVA);
         contaRepository.save(conta);
 
-        // TODO: send event to db sync
-//        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", transferencia);
+        sendContaSyncEvent(conta);
     }
 
     public void rejeitarConta(String cpf) {
@@ -190,7 +202,18 @@ public class CommandService {
         conta.setStatus(Conta.StatusConta.REJEITADA);
         contaRepository.save(conta);
 
-        // TODO: send event to db sync
-//        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", transferencia);
+        sendContaSyncEvent(conta);
+    }
+
+    private void sendMovimentacaoSyncEvent (Movimentacao movimentacao) {
+        MovimentacaoEvent movimentacaoEvent = new MovimentacaoEvent();
+        movimentacaoEvent.setMovimentacao(movimentacao);
+        rabbitTemplate.convertAndSend("contas_service__movimentacao__database_sync", movimentacaoEvent);
+    }
+
+    private void sendContaSyncEvent (Conta conta) {
+        ContaEvent contaEvent = new ContaEvent();
+        contaEvent.setConta(conta);
+        rabbitTemplate.convertAndSend("contas_service__conta__database_sync", contaEvent);
     }
 }
