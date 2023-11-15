@@ -10,14 +10,17 @@ import com.example.contasservice.exceptions.ValorNegativoBadRequest;
 import com.example.contasservice.model.Cliente;
 import com.example.contasservice.model.Conta;
 import com.example.contasservice.model.Gerente;
+import com.example.contasservice.model.Movimentacao;
 import com.example.contasservice.repository.write.ClienteRepository;
 import com.example.contasservice.repository.write.ContaRepository;
 import com.example.contasservice.repository.write.GerenteRepository;
+import com.example.contasservice.repository.write.MovimentacaoRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,6 +28,7 @@ public class CommandService {
     private ContaRepository contaRepository;
     private ClienteRepository clienteRepository;
     private GerenteRepository gerenteRepository;
+    private MovimentacaoRepository movimentacaoRepository;
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
@@ -32,11 +36,13 @@ public class CommandService {
             ContaRepository contaRepository,
             ClienteRepository clienteRepository,
             GerenteRepository gerenteRepository,
+            MovimentacaoRepository movimentacaoRepository,
             RabbitTemplate rabbitTemplate
     ) {
         this.contaRepository = contaRepository;
         this.clienteRepository = clienteRepository;
         this.gerenteRepository = gerenteRepository;
+        this.movimentacaoRepository = movimentacaoRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -87,10 +93,17 @@ public class CommandService {
         conta.setSaldo(conta.getSaldo() + depositoDTO.getValor());
         contaRepository.save(conta);
 
-        // TODO: create movimentacao
+        Movimentacao movimentacao = new Movimentacao();
+        movimentacao.setTipo(Movimentacao.TipoMovimentacao.DEPOSITO);
+        movimentacao.setData(new Date());
+        movimentacao.setContaOrigem(conta);
+        movimentacao.setValor(depositoDTO.getValor());
+        movimentacao.setDirecao(Movimentacao.DirecaoMovimentacao.ENTRADA);
+        movimentacao.setCliente(conta.getCliente());
+        movimentacaoRepository.save(movimentacao);
 
         // TODO: send event to db sync
-//        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", deposito);
+//        rabbitTemplate.convertAndSend("contas_service__deposito__database_sync", movimentacao);
     }
 
     public void sacar(Long numero, SaqueDTO saqueDTO) throws ContaNotFound, ValorNegativoBadRequest {
@@ -110,7 +123,14 @@ public class CommandService {
         conta.setSaldo(conta.getSaldo() - saqueDTO.getValor());
         contaRepository.save(conta);
 
-        // TODO: create movimentacao
+        Movimentacao movimentacao = new Movimentacao();
+        movimentacao.setTipo(Movimentacao.TipoMovimentacao.SAQUE);
+        movimentacao.setData(new Date());
+        movimentacao.setContaOrigem(conta);
+        movimentacao.setValor(saqueDTO.getValor());
+        movimentacao.setDirecao(Movimentacao.DirecaoMovimentacao.SAIDA);
+        movimentacao.setCliente(conta.getCliente());
+        movimentacaoRepository.save(movimentacao);
 
         // TODO: send event to db sync
 //        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", saque);
@@ -132,7 +152,25 @@ public class CommandService {
         contaRepository.save(contaOrigem);
         contaRepository.save(contaDestino);
 
-        // TODO: create movimentacao
+        Movimentacao movimentacaoSaida = new Movimentacao();
+        movimentacaoSaida.setTipo(Movimentacao.TipoMovimentacao.TRANSFERENCIA);
+        movimentacaoSaida.setData(new Date());
+        movimentacaoSaida.setContaOrigem(contaOrigem);
+        movimentacaoSaida.setContaDestino(contaDestino);
+        movimentacaoSaida.setValor(transferenciaDTO.getValor());
+        movimentacaoSaida.setDirecao(Movimentacao.DirecaoMovimentacao.SAIDA);
+        movimentacaoSaida.setCliente(contaOrigem.getCliente());
+        movimentacaoRepository.save(movimentacaoSaida);
+
+        Movimentacao movimentacaoEntrada = new Movimentacao();
+        movimentacaoEntrada.setTipo(Movimentacao.TipoMovimentacao.TRANSFERENCIA);
+        movimentacaoEntrada.setData(new Date());
+        movimentacaoEntrada.setContaOrigem(contaDestino);
+        movimentacaoEntrada.setContaDestino(contaOrigem);
+        movimentacaoEntrada.setValor(transferenciaDTO.getValor());
+        movimentacaoEntrada.setDirecao(Movimentacao.DirecaoMovimentacao.ENTRADA);
+        movimentacaoEntrada.setCliente(contaDestino.getCliente());
+        movimentacaoRepository.save(movimentacaoEntrada);
 
         // TODO: send event to db sync
 //        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", transferencia);
