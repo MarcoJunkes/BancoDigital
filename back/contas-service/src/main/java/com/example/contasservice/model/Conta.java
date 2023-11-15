@@ -1,4 +1,4 @@
-package com.example.contasservice.models;
+package com.example.contasservice.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="conta")
+@Table(name="conta", schema = "write")
 public class Conta implements Serializable {
     public enum StatusConta {
         PENDENTE_APROVACAO,
@@ -18,8 +18,8 @@ public class Conta implements Serializable {
     }
 
     @Id
-    @GeneratedValue(generator = "id_sequence_movimentacao")
-    @SequenceGenerator(name = "id_sequence_movimentacao", sequenceName = "movimentacao_id_sequence", allocationSize = 1)
+    @GeneratedValue(generator = "id_sequence_conta")
+    @SequenceGenerator(name = "id_sequence_conta", sequenceName = "conta_id_sequence", allocationSize = 1, schema = "write")
     @Column(name="numero")
     private Long numero;
     @Column(name="status")

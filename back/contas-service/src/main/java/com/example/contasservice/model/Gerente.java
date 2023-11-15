@@ -1,23 +1,27 @@
-package com.example.contasservice.models;
+package com.example.contasservice.model;
 
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-@Table(name="cliente")
-public class Cliente implements Serializable {
+@Table(name="gerente", schema = "write")
+public class Gerente implements Serializable {
     @Id
     @Column(name="cpf")
     private String cpf;
     @Column(name="nome")
     private String nome;
+    @OneToMany(mappedBy="gerente")
+    private Set<Conta> contas;
 
-    public Cliente() {}
+    public Gerente() {}
 
-    public Cliente(String cpf, String nome) {
+    public Gerente(String cpf, String nome, Set<Conta> contas) {
         this.cpf = cpf;
         this.nome = nome;
+        this.contas = contas;
     }
 
     public String getCpf() {
@@ -34,5 +38,13 @@ public class Cliente implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Set<Conta> getContas() {
+        return contas;
+    }
+
+    public void setContas(Set<Conta> contas) {
+        this.contas = contas;
     }
 }

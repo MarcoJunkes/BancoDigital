@@ -1,4 +1,4 @@
-package com.example.contasservice.models;
+package com.example.contasservice.model;
 
 import jakarta.persistence.*;
 
@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "movimentacao")
+@Table(name = "movimentacao", schema = "write")
 public class Movimentacao implements Serializable {
     private static final Long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(generator = "id_sequence_movimentacao")
-    @SequenceGenerator(name = "id_sequence_movimentacao", sequenceName = "movimentacao_id_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "id_sequence_movimentacao", sequenceName = "movimentacao_id_sequence", allocationSize = 1, schema = "write")
     @Column(name="id")
     private Long id;
     @Column(name="tipo")
