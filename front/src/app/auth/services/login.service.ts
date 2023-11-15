@@ -3,6 +3,7 @@ import { Login, Usuario } from '../../shared';
 import { Observable, of } from 'rxjs';
 
 const LS_CHAVE: string = "usuarioLogado";
+const LS_CHAVE_TOKEN: string = "token";
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +37,14 @@ export class LoginService {
       return of(null);
     }
   }
+
+  public getAuthorizationToken() {
+    const token = localStorage.getItem(LS_CHAVE_TOKEN);
+    return token;
+  }
+
+  public setAuthorizationToken(token: string) {
+    localStorage.setItem(LS_CHAVE_TOKEN, token);
+  }
+
 }

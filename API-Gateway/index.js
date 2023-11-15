@@ -26,7 +26,7 @@ const clientesServiceProxy = httpProxy('http://localhost:5003');
 const contasServiceProxy = httpProxy('http://localhost:5001');
 const gerentesServiceProxy = httpProxy('http://localhost:5002');
 
-const authServiceProxy = httpProxy('http://localhost:5000', {
+const authServiceProxy = httpProxy('http://localhost:8080', {
     proxyReqBodyDecorator: function(bodyContent, srcReq) {
         try {
             retBody = {};
