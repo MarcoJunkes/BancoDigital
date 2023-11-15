@@ -43,4 +43,92 @@ public class ContaRead implements Serializable {
 //    @Column(name = "movimentacoes", columnDefinition = "jsonb")
 //    @Type(JsonType.class)
 //    private List<JsonNode> movimentacoes;
+
+
+    public ContaRead() {
+    }
+
+    public ContaRead(Long numero, StatusConta status, Float limite, Float saldo, Date dataCriacao, String gerenteCpf, String gerenteNome, String clienteCpf, String clienteNome) {
+        this.numero = numero;
+        this.status = status;
+        this.limite = limite;
+        this.saldo = saldo;
+        this.dataCriacao = dataCriacao;
+        this.gerenteCpf = gerenteCpf;
+        this.gerenteNome = gerenteNome;
+        this.clienteCpf = clienteCpf;
+        this.clienteNome = clienteNome;
+    }
+
+    public Long getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Long numero) {
+        this.numero = numero;
+    }
+
+    public StatusConta getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusConta status) {
+        this.status = status;
+    }
+
+    public Float getLimite() {
+        return limite;
+    }
+
+    public void setLimite(Float limite) {
+        this.limite = limite;
+    }
+
+    public Float getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getGerenteCpf() {
+        return gerenteCpf;
+    }
+
+    public void setGerenteCpf(String gerenteCpf) {
+        this.gerenteCpf = gerenteCpf;
+    }
+
+    public String getGerenteNome() {
+        return gerenteNome;
+    }
+
+    public void setGerenteNome(String gerenteNome) {
+        this.gerenteNome = gerenteNome;
+    }
+
+    public String getClienteCpf() {
+        return clienteCpf;
+    }
+
+    public void setClienteCpf(String clienteCpf) {
+        this.clienteCpf = clienteCpf;
+    }
+
+    public String getClienteNome() {
+        return clienteNome;
+    }
+
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
+    }
 }
