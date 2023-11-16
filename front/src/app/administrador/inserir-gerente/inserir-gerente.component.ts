@@ -23,7 +23,7 @@ export class InserirGerenteComponent implements OnInit {
 
   inserir(): void {
     if (this.formGerente.form.valid) {
-      this.administradorService.inserir(this.gerente);
+      this.administradorService.criarGerente(this.gerente);
       this.router.navigate( ["/administrador/gerentes"] );
     }
   }

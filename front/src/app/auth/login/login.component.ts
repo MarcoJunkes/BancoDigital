@@ -30,7 +30,7 @@ export class LoginComponent {
         this.message = params['error'];
       });
   }
-
+/* Código Matheus
   logar(): void {
     this.loading = true;
     if (this.formLogin.form.valid) {
@@ -38,6 +38,8 @@ export class LoginComponent {
         if (usu != null) {
           this.loginService.usuarioLogado = usu;
           this.loading = false;
+          //console.log('usu', usu);
+          //console.log('loginService usuarioLogado', this.loginService.usuarioLogado.perfil);
           this.redirecionaUsuarioLogado();
         } else {
           this.message = "E-mail/Senha inválidos.";
@@ -45,16 +47,40 @@ export class LoginComponent {
       });
     }
     this.loading = false;
+  } */
+
+  public logar(): void {
+    this.loading = true;
+
+    if (this.formLogin.form.valid) {
+      this.loginService.login(this.login).subscribe({
+        next: (output) => {
+          this.loading = false;
+          this.loginService.setAuthorizationToken(output.token);
+          this.loginService.usuarioLogado = output.data;
+
+          console.log('Login.compose.ts: ', this.loginService.usuarioLogado.perfil);
+          
+          this.redirecionaUsuarioLogado();
+        },
+        error: () => {
+          this.loading = false;
+          this.message = 'Usuário/Senha inválidos.';
+        }
+      });
+    }
   }
 
   redirecionaUsuarioLogado() {
     if (this.loginService.usuarioLogado.perfil === "cliente")
       this.router.navigate(["/cliente/home"]);
-    else if (this.loginService.usuarioLogado.perfil === "gerente") {
+    else if (this.loginService.usuarioLogado.perfil === "gerente")
       this.router.navigate(["/gerente/tela-inicial-gerente"]);
-    } else {
+    else if (this.loginService.usuarioLogado.perfil == "admin")
       this.router.navigate(["/administrador"]);
-    }
+    else
+      console.log('login.componets.ts: redirecionaUsuarioLogado - Nenhum perfil correspondeu ao perfil desse usuário');
+    
   }
 
   desabilitarBanner() {
