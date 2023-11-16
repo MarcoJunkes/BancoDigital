@@ -17,9 +17,8 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const usuarioLogado = this.loginService.usuarioLogado; 
       let url = state.url;
-      console.log('Chegou no Can Activate do Auth Guard');
       if (usuarioLogado) {
-        console.log('authGuard: ', usuarioLogado.perfil)
+        // console.log('authGuard: ', usuarioLogado.perfil)
         if (route.data?.['role'] && route.data?.['role'].indexOf(usuarioLogado.perfil) === -1) { 
           // Se o perfil do usuário não está no perfil da rota
           // vai para login

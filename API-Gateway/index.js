@@ -37,11 +37,11 @@ app.use( bodyParser.urlencoded({ extended: false}))
 // parse application/json
 app.use( bodyParser.json() )
 
-const clientesServiceProxy = httpProxy('http://localhost:5003');
+const clientesServiceProxy = httpProxy('http://172.18.0.7:5001');
 const contasServiceProxy = httpProxy('http://localhost:5001');
 const gerentesServiceProxy = httpProxy('http://172.18.0.6:3100');
 
-const authServiceProxy = httpProxy('http://172.18.0.8:8080', {
+const authServiceProxy = httpProxy('http://172.19.0.8:8080', {
     proxyReqBodyDecorator: function(bodyContent, srcReq) {
         try {
             retBody = {};
@@ -65,12 +65,11 @@ const authServiceProxy = httpProxy('http://172.18.0.8:8080', {
         if (proxyRes.statusCode == 200) {
             var str = Buffer.from(proxyResData).toString('utf-8');
             // var str = proxyResData.toString()
-            console.log(str)
+            // console.log(str)
             var objBody = JSON.parse(str)
-            console.log('chegou')
             const id = objBody.id
             const token = jwt.sign({ id }, process.env.SECRET, {
-                expiresIn: 300 // expira em 5 min
+                expiresIn: 3600 // expira em 1 hora
             });
             console.log(token)
             userRes.status(200);
@@ -82,9 +81,6 @@ const authServiceProxy = httpProxy('http://172.18.0.8:8080', {
         }
     }    
 }); 
-
-
-
 
 function verifyJWT(req, res, next){
     const token = req.headers['x-access-token'];
@@ -113,7 +109,7 @@ app.post('/logout', function(req, res) {
 })
 
 // Requisições aos serviços, já autenticados
-app.get('/clientes', verifyJWT, (req, res, next) => {
+app.get('/clientes'/*, verifyJWT*/, (req, res, next) => {
     clientesServiceProxy(req, res, next);
 })
 
@@ -121,7 +117,7 @@ app.get('/contas', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 })
 
-app.get('/gerentes', verifyJWT, (req, res, next) => {
+app.get('/gerentes'/*, verifyJWT*/, (req, res, next) => {
     gerentesServiceProxy(req, res, next);
 })
 
