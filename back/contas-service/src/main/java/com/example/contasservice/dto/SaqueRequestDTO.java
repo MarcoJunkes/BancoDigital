@@ -1,6 +1,6 @@
 package com.example.contasservice.dto;
 
-public class SaqueDTO {
+public class SaqueRequestDTO {
     private Float valor;
 
     public Float getValor() {

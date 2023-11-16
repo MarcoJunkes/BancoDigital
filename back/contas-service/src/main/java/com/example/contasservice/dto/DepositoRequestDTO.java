@@ -1,6 +1,6 @@
 package com.example.contasservice.dto;
 
-public class DepositoDTO {
+public class DepositoRequestDTO {
     private Float valor;
 
     public Float getValor() {

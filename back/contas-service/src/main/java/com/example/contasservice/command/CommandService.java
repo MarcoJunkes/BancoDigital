@@ -1,8 +1,8 @@
 package com.example.contasservice.command;
 
-import com.example.contasservice.dto.DepositoDTO;
-import com.example.contasservice.dto.SaqueDTO;
-import com.example.contasservice.dto.TransferenciaDTO;
+import com.example.contasservice.dto.DepositoRequestDTO;
+import com.example.contasservice.dto.SaqueRequestDTO;
+import com.example.contasservice.dto.TransferenciaRequestDTO;
 import com.example.contasservice.event.AlteracaoPerfilEvent;
 import com.example.contasservice.event.NovaContaEvent;
 import com.example.contasservice.exceptions.ContaNotFound;
@@ -97,19 +97,20 @@ public class CommandService {
 //    @RabbitListener(queues="contas_service__gerente_excluido")
     public void removeGerente(Gerente gerente) {}
 
-    public void depositar(Long numero, DepositoDTO depositoDTO) throws ContaNotFound {
+    public void depositar(Long numero, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
+        // TODO: exception if conta is not approved
         Conta conta = contaRepository.findById(numero).get();
         if (conta == null) {
             throw new ContaNotFound();
         }
-        conta.setSaldo(conta.getSaldo() + depositoDTO.getValor());
+        conta.setSaldo(conta.getSaldo() + depositoRequestDTO.getValor());
         contaRepository.save(conta);
 
         Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo(Movimentacao.TipoMovimentacao.DEPOSITO);
         movimentacao.setData(new Date());
         movimentacao.setContaOrigem(conta);
-        movimentacao.setValor(depositoDTO.getValor());
+        movimentacao.setValor(depositoRequestDTO.getValor());
         movimentacao.setDirecao(Movimentacao.DirecaoMovimentacao.ENTRADA);
         movimentacao.setCliente(conta.getCliente());
         movimentacaoRepository.save(movimentacao);
@@ -118,28 +119,28 @@ public class CommandService {
         sendMovimentacaoSyncEvent(movimentacao);
     }
 
-    public void sacar(Long numero, SaqueDTO saqueDTO) throws ContaNotFound, ValorNegativoBadRequest {
+    public void sacar(Long numero, SaqueRequestDTO saqueRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
         Conta conta = contaRepository.findById(numero).get();
         if (conta == null) {
             throw new ContaNotFound();
         }
 
-        if ((saqueDTO.getValor() + conta.getLimite()) < 0) {
+        if ((saqueRequestDTO.getValor() + conta.getLimite()) < 0) {
             throw new ValorNegativoBadRequest("valor");
         }
-        Float novoSaldo = conta.getSaldo() + conta.getLimite() - saqueDTO.getValor();
+        Float novoSaldo = conta.getSaldo() + conta.getLimite() - saqueRequestDTO.getValor();
         if (novoSaldo < 0) {
             throw new ValorNegativoBadRequest("saldo");
         }
 
-        conta.setSaldo(conta.getSaldo() - saqueDTO.getValor());
+        conta.setSaldo(conta.getSaldo() - saqueRequestDTO.getValor());
         contaRepository.save(conta);
 
         Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo(Movimentacao.TipoMovimentacao.SAQUE);
         movimentacao.setData(new Date());
         movimentacao.setContaOrigem(conta);
-        movimentacao.setValor(saqueDTO.getValor());
+        movimentacao.setValor(saqueRequestDTO.getValor());
         movimentacao.setDirecao(Movimentacao.DirecaoMovimentacao.SAIDA);
         movimentacao.setCliente(conta.getCliente());
         movimentacaoRepository.save(movimentacao);
@@ -148,19 +149,19 @@ public class CommandService {
         sendMovimentacaoSyncEvent(movimentacao);
     }
 
-    public void transferir(Long contaOrigemId, TransferenciaDTO transferenciaDTO) throws ContaNotFound, ValorNegativoBadRequest {
+    public void transferir(Long contaOrigemId, TransferenciaRequestDTO transferenciaRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
         Conta contaOrigem = contaRepository.findById(contaOrigemId).get();
-        Conta contaDestino = contaRepository.findById(transferenciaDTO.getContaDestino()).get();
+        Conta contaDestino = contaRepository.findById(transferenciaRequestDTO.getContaDestino()).get();
         if (contaOrigem == null || contaDestino == null) {
             throw new ContaNotFound();
         }
 
-        Float novoSaldo = contaOrigem.getSaldo() + contaOrigem.getLimite() - transferenciaDTO.getValor();
+        Float novoSaldo = contaOrigem.getSaldo() + contaOrigem.getLimite() - transferenciaRequestDTO.getValor();
         if (novoSaldo < 0) {
             throw new ValorNegativoBadRequest("saldo");
         }
-        contaOrigem.setSaldo(contaOrigem.getSaldo() - transferenciaDTO.getValor());
-        contaDestino.setSaldo(contaDestino.getSaldo() + transferenciaDTO.getValor());
+        contaOrigem.setSaldo(contaOrigem.getSaldo() - transferenciaRequestDTO.getValor());
+        contaDestino.setSaldo(contaDestino.getSaldo() + transferenciaRequestDTO.getValor());
         contaRepository.save(contaOrigem);
         contaRepository.save(contaDestino);
 
@@ -169,7 +170,7 @@ public class CommandService {
         movimentacaoSaida.setData(new Date());
         movimentacaoSaida.setContaOrigem(contaOrigem);
         movimentacaoSaida.setContaDestino(contaDestino);
-        movimentacaoSaida.setValor(transferenciaDTO.getValor());
+        movimentacaoSaida.setValor(transferenciaRequestDTO.getValor());
         movimentacaoSaida.setDirecao(Movimentacao.DirecaoMovimentacao.SAIDA);
         movimentacaoSaida.setCliente(contaOrigem.getCliente());
         movimentacaoRepository.save(movimentacaoSaida);
@@ -181,7 +182,7 @@ public class CommandService {
         movimentacaoEntrada.setData(new Date());
         movimentacaoEntrada.setContaOrigem(contaDestino);
         movimentacaoEntrada.setContaDestino(contaOrigem);
-        movimentacaoEntrada.setValor(transferenciaDTO.getValor());
+        movimentacaoEntrada.setValor(transferenciaRequestDTO.getValor());
         movimentacaoEntrada.setDirecao(Movimentacao.DirecaoMovimentacao.ENTRADA);
         movimentacaoEntrada.setCliente(contaDestino.getCliente());
         movimentacaoRepository.save(movimentacaoEntrada);

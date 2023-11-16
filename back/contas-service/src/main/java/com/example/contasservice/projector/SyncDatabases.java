@@ -1,8 +1,6 @@
 package com.example.contasservice.projector;
 
-import com.example.contasservice.model.Conta;
 import com.example.contasservice.model.ContaRead;
-import com.example.contasservice.model.Movimentacao;
 import com.example.contasservice.model.MovimentacaoRead;
 import com.example.contasservice.repository.read.ContaReadRepository;
 import com.example.contasservice.repository.read.MovimentacaoReadRepository;
@@ -66,6 +64,8 @@ public class SyncDatabases {
         movimentacaoRead.setTipo(movimentacaoEvent.getTipo());
 
         movimentacaoReadRepository.save(movimentacaoRead);
+
+        // TODO: set conta new saldo
     }
 
     @RabbitListener(queues = "contas_service__conta__database_sync")

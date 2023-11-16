@@ -1,6 +1,6 @@
 package com.example.contasservice.dto;
 
-public class TransferenciaDTO {
+public class TransferenciaRequestDTO {
     private Long contaDestino;
     private Float valor;
 
