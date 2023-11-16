@@ -4,9 +4,12 @@ import com.example.contasservice.model.ContaRead;
 import com.example.contasservice.model.MovimentacaoRead;
 import com.example.contasservice.repository.read.ContaReadRepository;
 import com.example.contasservice.repository.read.MovimentacaoReadRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class SyncDatabases {
@@ -14,6 +17,9 @@ public class SyncDatabases {
     // e guardam na base de leitura
     private ContaReadRepository contaReadRepository;
     private MovimentacaoReadRepository movimentacaoReadRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SyncDatabases.class);
+
 
     @Autowired
     SyncDatabases(ContaReadRepository contaReadRepository, MovimentacaoReadRepository movimentacaoReadRepository) {
@@ -23,6 +29,8 @@ public class SyncDatabases {
 
     @RabbitListener(queues = "contas_service__novo_cliente__database_sync")
     public void syncNovaConta(NovaContaDto contaCriada) {
+        LOGGER.info("started syncNovaConta", contaCriada);
+
         ContaRead contaRead = new ContaRead();
         contaRead.setNumero(contaCriada.getNumero());
         contaRead.setLimite(contaCriada.getLimite());
@@ -35,6 +43,8 @@ public class SyncDatabases {
         contaRead.setGerenteNome(contaCriada.getGerenteNome());
 
         contaReadRepository.save(contaRead);
+
+        LOGGER.info("finished syncNovaConta");
     }
 
     public void syncAlterarPerfil() {}
@@ -45,7 +55,11 @@ public class SyncDatabases {
 
     @RabbitListener(queues = "contas_service__movimentacao__database_sync")
     public void syncMovimentacao(MovimentacaoEvent movimentacaoEvent) {
+        LOGGER.info("started syncMovimentacao", movimentacaoEvent);
+
         ContaRead contaReadOrigem = contaReadRepository.findById(movimentacaoEvent.getContaOrigemId()).get();
+        contaReadOrigem.setSaldo(movimentacaoEvent.getContaOrigemSaldo());
+        contaReadRepository.save(contaReadOrigem);
 
         MovimentacaoRead movimentacaoRead = new MovimentacaoRead();
         movimentacaoRead.setValor(movimentacaoEvent.getValor());
@@ -56,6 +70,9 @@ public class SyncDatabases {
         Long contaDestinoId = movimentacaoEvent.getContaDestinoId() != null ? movimentacaoEvent.getContaDestinoId() : null;
         if (contaDestinoId != null) {
             ContaRead contaReadDestino = contaReadRepository.findById(movimentacaoEvent.getContaDestinoId()).get();
+            contaReadDestino.setSaldo(movimentacaoEvent.getContaDestinoSaldo());
+            contaReadRepository.save(contaReadDestino);
+
             movimentacaoRead.setContaDestino(contaReadDestino);
         }
 
@@ -65,7 +82,7 @@ public class SyncDatabases {
 
         movimentacaoReadRepository.save(movimentacaoRead);
 
-        // TODO: set conta new saldo
+        LOGGER.info("finished syncMovimentacao");
     }
 
     @RabbitListener(queues = "contas_service__conta__database_sync")

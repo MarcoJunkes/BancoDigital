@@ -18,6 +18,8 @@ import com.example.contasservice.repository.write.ClienteRepository;
 import com.example.contasservice.repository.write.ContaRepository;
 import com.example.contasservice.repository.write.GerenteRepository;
 import com.example.contasservice.repository.write.MovimentacaoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ public class CommandService {
     private GerenteRepository gerenteRepository;
     private MovimentacaoRepository movimentacaoRepository;
     private RabbitTemplate rabbitTemplate;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandService.class);
+
 
     @Autowired
     public CommandService(
@@ -51,6 +55,8 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__novo_cliente")
     public void createConta(NovaContaEvent novaContaEvent) {
+        LOGGER.info("started createConta", novaContaEvent);
+
         List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
         if (gerenteRaw.isEmpty()) {
             rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", new NovaContaEvent());
@@ -86,6 +92,8 @@ public class CommandService {
 
         rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaDto);
         rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", novaContaDto);
+
+        LOGGER.info("finished createConta");
     }
 
 //    @RabbitListener(queues="contas_service__alterar_perfil")
@@ -207,19 +215,30 @@ public class CommandService {
     }
 
     private void sendMovimentacaoSyncEvent (Movimentacao movimentacao) {
+        LOGGER.info("started sendMovimentacaoEvent", movimentacao);
+
         MovimentacaoEvent movimentacaoEvent = new MovimentacaoEvent();
         movimentacaoEvent.setId(movimentacao.getId());
         movimentacaoEvent.setClienteCpf(movimentacao.getCliente().getCpf());
+
         movimentacaoEvent.setContaOrigemId(movimentacao.getContaOrigem().getNumero());
+        movimentacaoEvent.setContaOrigemSaldo(movimentacao.getContaOrigem().getSaldo());
+
         movimentacaoEvent.setContaDestinoId(movimentacao.getContaDestino() != null ? movimentacao.getContaDestino().getNumero() : null);
+        movimentacaoEvent.setContaDestinoSaldo(movimentacao.getContaDestino() != null ? movimentacao.getContaDestino().getSaldo() : null);
+
         movimentacaoEvent.setDirecao(movimentacao.getDirecao());
         movimentacaoEvent.setTipo(movimentacao.getTipo());
         movimentacaoEvent.setData(movimentacao.getData());
         movimentacaoEvent.setValor(movimentacao.getValor());
         rabbitTemplate.convertAndSend("contas_service__movimentacao__database_sync", movimentacaoEvent);
+
+        LOGGER.info("finished sendMovimentacaoEvent");
     }
 
     private void sendContaSyncEvent (Conta conta) {
+        LOGGER.info("started sendContaSyncEvent", conta);
+
         ContaEvent contaEvent = new ContaEvent();
         contaEvent.setNumero(conta.getNumero());
         contaEvent.setStatus(conta.getStatus());
@@ -231,5 +250,7 @@ public class CommandService {
         contaEvent.setGerenteCpf(conta.getGerente().getCpf());
         contaEvent.setGerenteNome(conta.getGerente().getNome());
         rabbitTemplate.convertAndSend("contas_service__conta__database_sync", contaEvent);
+
+        LOGGER.info("finished sendContaSyncEvent");
     }
 }

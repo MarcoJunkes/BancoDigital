@@ -1,10 +1,6 @@
 package com.example.contasservice.projector;
 
-import com.example.contasservice.model.ContaRead;
 import com.example.contasservice.model.Movimentacao;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +10,9 @@ public class MovimentacaoEvent implements Serializable {
     private Movimentacao.TipoMovimentacao tipo;
     private Date data;
     private Long contaOrigemId;
+    private Float contaOrigemSaldo;
     private Long contaDestinoId;
+    private Float contaDestinoSaldo;
     private String clienteCpf;
     private Float valor;
     private Movimentacao.DirecaoMovimentacao direcao;
@@ -51,12 +49,28 @@ public class MovimentacaoEvent implements Serializable {
         this.contaOrigemId = contaOrigemId;
     }
 
+    public Float getContaOrigemSaldo() {
+        return contaOrigemSaldo;
+    }
+
+    public void setContaOrigemSaldo(Float contaOrigemSaldo) {
+        this.contaOrigemSaldo = contaOrigemSaldo;
+    }
+
     public Long getContaDestinoId() {
         return contaDestinoId;
     }
 
     public void setContaDestinoId(Long contaDestinoId) {
         this.contaDestinoId = contaDestinoId;
+    }
+
+    public Float getContaDestinoSaldo() {
+        return contaDestinoSaldo;
+    }
+
+    public void setContaDestinoSaldo(Float contaDestinoSaldo) {
+        this.contaDestinoSaldo = contaDestinoSaldo;
     }
 
     public String getClienteCpf() {
