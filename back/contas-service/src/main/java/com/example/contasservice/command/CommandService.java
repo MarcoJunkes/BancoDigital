@@ -220,7 +220,15 @@ public class CommandService {
 
     private void sendContaSyncEvent (Conta conta) {
         ContaEvent contaEvent = new ContaEvent();
-        contaEvent.setConta(conta);
+        contaEvent.setNumero(conta.getNumero());
+        contaEvent.setStatus(conta.getStatus());
+        contaEvent.setDataCriacao(conta.getDataCriacao());
+        contaEvent.setSaldo(conta.getSaldo());
+        contaEvent.setLimite(conta.getLimite());
+        contaEvent.setClienteCpf(conta.getCliente().getCpf());
+        contaEvent.setClienteNome(conta.getCliente().getNome());
+        contaEvent.setGerenteCpf(conta.getGerente().getCpf());
+        contaEvent.setGerenteNome(conta.getGerente().getNome());
         rabbitTemplate.convertAndSend("contas_service__conta__database_sync", contaEvent);
     }
 }

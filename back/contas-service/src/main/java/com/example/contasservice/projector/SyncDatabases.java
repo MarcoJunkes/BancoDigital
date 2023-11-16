@@ -68,7 +68,19 @@ public class SyncDatabases {
         movimentacaoReadRepository.save(movimentacaoRead);
     }
 
-    public void syncAprovarConta() {}
+    @RabbitListener(queues = "contas_service__conta__database_sync")
+    public void syncConta(ContaEvent contaEvent) {
+        ContaRead contaRead = contaReadRepository.findById(contaEvent.getNumero()).get();
+        contaRead.setNumero(contaEvent.getNumero());
+        contaRead.setStatus(contaEvent.getStatus());
+        contaRead.setDataCriacao(contaEvent.getDataCriacao());
+        contaRead.setSaldo(contaEvent.getSaldo());
+        contaRead.setLimite(contaEvent.getLimite());
+        contaRead.setClienteCpf(contaEvent.getClienteCpf());
+        contaRead.setClienteNome(contaEvent.getClienteNome());
+        contaRead.setGerenteCpf(contaEvent.getGerenteCpf());
+        contaRead.setGerenteNome(contaEvent.getGerenteNome());
 
-    public void syncRejeitarConta() {}
+        contaReadRepository.save(contaRead);
+    }
 }
