@@ -1,16 +1,3 @@
-/*require("dotenv-safe").config();
-const jwt = require('jsonwebtoken');
-var http = require('http');
-const express = require('express')
-const httpProxy = require('express-http-proxy')
-const app = express()
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser')
-var logger = require('morgan');
-const helmet = require('helmet');
-const cors = require('cors');
-*/
-
 require("dotenv-safe").config();
 const jwt = require("jsonwebtoken");
 const http = require("http");
@@ -37,11 +24,39 @@ app.use( bodyParser.urlencoded({ extended: false}))
 // parse application/json
 app.use( bodyParser.json() )
 
-const clientesServiceProxy = httpProxy('http://172.18.0.7:5001');
-const contasServiceProxy = httpProxy('http://localhost:5001');
-const gerentesServiceProxy = httpProxy('http://172.18.0.6:3100');
+/*Declaração das rotas de cada MS */
+var gerentesAPI = 'http://172.20.0.8:3100';
+var gerenteSagaInserir = 'http://172.20.0.2:3200';
+var contasAPI = 'http://172.18.0.8:5001';
+var authAPI = 'http://172.19.0.9:8080';
+var clientesAPI = 'http://localhost:5001';
 
-const authServiceProxy = httpProxy('http://172.19.0.8:8080', {
+const clientesServiceProxy = httpProxy(clientesAPI);
+const contasServiceProxy = httpProxy(contasAPI);
+const gerentesGetServiceProxy = httpProxy(gerentesAPI);
+const gerentesPostServiceProxy = httpProxy(gerenteSagaInserir, {
+    proxyReqBodyDecorator: function (bodyContent, srcReq) {
+        try {
+            retBody = {};
+            retBody.nome = bodyContent.nome;
+            retBody.email = bodyContent.email;
+            retBody.cpf = bodyContent.cpf;
+            retBody.telefone = bodyContent.telefone;
+            bodyContent = retBody;
+        }
+        catch (e) {
+            console.log('- ERRO: ' + e);
+        }
+        return bodyContent;
+    },
+    proxyReqOptDecorator: function (proxyReqOpts, srcReq) {
+        proxyReqOpts.headers['Content-Type'] = 'application/json';
+        proxyReqOpts.method = 'POST';
+        return proxyReqOpts;
+    }
+});
+
+const authServiceProxy = httpProxy(authAPI, {
     proxyReqBodyDecorator: function(bodyContent, srcReq) {
         try {
             retBody = {};
@@ -118,11 +133,11 @@ app.get('/contas', verifyJWT, (req, res, next) => {
 })
 
 app.get('/gerentes'/*, verifyJWT*/, (req, res, next) => {
-    gerentesServiceProxy(req, res, next);
+    gerentesGetServiceProxy(req, res, next);
 })
 
-app.post('/gerentes', verifyJWT, (req, res, next) => {
-    gerentesServiceProxy(req, res, next);
+app.post('/inserirGerentes'/*, verifyJWT*/, (req, res, next) => {
+    gerentesPostServiceProxy(req, res, next);
 })
 
 // Configurações do app

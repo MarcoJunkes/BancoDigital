@@ -27,7 +27,7 @@ export class AdministradorService {
   }
 
   public criarGerente(gerente: Gerente): Observable<any> {
-    return this.http.post<any>(`${environment.api}/gerentes`, gerente, this.httpOptions);
+    return this.http.post<any>(`${environment.api}/inserirgerentes`, gerente, this.httpOptions);
   }
 
   public buscarGerentePorId(id: string): Observable<any> {
@@ -38,7 +38,7 @@ export class AdministradorService {
     return this.http.put<any>(`${environment.api}/gerentes/${gerente.id}`, gerente, this.httpOptions);
   }
 
-  public removerGerente(id: string): Observable<any> {
+  public removerGerente(id: number): Observable<any> {
     return this.http.delete<any>(`${environment.api}/gerentes/${id}`, this.httpOptions);
   }
 /* Antigo
