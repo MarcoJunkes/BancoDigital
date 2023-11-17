@@ -25,7 +25,7 @@ export class InserirGerenteComponent implements OnInit {
   inserir(): void {
     this.loading = true;
     if (this.formGerente.form.valid) {
-      this.administradorService.criarGerente(this.gerente). subscribe (
+      this.administradorService.criarGerente(this.gerente).subscribe (
         gerente => {
           this.loading = false;
           this.router.navigate( ["/administrador/gerentes"]);

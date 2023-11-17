@@ -58,7 +58,7 @@ export class LoginService {
 
   public getAuthorizationToken() {
     const token = localStorage.getItem(LS_CHAVE_TOKEN);
-    console.log('getToken: ', token);
+    // console.log('getToken: ', token);
     return token;
   }
 

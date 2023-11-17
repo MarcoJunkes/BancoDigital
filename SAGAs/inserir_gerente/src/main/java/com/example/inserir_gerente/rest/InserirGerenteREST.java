@@ -20,12 +20,12 @@ public class InserirGerenteREST {
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @PostMapping("/inserirGerentes")
-    public ResponseEntity<?> enfileirarMensagem(@RequestBody Gerente gerente) throws JsonProcessingException {
-        var json = objectMapper.writeValueAsString(gerente);
+    public ResponseEntity inserirGerentes(@RequestBody Gerente gerenteRequest) throws JsonProcessingException{
+        var json = objectMapper.writeValueAsString(gerenteRequest);
         rabbitTemplate.convertAndSend("service_gerente__request_inserir_gerente", json);
-        return new ResponseEntity<>("Enfileirado: " + json, HttpStatus.OK);
+        return ResponseEntity.created(null).build();
     }
 
 }

@@ -1,36 +1,41 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoginService } from 'src/app/auth/services/login.service';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { environment } from 'src/environments/environment';
 
-
-const LS_CHAVE: string = "admin";
+// const LS_CHAVE: string = "admin";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministradorService {
   
+  constructor(
+    private http: HttpClient,
+    private loginService: LoginService
+  ) { }
+
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json'/*,
+      'x-access-token': this.loginService.getAuthorizationToken()*/
     })
   };
 
-  constructor(
-    private http: HttpClient,
-  ) { }
   
   public listarTodosGerentes(): Observable<any> {
+    const token = this.loginService.getAuthorizationToken();
+    console.log('Token: ', token);
     return this.http.get<any>(`${environment.api}/gerentes`, this.httpOptions);
   }
 
   public criarGerente(gerente: Gerente): Observable<any> {
-    return this.http.post<any>(`${environment.api}/inserirgerentes`, gerente, this.httpOptions);
+    return this.http.post<any>(`${environment.api}/inserirGerentes`, gerente, this.httpOptions);
   }
 
-  public buscarGerentePorId(id: string): Observable<any> {
+  public buscarGerentePorId(id: number): Observable<any> {
     return this.http.get<any>(`${environment.api}/gerentes/${id}`, this.httpOptions);
   }
 
