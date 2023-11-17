@@ -1,6 +1,6 @@
-package com.example.contasservice.event;
+package net.javaguides.springboot.controller;
 
-public class AlteracaoPerfilEvent {
+public class AlterarPerfilEvent {
     private String nome;
     private Float salario;
     private Long numeroConta;

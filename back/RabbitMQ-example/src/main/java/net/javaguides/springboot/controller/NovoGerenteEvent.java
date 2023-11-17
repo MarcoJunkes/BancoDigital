@@ -1,8 +1,6 @@
-package com.example.contasservice.event;
+package net.javaguides.springboot.controller;
 
-import java.io.Serializable;
-
-public class InsercaoGerenteEvent implements Serializable {
+public class NovoGerenteEvent {
     private String cpf;
     private String nome;
 

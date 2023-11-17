@@ -25,7 +25,18 @@ public interface GerenteRepository extends JpaRepository<Gerente, String> {
         "FROM Gerente g\n" +
         "LEFT JOIN Conta c on g.cpf = c.gerente.cpf\n" +
         "GROUP BY g.cpf\n" +
-        "ORDER BY quantidadeClientes ASC LIMIT 1"
+        "ORDER BY quantidadeClientes DESC"
     )
     List<Object> getGerenteWithLessContas();
+
+    @Query(
+        "SELECT\n" +
+        "    SUM(c.numero) as quantidadeClientes,\n" +
+        "    g.cpf as gerenteCpf\n" +
+        "FROM Gerente g\n" +
+        "LEFT JOIN Conta c on g.cpf = c.gerente.cpf\n" +
+        "GROUP BY g.cpf\n" +
+        "ORDER BY quantidadeClientes DESC LIMIT 1"
+    )
+    List<Object> getGerenteWithMoreContas();
 }

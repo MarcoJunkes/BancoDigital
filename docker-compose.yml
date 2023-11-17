@@ -38,7 +38,7 @@ services:
       POSTGRES_DB: contas_service_db
     volumes:
       - ./contas-service-db:/var/lib/postgresql/data
-      - ./back/contas-service-database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/contas-service-database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - bantads_network
 
@@ -91,6 +91,15 @@ services:
     volumes:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - type: bind
+        source: ./config/rabbitmq/plugins
+        target: /etc/rabbitmq/enabled_plugins
+      - type: bind
+        source: ./config/rabbitmq/setup.conf
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ./config/rabbitmq/definitions.json
+        target: /etc/rabbitmq/definitions.json
     networks:
       - bantads_network
 

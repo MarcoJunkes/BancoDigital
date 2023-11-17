@@ -1,6 +1,6 @@
-package com.example.contasservice.event;
+package net.javaguides.springboot.controller;
 
-public class RemocaoGerenteEvent {
+public class ExcluirGerenteEvent {
     private String cpf;
 
     public String getCpf() {

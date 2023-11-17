@@ -4,7 +4,9 @@ import com.example.contasservice.dto.DepositoRequestDTO;
 import com.example.contasservice.dto.SaqueRequestDTO;
 import com.example.contasservice.dto.TransferenciaRequestDTO;
 import com.example.contasservice.event.AlteracaoPerfilEvent;
+import com.example.contasservice.event.InsercaoGerenteEvent;
 import com.example.contasservice.event.NovaContaEvent;
+import com.example.contasservice.event.RemocaoGerenteEvent;
 import com.example.contasservice.exceptions.ContaNotFound;
 import com.example.contasservice.exceptions.ValorNegativoBadRequest;
 import com.example.contasservice.model.Cliente;
@@ -24,9 +26,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CommandService {
@@ -36,8 +38,6 @@ public class CommandService {
     private MovimentacaoRepository movimentacaoRepository;
     private RabbitTemplate rabbitTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandService.class);
-
-
     @Autowired
     public CommandService(
             ContaRepository contaRepository,
@@ -96,14 +96,79 @@ public class CommandService {
         LOGGER.info("finished createConta");
     }
 
-//    @RabbitListener(queues="contas_service__alterar_perfil")
-    public void alterarPerfil(AlteracaoPerfilEvent alteracaoPerfilEvent) {}
+    @RabbitListener(queues="contas_service__alterar_perfil")
+    public void alterarPerfil(AlteracaoPerfilEvent alteracaoPerfilEvent) {
+        Conta conta = contaRepository.findById(alteracaoPerfilEvent.getNumeroConta()).get();
+        Cliente cliente = clienteRepository.getByCpf(conta.getCliente().getCpf());
+        cliente.setNome(alteracaoPerfilEvent.getNome());
+        clienteRepository.save(cliente);
 
-//    @RabbitListener(queues="contas_service__novo_gerente")
-    public void createGerente(Gerente gerente) {}
+        Float saldoAtual = conta.getSaldo();
+        if (alteracaoPerfilEvent.getSalario() >= 2000) {
+            Float novoLimite = alteracaoPerfilEvent.getSalario() / 2;
+            if (saldoAtual < 0 && novoLimite < saldoAtual) {
+                conta.setLimite(novoLimite + saldoAtual);
+            } else {
+                conta.setLimite(novoLimite);
+            }
+        }
+        conta.setCliente(cliente);
+        contaRepository.save(conta);
 
-//    @RabbitListener(queues="contas_service__gerente_excluido")
-    public void removeGerente(Gerente gerente) {}
+        sendContaSyncEvent(conta);
+        rabbitTemplate.convertAndSend("contas_service__alterar_perfil__response", alteracaoPerfilEvent);
+    }
+
+    @RabbitListener(queues="contas_service__novo_gerente")
+    public void createGerente(InsercaoGerenteEvent insercaoGerenteEvent) {
+        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithLessContas();
+
+        Gerente gerente = new Gerente();
+        gerente.setNome(insercaoGerenteEvent.getNome());
+        gerente.setCpf(insercaoGerenteEvent.getCpf());
+        gerenteRepository.save(gerente);
+
+        if (gerenteComMaisContasRaw.size() > 0) {
+            String gerenteCpf = (String) ((Object[]) gerenteComMaisContasRaw.get(0))[1];
+            Conta contaNovoGerente = contaRepository.getFirstByGerente_Cpf(gerenteCpf);
+
+            contaNovoGerente.setGerente(gerente);
+            contaRepository.save(contaNovoGerente);
+            sendContaSyncEvent(contaNovoGerente);
+        }
+
+        rabbitTemplate.convertAndSend("contas_service__novo_gerente__response", insercaoGerenteEvent);
+    }
+
+    @RabbitListener(queues="contas_service__gerente_excluido")
+    @Transactional
+    public void removeGerente(RemocaoGerenteEvent remocaoGerenteEvent) {
+        try {
+            List<Object> gerenteComMenosContasRaw = gerenteRepository.getGerenteWithLessContas();
+            if (gerenteComMenosContasRaw.size() <= 1) {
+                // nao remove o ultimo gerente ou se nao tiver nenhum
+                return;
+            }
+            String gerenteCpf = (String) ((Object[]) gerenteComMenosContasRaw.get(0))[1];
+            Gerente gerenteParaExcluir = gerenteRepository.findById(remocaoGerenteEvent.getCpf()).get();
+            Set<Conta> contasDoGerenteExcluido = gerenteParaExcluir.getContas();
+
+            Gerente gerenteComMenosContas = gerenteRepository.findById(gerenteCpf).get();
+
+            for (Conta conta : contasDoGerenteExcluido) {
+                conta.setGerente(gerenteComMenosContas);
+                contaRepository.save(conta);
+
+                sendContaSyncEvent(conta);
+            }
+
+            gerenteRepository.delete(gerenteParaExcluir);
+        } catch (NoSuchElementException e) {
+            rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", new Object());
+        } finally {
+            rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", remocaoGerenteEvent);
+        }
+    }
 
     public void depositar(Long numero, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
         // TODO: exception if conta is not approved

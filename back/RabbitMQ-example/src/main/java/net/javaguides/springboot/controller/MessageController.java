@@ -20,14 +20,44 @@ public class MessageController {
 
     // http://localhost:8080/api/v1/publish?message=hello
 
-    @GetMapping("/publish")
-    public ResponseEntity<String> sendMessage(@RequestParam("message") String message){
+    @GetMapping("/autocadastro")
+    public ResponseEntity<String> autocadastro(@RequestParam("message") String message){
         NovaContaEvent novaContaEvent = new NovaContaEvent();
         novaContaEvent.setCpf(message);
         novaContaEvent.setNome("nome");
         novaContaEvent.setSalario(2000f);
 
-        producer.sendMessage(novaContaEvent);
+        producer.autocadastro(novaContaEvent);
+        return ResponseEntity.ok("Message sent to RabbitMQ ...");
+    }
+
+    @GetMapping("/alterar-perfil")
+    public ResponseEntity<String> alterarPerfil(@RequestParam("message") String message){
+        AlterarPerfilEvent alterarPerfilEvent = new AlterarPerfilEvent();
+        alterarPerfilEvent.setNome("cliente novo" + message);
+        alterarPerfilEvent.setSalario(3000f);
+        alterarPerfilEvent.setNumeroConta(Long.valueOf(message));
+
+        producer.alterarPerfil(alterarPerfilEvent);
+        return ResponseEntity.ok("Message sent to RabbitMQ ...");
+    }
+
+    @GetMapping("/criar-gerente")
+    public ResponseEntity<String> criarGerente(@RequestParam("message") String message){
+        NovoGerenteEvent novoGerenteEvent = new NovoGerenteEvent();
+        novoGerenteEvent.setCpf(message);
+        novoGerenteEvent.setNome("gerente 1");
+
+        producer.inserirGerente(novoGerenteEvent);
+        return ResponseEntity.ok("Message sent to RabbitMQ ...");
+    }
+
+    @GetMapping("/excluir-gerente")
+    public ResponseEntity<String> excluirGerente(@RequestParam("message") String message){
+        ExcluirGerenteEvent excluirGerenteEvent = new ExcluirGerenteEvent();
+        excluirGerenteEvent.setCpf(message);
+
+        producer.excluirGerente(excluirGerenteEvent);
         return ResponseEntity.ok("Message sent to RabbitMQ ...");
     }
 }
