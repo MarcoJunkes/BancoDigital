@@ -1,31 +1,31 @@
 version: '3.2'
 
 services:
-  # auth-service:
-  #   build: ./back/auth-service
-  #   restart: always
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - auth-service-db
-  #   environment:
-  #     - MONGODB_HOST=auth-service-db
-  #   volumes:
-  #     - ./back/auth-service:/app
-  #   networks:
-  #     - bantads_network
+  auth-service:
+    build: ./back/auth-service
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service-db
+    environment:
+      - MONGODB_HOST=auth-service-db
+    volumes:
+      - ./back/auth-service:/app
+    networks:
+      - bantads_network
 
-  # auth-service-db:
-  #   image: mongo
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: root
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - ./auth-service-db:/data/db
-  #   networks:
-  #     - bantads_network
+  auth-service-db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./auth-service-db:/data/db
+    networks:
+      - bantads_network
 
   contas-service-db:
     image: postgres:latest
@@ -42,45 +42,46 @@ services:
     networks:
       - bantads_network
 
-  # contas-service:
-  #   build: ./back/contas-service
-  #   restart: always
-  #   ports:
-  #     - "8081:8080"
-  #   depends_on:
-  #     - contas-service-db
-  #   environment:
-  #     - JDBC_DATABASE_URL=jdbc:postgresql://contas-service-db:5432/contas_service_db
-  #   volumes:
-  #     - ./back/contas-service:/app
-  #   networks:
-  #     - bantads_network
+  contas-service:
+    build: ./back/contas-service
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - contas-service-db
+    environment:
+      - JDBC_DATABASE_URL=jdbc:postgresql://contas-service-db:5432/contas_service_db
+      - RABBIT_MQ_HOST=rabbitmq
+    volumes:
+      - ./back/contas-service:/app
+    networks:
+      - bantads_network
 
-  # gerente-service-db:
-  #   image: postgres:latest
-  #   restart: always
-  #   ports:
-  #     - "5433:5432"
-  #   environment:
-  #     POSTGRES_USER: gerente_service_db
-  #     POSTGRES_PASSWORD: gerente_service_db
-  #     POSTGRES_DB: gerente_service_db
-  #   volumes:
-  #     - ./gerente-service-db:/var/lib/postgresql/data
-  #   networks:
-  #     - bantads_network
+  gerente-service-db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: gerente_service_db
+      POSTGRES_PASSWORD: gerente_service_db
+      POSTGRES_DB: gerente_service_db
+    volumes:
+      - ./gerente-service-db:/var/lib/postgresql/data
+    networks:
+      - bantads_network
 
-  # gerente-service:
-  #   build: ./back/crud-gerente
-  #   restart: always
-  #   ports:
-  #     - "8082:3100"
-  #   depends_on:
-  #     - gerente-service-db
-  #   volumes:
-  #     - ./back/crud-gerente:/app
-  #   networks:
-  #     - bantads_network
+  gerente-service:
+    build: ./back/crud-gerente
+    restart: always
+    ports:
+      - "8082:3100"
+    depends_on:
+      - gerente-service-db
+    volumes:
+      - ./back/crud-gerente:/app
+    networks:
+      - bantads_network
 
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
