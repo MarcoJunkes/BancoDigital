@@ -38,6 +38,7 @@ services:
       POSTGRES_DB: contas_service_db
     volumes:
       - ./contas-service-db:/var/lib/postgresql/data
+      - ./config/contas-service-database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - bantads_network
 
@@ -50,6 +51,7 @@ services:
       - contas-service-db
     environment:
       - JDBC_DATABASE_URL=jdbc:postgresql://contas-service-db:5432/contas_service_db
+      - RABBIT_MQ_HOST=rabbitmq
     volumes:
       - ./back/contas-service:/app
     networks:
@@ -95,13 +97,22 @@ services:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
     ports:
-        - 5672:5672
-        - 15672:15672
+      - 5672:5672
+      - 15672:15672
     volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - type: bind
+        source: ./config/rabbitmq/plugins
+        target: /etc/rabbitmq/enabled_plugins
+      - type: bind
+        source: ./config/rabbitmq/setup.conf
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ./config/rabbitmq/definitions.json
+        target: /etc/rabbitmq/definitions.json
     networks:
-        - bantads_network
+      - bantads_network
 
 networks:
   bantads_network:
