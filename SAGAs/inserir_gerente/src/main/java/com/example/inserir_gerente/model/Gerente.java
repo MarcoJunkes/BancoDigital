@@ -1,5 +1,8 @@
 package com.example.inserir_gerente.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Gerente {
     private String nome;
     private String email;

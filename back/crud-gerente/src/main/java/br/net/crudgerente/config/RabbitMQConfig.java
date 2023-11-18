@@ -10,15 +10,22 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 
 @Configuration
 public class RabbitMQConfig {
-
     @Value("service_gerente__request_inserir_gerente")
-    private String queue;
+    private String requestInserirGerente;
+
+    @Value("service_gerente__response_inserir_gerente")
+    private String responseInserirGerente;
 
     @Bean
-    public Queue queue(){
-        return new Queue(queue);
+    public Queue requestInserirGerentQueue(){
+        return new Queue(requestInserirGerente, true);
     }
-    
+
+    @Bean
+    public Queue responseInserirGerenteQueue(){
+        return new Queue(responseInserirGerente, true);
+    }
+
     @Bean
     public ObjectMapper objectMapper(){
         return JsonMapper.builder().findAndAddModules().build();
