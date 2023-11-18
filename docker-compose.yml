@@ -9,14 +9,14 @@ services:
     depends_on:
       - auth-service-db
     environment:
-      - MONGODB_HOST=auth-service-db
+      - MONGODB_HOST=dac-auth-service-db-1
     volumes:
       - ./back/auth-service:/app
     networks:
       - bantads_network
 
   auth-service-db:
-    image: mongo
+    image: mongo:4.4.18
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -80,6 +80,16 @@ services:
       - gerente-service-db
     volumes:
       - ./back/crud-gerente:/app
+    networks:
+      - bantads_network
+
+  saga-inserir-gerente:
+    build: ./SAGAs/inserir_gerente
+    restart: always
+    ports:
+      - "8083:3200"
+    volumes:
+      - ./SAGAs/inserir_gerente:/app
     networks:
       - bantads_network
 

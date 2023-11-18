@@ -4,36 +4,27 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-12 col-sm-8 mb-5">
-      <table class="table table-hover">
-        <thead class="c-thead">
-          <tr class="text-center">
-            <th scope="col">#</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">CPF</th>
-            <th scope="col">Limite de crédito</th>
-            <th scope="col">Gerente</th>
-            <th scope="col">Saldo</th>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nome do cliente</th>
+            <th>CPF do cliente</th>
+            <th>Limite de crédito</th>
+            <th>Gerente</th>
+            <th>Saldo</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="c-clickable text-center" data-href="">
-            <th scope="row">23</th>
-            <td>Frodo</td>
-            <td>004.365.317-01</td>
-            <td>R$9.000.000,00</td>
-            <td>João Simão</td>
-            <td>R$1.000.000,00</td>
-          </tr>
-          <tr class="c-clickable text-center" data-href="">
-            <th scope="row">24</th>
-            <td>Harry Potter</td>
-            <td>004.365.317-01</td>
-            <td>R$2.000.000,00</td>
-            <td>Jorge Ulysses</td>
-            <td>R$500.000,00</td>
+          <tr *ngFor="let cliente of clientes">
+            <th>{{cliente.nome}}</th>
+            <th>{{cliente.cpf}}</th>
+            <th>{{cliente.limite | currency: 'BRL'}}</th>
+            <th>{{cliente.gerente}}</th>
+            <th>{{cliente.saldo | currency: 'BRL'}}</th>
           </tr>
         </tbody>
       </table>
+      <p *ngIf="clientes.length==0">Nenhum cliente cadastrado.</p>
     </div>
   </div>
 </div>

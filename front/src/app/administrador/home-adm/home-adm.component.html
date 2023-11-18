@@ -1,11 +1,40 @@
 <div class="container-fluid pt-5">
   <div class="d-flex flex-column text-center mb-5 pt-5">
-    <h1 class="display-4 m-0">Bem-vindo, Fulano</h1>
+    <h1 class="display-4 m-0">Portal do administrador</h1>
   </div>
+  
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 mb-5">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Nº de clientes</th>
+            <th>Saldo positivo</th>
+            <th>Saldo negativo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let gerente of gerentes">
+            <td> {{gerente.nome}}</td>
+            <td> {{gerente.quantidadeContas}}</td>
+            <td style="color: green;"> {{gerente.somaSaldosPositivos | currency: 'BRL'}}</td>
+            <td style="color: red;"> {{gerente.somaSaldosNegativos | currency: 'BRL'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="gerentes.length==0">Nenhum gerente cadastrado</p>
+    </div>
+  </div>
+
+  <!-- Cards
   <div class="row justify-content-center">
     <div class="col-12 col-sm-8 mb-5">
       <div class="row">
+        
         <div class="card-deck" style="width: 100%">
+          
+          
           <div class="card border border-primary text-primary">
             <div class="card-body">
               <p class="card-text h5">
@@ -18,60 +47,11 @@
                 <p class="card-text h6 ">Negativos: <br><strong class="text-danger">R$ 217.788,98</strong></p>
             </div>
           </div>
-    
-          <div class="card border border-primary text-primary">
-            <div class="card-body">
-              <p class="card-text h5">
-                <strong>[Gerente 02]</strong>
-              </p>
-              <p class="card-text h6">
-                172 clientes
-              </p><strong>Saldos: </strong>
-                <p class="card-text h6 ">Positivos: <br><strong class="text-success">R$ 7.788,98</strong></p>
-                <p class="card-text h6 ">Negativos: <br><strong class="text-danger">R$ 417.788,98</strong></p>
-            </div>
-          </div>
           
-          <div class="card border border-primary text-primary">
-            <div class="card-body">
-              <p class="card-text h5">
-                <strong>[Gerente 03]</strong>
-              </p>
-              <p class="card-text h6">
-                403 clientes
-              </p><strong>Saldos: </strong>
-                <p class="card-text h6 ">Positivos: <br><strong class="text-success">R$ 450.568,65</strong></p>
-                <p class="card-text h6 ">Negativos: <br><strong class="text-danger">R$ 177.568,07</strong></p>
-            </div>
-          </div>
-    
-          <div class="card border border-primary text-primary">
-            <div class="card-body">
-              <p class="card-text h5">
-                <strong>[Gerente 04]</strong>
-              </p>
-              <p class="card-text h6">
-                14 clientes
-              </p><strong>Saldos: </strong>
-                <p class="card-text h6 ">Positivos: <br><strong class="text-success">R$ 7.278,98</strong></p>
-                <p class="card-text h6 ">Negativos: <br><strong class="text-danger">R$ 2.288,80</strong></p>
-            </div>
-          </div>
-    
-          <div class="card border border-primary text-primary">
-            <div class="card-body">
-              <p class="card-text h5">
-                <strong>[Gerente 05]</strong>
-              </p>
-              <p class="card-text h6">
-                3 clientes
-              </p><strong>Saldos: </strong>
-                <p class="card-text h6 ">Positivos: <br><strong class="text-success">R$ 7.827.988,54</strong></p>
-                <p class="card-text h6 ">Negativos: <br><strong class="text-danger">R$ 4.217.988,63</strong></p>
-            </div>
-          </div>
         </div>
+        
       </div>
     </div>
   </div>
+  -->
 </div>

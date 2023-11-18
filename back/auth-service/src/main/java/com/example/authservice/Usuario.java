@@ -11,12 +11,22 @@ public class Usuario {
     @Indexed(unique = true)
     private String email;
     private String senha;
+    private String perfil;
 
     public Usuario () {}
 
-    public Usuario(String email, String senha) {
+    public Usuario(String email, String senha, String perfil) {
         this.email = email;
         this.senha = senha;
+        this.perfil = perfil;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getId() {
