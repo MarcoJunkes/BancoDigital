@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-/* Código Matheus */
+
 @RestController
 public class UsuarioController {
 
@@ -36,6 +36,7 @@ public class UsuarioController {
         return ResponseEntity.created(null).build();
     }
 }
+
 /*Código professor
 import org.springframework.web.bind.annotation.CrossOrigin;
 

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class InserirGerenteComponent implements OnInit {
   @ViewChild('formGerente') formGerente!: NgForm;
   gerente!: Gerente;
+  loading!: boolean;
 
   constructor(
     private administradorService :AdministradorService,
@@ -22,9 +23,16 @@ export class InserirGerenteComponent implements OnInit {
   }
 
   inserir(): void {
+    this.loading = true;
     if (this.formGerente.form.valid) {
-      this.administradorService.criarGerente(this.gerente);
-      this.router.navigate( ["/administrador/gerentes"] );
+      this.administradorService.criarGerente(this.gerente).subscribe (
+        gerente => {
+          this.loading = false;
+          this.router.navigate( ["/administrador/gerentes"]);
+        }
+      );
+      console.log('inserir-gerente.component.ts: ', this.gerente);
     }
+    this.loading = false;
   }
 }

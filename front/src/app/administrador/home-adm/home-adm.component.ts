@@ -27,7 +27,7 @@ export class HomeAdmComponent implements OnInit{
   listarTodosGerentes() {
     this.gerentes = [
       {
-        "id": "1",
+        "id": 1,
         "nome": "Gerente 1",
         "email": "gerente1@email.com",
         "cpf": "12345678912",
@@ -36,7 +36,7 @@ export class HomeAdmComponent implements OnInit{
         "somaSaldosNegativos": 1000
       },
       {
-        "id": "2",
+        "id": 2,
         "nome": "Gerente 2",
         "email": "gerente2@email.com",
         "cpf": "12345678913",

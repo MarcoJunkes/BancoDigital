@@ -22,13 +22,20 @@ public class InserirGerenteREST {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    
+
+    @PostMapping("/inserirGerentes")
+    public ResponseEntity inserirGerentes(@RequestBody Gerente gerenteRequest) throws JsonProcessingException{
+        var json = objectMapper.writeValueAsString(gerenteRequest);
+        rabbitTemplate.convertAndSend("service_gerente__request_inserir_gerente", json);
+        return ResponseEntity.created(null).build();
+
+    /*
     @PostMapping("/inserirgerente")
     public ResponseEntity<?> enfileirarMensagem(@RequestBody Gerente gerente) throws JsonProcessingException {
         var json = objectMapper.writeValueAsString(gerente);
         rabbitTemplate.convertAndSend("service_gerente__request_inserir_gerente", json);
         return new ResponseEntity<>(json, HttpStatus.OK);
-    }
+    }*/
 
     @RabbitListener(queues = "service_gerente__response_inserir_gerente")
     public void receberResposta(String msg){
