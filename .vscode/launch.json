@@ -9,6 +9,16 @@
             "projectName": "auth-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ConsultarClientesApplication<consultar-clientes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.net.gerente.ConsultarClientesApplication",
+            "projectName": "consultar-clientes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
