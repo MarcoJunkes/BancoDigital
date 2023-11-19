@@ -81,6 +81,32 @@ services:
     networks:
       - bantads_network
 
+  cliente-service-db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: cliente_service_db
+      POSTGRES_PASSWORD: cliente_service_db
+      POSTGRES_DB: cliente_service_db
+    volumes:
+      - ./cliente-service-db:/var/lib/postgresql/data
+    networks:
+      - bantads_network
+
+  cliente-service:
+    build: ./back/consultar-clientes
+    restart: always
+    ports:
+      - "8084:3300"
+    depends_on:
+      - cliente-service-db
+    volumes:
+      - ./back/consultar-clientes:/app
+    networks:
+      - bantads_network
+
   saga-inserir-gerente:
     build: ./SAGAs/inserir_gerente
     restart: always

@@ -1,10 +1,10 @@
-package br.net.gerente;
+package br.net.consutarclientes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ConsultarClientesApplicationTests {
+class ConsutarClientesApplicationTests {
 
 	@Test
 	void contextLoads() {
