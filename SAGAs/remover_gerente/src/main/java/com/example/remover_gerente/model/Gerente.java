@@ -1,4 +1,4 @@
-package com.example.inserir_gerente.model;
+package com.example.remover_gerente.model;
 
 public class Gerente {
     private String nome;

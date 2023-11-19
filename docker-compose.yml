@@ -119,6 +119,16 @@ services:
     networks:
       - bantads_network
 
+  saga-remover-gerente:
+    build: ./SAGAs/remover_gerente
+    restart: always
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./SAGAs/remover_gerente:/app
+    networks:
+      - bantads_network
+
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'

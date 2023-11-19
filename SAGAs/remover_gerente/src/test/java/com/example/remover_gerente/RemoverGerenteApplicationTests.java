@@ -1,4 +1,4 @@
-package com.example.inserir_gerente;
+package com.example.remover_gerente;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

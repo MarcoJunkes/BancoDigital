@@ -1,4 +1,4 @@
-package com.example.inserir_gerente;
+package com.example.remover_gerente;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
