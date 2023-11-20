@@ -20,6 +20,10 @@ import com.example.contasservice.repository.write.ClienteRepository;
 import com.example.contasservice.repository.write.ContaRepository;
 import com.example.contasservice.repository.write.GerenteRepository;
 import com.example.contasservice.repository.write.MovimentacaoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -32,6 +36,9 @@ import java.util.*;
 
 @Service
 public class CommandService {
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     private ContaRepository contaRepository;
     private ClienteRepository clienteRepository;
     private GerenteRepository gerenteRepository;
@@ -139,6 +146,29 @@ public class CommandService {
 
         rabbitTemplate.convertAndSend("contas_service__novo_gerente__response", insercaoGerenteEvent);
     }
+
+    /*@RabbitListener(queues="contas_service__novo_gerente")
+    public void createGerente(String msg) throws JsonMappingException, JsonProcessingException {
+        var insercaoGerenteEvent = objectMapper.readValue(msg, InsercaoGerenteEvent.class);
+
+        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithLessContas();
+
+        Gerente gerente = new Gerente();
+        gerente.setNome(insercaoGerenteEvent.getNome());
+        gerente.setCpf(insercaoGerenteEvent.getCpf());
+        gerenteRepository.save(gerente);
+
+        if (gerenteComMaisContasRaw.size() > 0) {
+            String gerenteCpf = (String) ((Object[]) gerenteComMaisContasRaw.get(0))[1];
+            Conta contaNovoGerente = contaRepository.getFirstByGerente_Cpf(gerenteCpf);
+
+            contaNovoGerente.setGerente(gerente);
+            contaRepository.save(contaNovoGerente);
+            sendContaSyncEvent(contaNovoGerente);
+        }
+
+        rabbitTemplate.convertAndSend("contas_service__novo_gerente__response", insercaoGerenteEvent);
+    }*/
 
     @RabbitListener(queues="contas_service__gerente_excluido")
     @Transactional

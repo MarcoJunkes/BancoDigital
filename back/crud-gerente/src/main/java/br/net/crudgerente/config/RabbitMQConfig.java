@@ -25,9 +25,10 @@ public class RabbitMQConfig {
     public Queue responseInserirGerenteQueue(){
         return new Queue(responseInserirGerente, true);
     }
-
+    
     @Bean
     public ObjectMapper objectMapper(){
         return JsonMapper.builder().findAndAddModules().build();
     }
+
 }

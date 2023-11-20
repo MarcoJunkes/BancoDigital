@@ -9,13 +9,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQConfig{
 
     @Value("service_gerente__request_inserir_gerente")
     private String requestInserirGerente;
 
     @Value("service_gerente__response_inserir_gerente")
     private String responseInserirGerente;
+
+    @Value("contas_service__novo_gerente")
+    private String contaServiceNovoGerente;
+
+    @Value("contas_service__novo_gerente__response")
+    private String contaServiceNovoGerenteResponse;
 
     @Bean
     public Queue requestInserirGerentQueue(){
@@ -25,6 +31,16 @@ public class RabbitMQConfig {
     @Bean
     public Queue responseInserirGerenteQueue(){
         return new Queue(responseInserirGerente, true);
+    }
+
+    @Bean
+    public Queue contaServiceInserirGerenteQueue(){
+        return new Queue(contaServiceNovoGerente, true);
+    }
+
+    @Bean
+    public Queue contaServiceInserirGerenteResponseQueue(){
+        return new Queue(contaServiceNovoGerenteResponse, true);
     }
 
     @Bean
