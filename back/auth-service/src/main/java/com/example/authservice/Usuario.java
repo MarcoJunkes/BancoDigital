@@ -12,13 +12,15 @@ public class Usuario {
     private String email;
     private String senha;
     private String perfil;
+    private String cpf;
 
     public Usuario () {}
 
-    public Usuario(String email, String senha, String perfil) {
+    public Usuario(String email, String senha, String perfil, String cpf) {
         this.email = email;
         this.senha = senha;
         this.perfil = perfil;
+        this.cpf = cpf;
     }
 
     public String getPerfil() {
@@ -51,5 +53,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

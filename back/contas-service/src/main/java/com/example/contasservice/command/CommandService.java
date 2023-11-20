@@ -170,9 +170,9 @@ public class CommandService {
         }
     }
 
-    public void depositar(Long numero, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
+    public void depositar(String clienteCpf, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
         // TODO: exception if conta is not approved
-        Conta conta = contaRepository.findById(numero).get();
+        Conta conta = contaRepository.getByClienteCpf(clienteCpf);
         if (conta == null) {
             throw new ContaNotFound();
         }
@@ -192,8 +192,8 @@ public class CommandService {
         sendMovimentacaoSyncEvent(movimentacao);
     }
 
-    public void sacar(Long numero, SaqueRequestDTO saqueRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
-        Conta conta = contaRepository.findById(numero).get();
+    public void sacar(String clienteCpf, SaqueRequestDTO saqueRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
+        Conta conta = contaRepository.getByClienteCpf(clienteCpf);
         if (conta == null) {
             throw new ContaNotFound();
         }
@@ -222,9 +222,9 @@ public class CommandService {
         sendMovimentacaoSyncEvent(movimentacao);
     }
 
-    public void transferir(Long contaOrigemId, TransferenciaRequestDTO transferenciaRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
-        Conta contaOrigem = contaRepository.findById(contaOrigemId).get();
-        Conta contaDestino = contaRepository.findById(transferenciaRequestDTO.getContaDestino()).get();
+    public void transferir(String clienteOrigemCpf, TransferenciaRequestDTO transferenciaRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
+        Conta contaOrigem = contaRepository.getByClienteCpf(clienteOrigemCpf);
+        Conta contaDestino = contaRepository.findById(transferenciaRequestDTO.getDestino()).get();
         if (contaOrigem == null || contaDestino == null) {
             throw new ContaNotFound();
         }
