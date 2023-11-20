@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Operacao } from "src/app/shared";
+import { Operacao, OperacaoTipo } from "src/app/shared";
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,12 @@ import { Operacao } from "src/app/shared";
 export class OperacaoService {
   private readonly API = 'http://localhost:3000/operacoes';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   listar(): Observable<Operacao[]> {
-    return this.http.get<Operacao[]>(this.API);
+    let id = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
+    return this.http.get<Operacao[]>(this.API+'/'+id);
   }
 
   buscarPorId(id: number): Observable<Operacao> {
@@ -20,14 +22,10 @@ export class OperacaoService {
   }
 
   salvar(operacao: Operacao): Observable<Operacao> {
-    return this.http.post<Operacao>(this.API, operacao);
-  }
+    let id = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
+    let url = this.API+'/'+id+'/'+operacao.tipo?.toLowerCase();
+    
+    return this.http.post<Operacao>(url, operacao);
 
-  atualizar(operacao: Operacao): Observable<Operacao> {
-    return this.http.put<Operacao>(`${this.API}/${operacao.id}`, operacao);
-  }
-
-  excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API}/${id}`);
   }
 }

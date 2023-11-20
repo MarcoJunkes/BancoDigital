@@ -7,36 +7,33 @@ import com.example.contasservice.dto.TransferenciaRequestDTO;
 import com.example.contasservice.exceptions.ContaNotFound;
 import com.example.contasservice.exceptions.ValorNegativoBadRequest;
 import com.example.contasservice.query.QueryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ContaController {
-
     private CommandService commandService;
     private QueryService queryService;
 
-    @Autowired
     ContaController(CommandService commandService, QueryService queryService) {
         this.commandService = commandService;
         this.queryService = queryService;
     }
 
-    @PostMapping("/contas/{numero}/deposito")
-    public ResponseEntity depositar(@PathVariable Long numero, @RequestBody DepositoRequestDTO depositoRequestDto) {
+    @PostMapping("/contas/{clienteCpf}/deposito")
+    public ResponseEntity depositar(@PathVariable String clienteCpf, @RequestBody DepositoRequestDTO depositoRequestDto) {
         try {
-            commandService.depositar(numero, depositoRequestDto);
+            commandService.depositar(clienteCpf, depositoRequestDto);
             return ResponseEntity.ok().build();
         } catch (ContaNotFound e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/contas/{numero}/saque")
-    public ResponseEntity sacar(@PathVariable Long numero, @RequestBody SaqueRequestDTO saqueRequestDTO) {
+    @PostMapping("/contas/{clienteCpf}/saque")
+    public ResponseEntity sacar(@PathVariable String clienteCpf, @RequestBody SaqueRequestDTO saqueRequestDTO) {
         try {
-            commandService.sacar(numero, saqueRequestDTO);
+            commandService.sacar(clienteCpf, saqueRequestDTO);
             return ResponseEntity.ok().build();
         } catch (ValorNegativoBadRequest e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -45,10 +42,12 @@ public class ContaController {
         }
     }
 
-    @PostMapping("/contas/{numero}/transferencia")
-    public ResponseEntity transferir(@PathVariable Long numero, @RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
+    @PostMapping("/contas/{clienteCpf}/transferencia")
+    public ResponseEntity transferir(
+            @PathVariable String clienteCpf,
+            @RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
         try {
-            commandService.transferir(numero, transferenciaRequestDTO);
+            commandService.transferir(clienteCpf, transferenciaRequestDTO);
             return ResponseEntity.ok().build();
         } catch (ValorNegativoBadRequest e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -73,6 +72,15 @@ public class ContaController {
     public ResponseEntity extrato(@PathVariable String cpf) {
         try {
             return ResponseEntity.ok(queryService.consultaExtrato(cpf));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("contas/{cpf}")
+    public ResponseEntity getConta(@PathVariable String cpf) {
+        try {
+            return ResponseEntity.ok(queryService.consultarPorCpf(cpf));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

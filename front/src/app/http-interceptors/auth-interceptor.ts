@@ -14,9 +14,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.loginService.getAuthorizationToken();
     let request: HttpRequest<any> = req;
 
+    console.log("opa");
     if (token) {
       request = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`)
+        headers: req.headers.set('x-access-token', token)
       });
     }
 

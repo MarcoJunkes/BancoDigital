@@ -27,7 +27,11 @@ public class UsuarioService {
 
     public void cadastro(CadastroRequestDTO cadastroRequest) throws Exception {
         String senha = passwordEncoder.encode(cadastroRequest.getSenha());
-        Usuario usuario = new Usuario(cadastroRequest.getEmail(), senha, cadastroRequest.getPerfil());
+        Usuario usuario = new Usuario(
+                cadastroRequest.getEmail(),
+                senha,
+                cadastroRequest.getPerfil(),
+                cadastroRequest.getCpf());
         try {
             usuarioRepository.save(usuario);
         } catch (DuplicateKeyException e) {
