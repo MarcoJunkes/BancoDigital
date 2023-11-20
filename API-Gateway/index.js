@@ -56,6 +56,9 @@ app.post('/logout', (req, res, next) => {
 });
 
 // contas-service
+app.get('/contas/:numero', verifyJWT, (req, res, next) => {
+    contasServiceProxy(req, res, next);
+});
 app.get('/operacoes/:numero', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
