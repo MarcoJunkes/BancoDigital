@@ -1,12 +1,12 @@
 export enum OperacaoDirecao {
-  ENTRADA = 'entrada',
-  SAIDA = 'saida',
+  ENTRADA = 'ENTRADA',
+  SAIDA = 'SAIDA',
 }
 
 export enum OperacaoTipo {
-  TRANSFERENCIA = 'transferencia',
-  SAQUE = 'saque',
-  DEPOSITO = 'deposito',
+  TRANSFERENCIA = 'TRANSFERENCIA',
+  SAQUE = 'SAQUE',
+  DEPOSITO = 'DEPOSITO',
 }
 
 export class Operacao {

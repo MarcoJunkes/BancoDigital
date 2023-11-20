@@ -30,24 +30,6 @@ export class LoginComponent {
         this.message = params['error'];
       });
   }
-/* Código Matheus
-  logar(): void {
-    this.loading = true;
-    if (this.formLogin.form.valid) {
-      this.loginService.login(this.login).subscribe((usu) => {
-        if (usu != null) {
-          this.loginService.usuarioLogado = usu;
-          this.loading = false;
-          //console.log('usu', usu);
-          //console.log('loginService usuarioLogado', this.loginService.usuarioLogado.perfil);
-          this.redirecionaUsuarioLogado();
-        } else {
-          this.message = "E-mail/Senha inválidos.";
-        }
-      });
-    }
-    this.loading = false;
-  } */
 
   public logar(): void {
     this.loading = true;
@@ -72,6 +54,7 @@ export class LoginComponent {
   }
 
   redirecionaUsuarioLogado() {
+    console.log(this.loginService.usuarioLogado)
     if (this.loginService.usuarioLogado.perfil === "cliente")
       this.router.navigate(["/cliente/home"]);
     else if (this.loginService.usuarioLogado.perfil === "gerente")
