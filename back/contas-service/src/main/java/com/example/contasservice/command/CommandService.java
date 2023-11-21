@@ -139,9 +139,11 @@ public class CommandService {
             String gerenteCpf = (String) ((Object[]) gerenteComMaisContasRaw.get(0))[1];
             Conta contaNovoGerente = contaRepository.getFirstByGerente_Cpf(gerenteCpf);
 
-            contaNovoGerente.setGerente(gerente);
-            contaRepository.save(contaNovoGerente);
-            sendContaSyncEvent(contaNovoGerente);
+            if(contaNovoGerente != null){
+                contaNovoGerente.setGerente(gerente);
+                contaRepository.save(contaNovoGerente);
+                sendContaSyncEvent(contaNovoGerente);
+            }
         }
 
         rabbitTemplate.convertAndSend("contas_service__novo_gerente__response", insercaoGerenteEvent);
