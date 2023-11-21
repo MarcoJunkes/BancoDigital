@@ -21,6 +21,12 @@ public class RabbitMQConfig{
     @Value("contas_service__novo_cliente")
     private String novoCliente;
 
+    @Value("service_conta__request_aprovar_conta")
+    private String requestAprovarConta;
+
+    @Value("service_conta__response_aprovar_conta")
+    private String responseAprovarConta;
+
     @Bean
     public Queue requestAutoCadastroQueue(){
         return new Queue(requestAutoCadastro, true);
@@ -34,6 +40,16 @@ public class RabbitMQConfig{
     @Bean
     public Queue novoClientQueue(){
         return new Queue(novoCliente, true);
+    }
+
+    @Bean
+    public Queue requestAprovarContaQueue(){
+        return new Queue(requestAprovarConta, true);
+    }
+
+    @Bean
+    public Queue responseAprovarContaQueue(){
+        return new Queue(responseAprovarConta, true);
     }
 
     @Bean

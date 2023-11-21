@@ -7,6 +7,13 @@ import com.example.contasservice.dto.TransferenciaRequestDTO;
 import com.example.contasservice.exceptions.ContaNotFound;
 import com.example.contasservice.exceptions.ValorNegativoBadRequest;
 import com.example.contasservice.query.QueryService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +21,11 @@ import org.springframework.web.bind.annotation.*;
 public class ContaController {
     private CommandService commandService;
     private QueryService queryService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     ContaController(CommandService commandService, QueryService queryService) {
         this.commandService = commandService;
@@ -56,10 +68,18 @@ public class ContaController {
         }
     }
 
-    @PostMapping("/clientes/{cpf}/aprovar")
+    /*@PostMapping("/clientes/{cpf}/aprovar")
     public ResponseEntity aprovarCliente(@PathVariable String cpf) {
         commandService.aprovarConta(cpf);
         return ResponseEntity.ok().build();
+    }*/
+
+    @RabbitListener(queues = "service_conta__request_aprovar_conta")
+    public void aprovarCliente(String msg) throws JsonMappingException, JsonProcessingException {
+        String cpf = objectMapper.readValue(msg, String.class);
+        commandService.aprovarConta(cpf);
+        String json = objectMapper.writeValueAsString(cpf);
+        rabbitTemplate.convertAndSend("service_conta__response_aprovar_conta", json);
     }
 
     @PostMapping("/clientes/{cpf}/rejeitar")
