@@ -1,48 +1,27 @@
-package br.net.consutarclientes.model;
+package com.example.autocadastro.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name="cliente")
 public class Cliente implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
-    @Column(name="nome")
     private String nome;
-    @Column(name="email")
     private String email;
-    @Column(name="cpf")
     private String cpf;
-    @Column(name="telefone")
     private String telefone;
-    @Column(name="salario")
     private float salario;
-    @Column(name="rua")
     private String rua;
-    @Column(name="logradouro")
     private String logradouro;
-    @Column(name="numero")
     private String numero;
-    @Column(name="complemento")
     private String complemento;
-    @Column(name="CEP")
     private String CEP;
-    @Column(name="cidade")
     private String cidade;
-    @Column(name="estado")
     private String estado;
 
     public Cliente(){
         super();
     }
 
-    public Cliente(Long id, String nome, String email, String cpf, String telefone, float salario, String rua, String logradouro, String numero, String complemento, String CEP, String cidade, String estado){
+    public Cliente(String nome, String email, String cpf, String telefone, float salario, String rua, String logradouro, String numero, String complemento, String CEP, String cidade, String estado){
         super();
-        this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
@@ -55,14 +34,6 @@ public class Cliente implements Serializable{
         this.CEP = CEP;
         this.cidade = cidade;
         this.estado = estado;
-    }
-
-    public Long getId(){
-        return id;
-    }
-
-    public void setId(Long id){
-        this.id = id;
     }
 
     public String getNome(){
