@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.inserir_gerente.model.Cadastro;
 import com.example.inserir_gerente.model.Gerente;
 import com.example.inserir_gerente.model.InsercaoGerenteEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,15 +33,25 @@ public class InserirGerenteREST {
     @RabbitListener(queues = "service_gerente__response_inserir_gerente")
     public void inserirGerenteConta(String msg) {
         try {
-            System.out.println("Mensagem: " + msg);
             InsercaoGerenteEvent gerente = objectMapper.readValue(msg, InsercaoGerenteEvent.class);
-            System.out.println("Mensagem convertida: " + gerente);
             String json = objectMapper.writeValueAsString(gerente);
-            System.out.println("Mensagem convertida novamente: " + json);
             rabbitTemplate.convertAndSend("contas_service__novo_gerente", json);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             System.out.println("Erro ao processar a resposta do serviço de gerente");
+        }
+    }
+
+    @RabbitListener(queues = "service_gerente__response_inserir_gerente__dados_cadastro")
+    public void receberDadosCadastro(String msg){
+        try{
+            System.out.println("Dados não convertido: " + msg);
+            Cadastro cadastro = objectMapper.readValue(msg, Cadastro.class);
+            System.out.println("Dados de cadastro" + cadastro);
+
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+            System.out.println("Erro ao processar a resposta do serviço de gerente dos dados de cadastro");
         }
     }
     

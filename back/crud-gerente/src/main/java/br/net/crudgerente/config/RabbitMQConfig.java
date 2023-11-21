@@ -17,6 +17,9 @@ public class RabbitMQConfig {
     @Value("service_gerente__response_inserir_gerente")
     private String responseInserirGerente;
 
+    @Value("service_gerente__response_inserir_gerente__dados_cadastro")
+    private String responseInserirGerenteDadosCadastro;
+
     @Bean
     public Queue requestInserirGerentQueue(){
         return new Queue(requestInserirGerente, true);
@@ -25,6 +28,11 @@ public class RabbitMQConfig {
     @Bean
     public Queue responseInserirGerenteQueue(){
         return new Queue(responseInserirGerente, true);
+    }
+
+    @Bean
+    public Queue responseInserirGerenteDadosCadastroQueue(){
+        return new Queue(responseInserirGerenteDadosCadastro, true);
     }
     
     @Bean
