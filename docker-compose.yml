@@ -123,6 +123,16 @@ services:
     networks:
       - bantads_network
 
+  saga-autocadastro:
+    build: ./SAGAs/autocadastro
+    restart: always
+    ports:
+      - "8085:4000"
+    volumes:
+      - ./SAGAs/autocadastro:/app
+    networks:
+      - bantads_network
+
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
     container_name: 'rabbitmq'
