@@ -1,4 +1,4 @@
-package com.example.contasservice.event;
+package com.example.inserir_gerente.model;
 
 import java.io.Serializable;
 

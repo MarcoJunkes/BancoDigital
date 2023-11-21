@@ -20,6 +20,10 @@ import com.example.contasservice.repository.write.ClienteRepository;
 import com.example.contasservice.repository.write.ContaRepository;
 import com.example.contasservice.repository.write.GerenteRepository;
 import com.example.contasservice.repository.write.MovimentacaoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -32,6 +36,9 @@ import java.util.*;
 
 @Service
 public class CommandService {
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     private ContaRepository contaRepository;
     private ClienteRepository clienteRepository;
     private GerenteRepository gerenteRepository;
@@ -132,9 +139,11 @@ public class CommandService {
             String gerenteCpf = (String) ((Object[]) gerenteComMaisContasRaw.get(0))[1];
             Conta contaNovoGerente = contaRepository.getFirstByGerente_Cpf(gerenteCpf);
 
-            contaNovoGerente.setGerente(gerente);
-            contaRepository.save(contaNovoGerente);
-            sendContaSyncEvent(contaNovoGerente);
+            if(contaNovoGerente != null){
+                contaNovoGerente.setGerente(gerente);
+                contaRepository.save(contaNovoGerente);
+                sendContaSyncEvent(contaNovoGerente);
+            }
         }
 
         rabbitTemplate.convertAndSend("contas_service__novo_gerente__response", insercaoGerenteEvent);

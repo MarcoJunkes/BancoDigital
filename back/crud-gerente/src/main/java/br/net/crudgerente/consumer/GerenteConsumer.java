@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.net.crudgerente.model.Gerente;
+import br.net.crudgerente.model.InsercaoGerenteEvent;
 import br.net.crudgerente.rest.GerenteREST;
 
 @Component
@@ -27,9 +28,21 @@ public class GerenteConsumer {
             var gerente = objectMapper.readValue(msg, Gerente.class);
             gerenteREST.inserirGerente(gerente);
 
-            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", "Sucesso");
-        } catch(Exception e){
-            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e);
+            String cpf = gerente.getCPF();
+            String nome = gerente.getNome();
+
+            InsercaoGerenteEvent insercaoGerenteEvent = new InsercaoGerenteEvent();
+            insercaoGerenteEvent.setCpf(cpf);
+            insercaoGerenteEvent.setNome(nome);
+
+            String json = objectMapper.writeValueAsString(insercaoGerenteEvent);
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());
         }
     }
 }
