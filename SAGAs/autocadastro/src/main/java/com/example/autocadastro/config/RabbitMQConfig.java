@@ -15,12 +15,28 @@ public class RabbitMQConfig{
     @Value("service_cliente__request_autocadastro")
     private String requestAutoCadastro;
 
+    @Value("service_cliente__response_autocadastro")
+    private String responseAutoCadastro;
+
+    @Value("contas_service__novo_cliente")
+    private String novoCliente;
+
     @Bean
     public Queue requestAutoCadastroQueue(){
         return new Queue(requestAutoCadastro, true);
     }
 
-        @Bean
+    @Bean 
+    public Queue responseAutoCadastroQueue(){
+        return new Queue(responseAutoCadastro, true);
+    }
+
+    @Bean
+    public Queue novoClientQueue(){
+        return new Queue(novoCliente, true);
+    }
+
+    @Bean
     public ObjectMapper objectMapper(){
         return JsonMapper.builder().findAndAddModules().build();
     }

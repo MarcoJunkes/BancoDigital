@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.net.consutarclientes.model.Cliente;
+import br.net.consutarclientes.model.NovaContaEvent;
 import br.net.consutarclientes.rest.ClienteREST;
 
 @Component
@@ -23,7 +24,27 @@ public class ClienteConsumer {
 
     @RabbitListener(queues = "service_cliente__request_autocadastro")
     public void autoCadastro(String msg) throws JsonMappingException, JsonProcessingException{
-        var cliente = objectMapper.readValue(msg, Cliente.class);
-        clienteREST.inserirCliente(cliente);
+        try{
+            var cliente = objectMapper.readValue(msg, Cliente.class);
+            clienteREST.inserirCliente(cliente);
+
+            String cpf = cliente.getCPF();
+            String nome = cliente.getNome();
+            float salario = cliente.getSalario();
+
+            NovaContaEvent novaConta = new NovaContaEvent();
+            novaConta.setCpf(cpf);
+            novaConta.setNome(nome);
+            novaConta.setSalario(salario);
+
+            String json = objectMapper.writeValueAsString(novaConta);
+            rabbitTemplate.convertAndSend("service_cliente__response_autocadastro", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_cliente__response_autocadastro", e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_cliente__response_autocadastro", e.getMessage());
+        }
     }
 }
