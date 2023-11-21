@@ -1,4 +1,4 @@
-package com.example.contasservice.event;
+package com.example.autocadastro.model;
 
 import java.io.Serializable;
 
@@ -49,3 +49,4 @@ public class NovaContaEvent implements Serializable {
         this.salario = salario;
     }
 }
+

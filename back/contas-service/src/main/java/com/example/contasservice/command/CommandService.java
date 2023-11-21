@@ -62,45 +62,54 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__novo_cliente")
     public void createConta(NovaContaEvent novaContaEvent) {
-        LOGGER.info("started createConta", novaContaEvent);
+        try{
+            LOGGER.info("started createConta", novaContaEvent);
 
-        List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
-        if (gerenteRaw.isEmpty()) {
-            rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", new NovaContaEvent());
+            List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
+            if (gerenteRaw.isEmpty()) {
+                rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", new NovaContaEvent());
+            }
+            String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
+            Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
+
+            if (gerente == null) {
+                LOGGER.error("Gerente não encontrado para CPF: {}", gerenteCpf);
+                return; // Não cria mais a conta se o gerente não for encontrado
+            }
+
+            Cliente novoCliente = new Cliente();
+            novoCliente.setCpf(novaContaEvent.getCpf());
+            novoCliente.setNome(novaContaEvent.getNome());
+            Cliente cliente = clienteRepository.save(novoCliente);
+
+            Conta conta = new Conta();
+            conta.setCliente(cliente);
+            if (novaContaEvent.getSalario() >= 2000) {
+                conta.setLimite(novaContaEvent.getSalario() / 2);
+            }
+
+            conta.setGerente(gerente);
+            conta.setSaldo(0f);
+            conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
+            Conta contaSaved = contaRepository.save(conta);
+            NovaContaDto novaContaDto = new NovaContaDto();
+            novaContaDto.setNumero(contaSaved.getNumero());
+            novaContaDto.setLimite(contaSaved.getLimite());
+            novaContaDto.setSaldo(contaSaved.getSaldo());
+            novaContaDto.setDataCriacao(contaSaved.getDataCriacao());
+            novaContaDto.setStatus(contaSaved.getStatus());
+            novaContaDto.setGerenteCpf(contaSaved.getGerente().getCpf());
+            novaContaDto.setGerenteNome(contaSaved.getGerente().getNome());
+            novaContaDto.setClienteCpf(contaSaved.getCliente().getCpf());
+            novaContaDto.setClienteNome(contaSaved.getCliente().getNome());
+
+            rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaDto);
+            rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", novaContaDto);
+
+            LOGGER.info("finished createConta");
+        } catch (Exception e) {
+            LOGGER.error("Erro ao processar nova conta: {}", e.getMessage(), e);
         }
-        String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
-        Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
-
-        Cliente novoCliente = new Cliente();
-        novoCliente.setCpf(novaContaEvent.getCpf());
-        novoCliente.setNome(novaContaEvent.getNome());
-        Cliente cliente = clienteRepository.save(novoCliente);
-
-        Conta conta = new Conta();
-        conta.setCliente(cliente);
-        if (novaContaEvent.getSalario() >= 2000) {
-            conta.setLimite(novaContaEvent.getSalario() / 2);
-        }
-
-        conta.setGerente(gerente);
-        conta.setSaldo(0f);
-        conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
-        Conta contaSaved = contaRepository.save(conta);
-        NovaContaDto novaContaDto = new NovaContaDto();
-        novaContaDto.setNumero(contaSaved.getNumero());
-        novaContaDto.setLimite(contaSaved.getLimite());
-        novaContaDto.setSaldo(contaSaved.getSaldo());
-        novaContaDto.setDataCriacao(contaSaved.getDataCriacao());
-        novaContaDto.setStatus(contaSaved.getStatus());
-        novaContaDto.setGerenteCpf(contaSaved.getGerente().getCpf());
-        novaContaDto.setGerenteNome(contaSaved.getGerente().getNome());
-        novaContaDto.setClienteCpf(contaSaved.getCliente().getCpf());
-        novaContaDto.setClienteNome(contaSaved.getCliente().getNome());
-
-        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaDto);
-        rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", novaContaDto);
-
-        LOGGER.info("finished createConta");
     }
 
     @RabbitListener(queues="contas_service__alterar_perfil")
