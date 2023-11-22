@@ -19,15 +19,12 @@ export class AdministradorService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'/*,
-      'x-access-token': this.loginService.getAuthorizationToken()*/
+      'Content-Type': 'application/json'
     })
   };
 
   
   public listarTodosGerentes(): Observable<any> {
-    const token = this.loginService.getAuthorizationToken();
-    console.log('Token: ', token);
     return this.http.get<any>(`${environment.api}/gerentes`, this.httpOptions);
   }
 

@@ -67,17 +67,17 @@ app.post('/operacoes/:numero/transferencia', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
 
-
+// gerente-service
 app.get('/gerentes', verifyJWT, (req, res, next) => {
     gerentesGetServiceProxy(req, res, next);
 })
-app.put('/gerentes/:id'/*, verifyJWT*/, (req, res, next) => {
+app.put('/gerentes/:id', verifyJWT, (req, res, next) => {
     gerentesPutServiceProxy(req, res, next);
 });
-app.get('/gerentes/:id'/*, verifyJWT*/, (req, res, next) => {
+app.get('/gerentes/:id', verifyJWT, (req, res, next) => {
     gerentesGetServiceProxy(req, res, next);
 });
-app.post('/inserirGerentes'/*, verifyJWT*/, (req, res, next) => {
+app.post('/inserirGerentes', verifyJWT, (req, res, next) => {
     gerentesPostServiceProxy(req, res, next);
 })
 
