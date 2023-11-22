@@ -23,8 +23,10 @@ public class InserirGerenteREST {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @PostMapping("/inserirGerentes")
-    public ResponseEntity inserirGerentes(@RequestBody Gerente gerenteRequest) throws JsonProcessingException {
+    // @PostMapping("/inserirGerentes")
+    @PostMapping("/gerentes/inserir") // Testando esse nome para ficar padronizado (?) Faz sentido? Se der errado mudar index.js (API-Gateway) e adminstrador.service.ts
+    public ResponseEntity inserirGerentes(@RequestBody Gerente gerenteRequest) throws JsonProcessingException{
+
         var json = objectMapper.writeValueAsString(gerenteRequest);
         rabbitTemplate.convertAndSend("service_gerente__request_inserir_gerente", json);
         return ResponseEntity.created(null).build();

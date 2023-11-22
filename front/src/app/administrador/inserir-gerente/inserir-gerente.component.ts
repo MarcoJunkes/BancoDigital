@@ -31,7 +31,6 @@ export class InserirGerenteComponent implements OnInit {
           this.router.navigate( ["/administrador/gerentes"]);
         }
       );
-      console.log('inserir-gerente.component.ts: ', this.gerente);
     }
     this.loading = false;
   }

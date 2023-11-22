@@ -1,9 +1,12 @@
 const httpProxy = require("express-http-proxy");
 
-var gerentesAPI = 'http://localhost:8082';
+// var gerentesAPI = 'http://localhost:8082';
+var gerentesAPI = 'http://172.18.0.11:3100';
 var gerenteSagaInserir = 'http://172.18.0.2:3200';
+var gerenteSagaRemover = '';
 
 const gerentesGetServiceProxy = httpProxy(gerentesAPI);
+const gerentesDeleteServiceProxy = httpProxy(gerentesAPI); // mudar para (gerenteSagaRemover)
 const gerentesPostServiceProxy = httpProxy(gerenteSagaInserir, {
     proxyReqBodyDecorator: function (bodyContent, srcReq) {
         try {
@@ -13,7 +16,6 @@ const gerentesPostServiceProxy = httpProxy(gerenteSagaInserir, {
             retBody.cpf = bodyContent.cpf;
             retBody.telefone = bodyContent.telefone;
             bodyContent = retBody;
-            console.log('API-Gateway/index.js: retBody = ', retBody);
         }
         catch (e) {
             console.log('- ERRO: ' + e);
@@ -35,7 +37,6 @@ const gerentesPutServiceProxy = httpProxy(gerentesAPI, {
             retBody.cpf = bodyContent.cpf;
             retBody.telefone = bodyContent.telefone;
             bodyContent = retBody;
-            console.log('API-Gateway/index.js: retBody = ', retBody);
         }
         catch (e) {
             console.log('- ERRO: ' + e);
@@ -52,5 +53,6 @@ const gerentesPutServiceProxy = httpProxy(gerentesAPI, {
 module.exports = {
   gerentesGetServiceProxy,
   gerentesPostServiceProxy,
-  gerentesPutServiceProxy
+  gerentesPutServiceProxy,
+  gerentesDeleteServiceProxy
 }

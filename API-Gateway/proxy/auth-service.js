@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const httpProxy = require("express-http-proxy");
 
-var authAPI = 'http://localhost:8080';
+// var authAPI = 'http://localhost:8080';
+var authAPI = 'http://172.18.0.10:8080';
 
 const authServiceProxy = httpProxy(authAPI, {
   proxyReqBodyDecorator: function(bodyContent, srcReq) {
