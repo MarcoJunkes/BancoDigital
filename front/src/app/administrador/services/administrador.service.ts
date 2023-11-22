@@ -5,8 +5,6 @@ import { LoginService } from 'src/app/auth/services/login.service';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { environment } from 'src/environments/environment';
 
-// const LS_CHAVE: string = "admin";
-
 @Injectable({
   providedIn: 'root'
 })

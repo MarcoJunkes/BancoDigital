@@ -223,6 +223,7 @@
             class="btn btn-primary py-3 px-5"
             type="submit"
             (click)="cadastro()"
+            [disabled]="!formCadastro.form.valid"
           >
             Cadastrar
           </button>
