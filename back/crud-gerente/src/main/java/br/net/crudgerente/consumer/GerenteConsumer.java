@@ -9,7 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.net.crudgerente.model.Cadastro;
 import br.net.crudgerente.model.Gerente;
+import br.net.crudgerente.model.InsercaoGerenteEvent;
 import br.net.crudgerente.rest.GerenteREST;
 
 @Component
@@ -27,9 +29,31 @@ public class GerenteConsumer {
             var gerente = objectMapper.readValue(msg, Gerente.class);
             gerenteREST.inserirGerente(gerente);
 
-            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", "Sucesso");
-        } catch(Exception e){
-            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e);
+            String cpf = gerente.getCPF();
+            String nome = gerente.getNome();
+            String email = gerente.getEmail();
+            String senha = gerente.getSenha();
+
+            InsercaoGerenteEvent insercaoGerenteEvent = new InsercaoGerenteEvent();
+            insercaoGerenteEvent.setCpf(cpf);
+            insercaoGerenteEvent.setNome(nome);
+
+            Cadastro cadastro = new Cadastro();
+            cadastro.setEmail(email);
+            cadastro.setSenha(senha);
+            cadastro.setPerfil("gerente");
+
+            String json = objectMapper.writeValueAsString(insercaoGerenteEvent);
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", json);
+
+            String json2 = objectMapper.writeValueAsString(cadastro);
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente__dados_cadastro",json2);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());
         }
     }
 }

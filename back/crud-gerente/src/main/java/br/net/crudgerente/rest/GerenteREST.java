@@ -51,6 +51,7 @@ public class GerenteREST {
             g.setEmail(gerente.getEmail());
             g.setCPF(gerente.getCPF());
             g.setTelefone(gerente.getTelefone());
+            g.setSenha(gerente.getSenha());
             Gerente gerenteAtualizado = repo.save(g);
             return mapper.map(gerenteAtualizado, Gerente.class);
         }

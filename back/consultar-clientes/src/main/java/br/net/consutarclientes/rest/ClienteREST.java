@@ -49,10 +49,17 @@ public class ClienteREST {
 
         if(c != null){
             c.setNome(cliente.getNome());
+            c.setEmail(cliente.getEmail());
             c.setCPF(cliente.getCPF());
+            c.setTelefone(cliente.getTelefone());
+            c.setSalario(cliente.getSalario());
+            c.setRua(cliente.getRua());
+            c.setLogradouro(cliente.getLogradouro());
+            c.setNumero(cliente.getNumero());
+            c.setComplemento(cliente.getComplemento());
+            c.setCEP(cliente.getCEP());
             c.setCidade(cliente.getCidade());
             c.setEstado(cliente.getEstado());
-            c.setSaldo(cliente.getSaldo());
             Cliente clienteAtualizado = repo.save(c);
             return mapper.map(clienteAtualizado, Cliente.class);
         }
