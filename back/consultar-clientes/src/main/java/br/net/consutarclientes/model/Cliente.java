@@ -16,7 +16,7 @@ public class Cliente implements Serializable{
     @Column(name="email")
     private String email;
     @Column(name="cpf")
-    private String cpf;
+    private String CPF;
     @Column(name="telefone")
     private String telefone;
     @Column(name="salario")
@@ -45,7 +45,7 @@ public class Cliente implements Serializable{
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.cpf = cpf;
+        this.CPF = cpf;
         this.telefone = telefone;
         this.salario = salario;
         this.rua = rua;
@@ -82,11 +82,11 @@ public class Cliente implements Serializable{
     }
 
     public String getCPF(){
-        return cpf;
+        return CPF;
     }
 
     public void setCPF(String cpf){
-        this.cpf = cpf;
+        this.CPF = cpf;
     }
 
     public String getTelefone(){
