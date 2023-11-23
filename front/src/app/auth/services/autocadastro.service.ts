@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Cliente } from "src/app/shared/models/cliente.model";
+import { Usuario } from "src/app/shared";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -19,8 +19,8 @@ export class autocadastroService {
         })
     };
 
-    public autocadastro(cliente: Cliente): Observable<any> {
-        return this.http.post<any>(`${environment.api}/autocadastro`, cliente, this.httpOptions);
+    public autocadastro(usuario: Usuario): Observable<any> {
+        return this.http.post<any>(`${environment.api}/autocadastro`, usuario, this.httpOptions);
     }
 }
   

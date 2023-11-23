@@ -26,8 +26,8 @@ export class CadastroComponent implements OnInit {
   ngOnInit(): void {
     this.endereco = new Endereco();
     this.usuario = new Usuario();
-    this.cliente = new Cliente();
-  }
+    // this.cliente = new Cliente();
+  } 
 
   buscaEndereco() {
     this.viacepService.getAddress(this.formCadastro.form.get('cep')?.value)
@@ -47,12 +47,12 @@ export class CadastroComponent implements OnInit {
 
   cadastro(): void {
     if (this.formCadastro.form.valid) {
-      this.autocadastroService.autocadastro(this.cliente).subscribe(
-        cliente => {
+      this.autocadastroService.autocadastro(this.usuario).subscribe(
+        usuario => {
           this.router.navigate( ["/login"]);
         }
       );
-      console.log(this.cliente);
+      // Está enviando os dados certinho
     }
   }
 }

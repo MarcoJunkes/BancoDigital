@@ -116,7 +116,7 @@
               id="cep"
               name="cep"
               placeholder="Seu CEP"
-              [(ngModel)]="endereco.cep"
+              [(ngModel)]="usuario.cep"
               #cep="ngModel"
               mask="XXXXX-XXX"
               required
@@ -147,7 +147,7 @@
               class="form-control p-4"
               id="numero"
               name="numero"
-              [(ngModel)]="endereco.numero"
+              [(ngModel)]="usuario.numero"
               #numero="ngModel"
               required
               min="1"
@@ -167,7 +167,7 @@
               class="form-control p-4"
               id="rua"
               name="rua"
-              [(ngModel)]="endereco.rua"
+              [(ngModel)]="usuario.rua"
               #rua="ngModel"
               required
               readonly
@@ -183,7 +183,7 @@
               class="form-control p-4"
               id="estado"
               name="estado"
-              [(ngModel)]="endereco.estado"
+              [(ngModel)]="usuario.estado"
               #estado="ngModel"
               required
               readonly
@@ -197,7 +197,7 @@
               class="form-control p-4"
               id="cidade"
               name="cidade"
-              [(ngModel)]="endereco.cidade"
+              [(ngModel)]="usuario.cidade"
               #cidade="ngModel"
               required
               readonly
@@ -211,7 +211,7 @@
               class="form-control p-4"
               id="bairro"
               name="bairro"
-              [(ngModel)]="endereco.bairro"
+              [(ngModel)]="usuario.bairro"
               #bairro="ngModel"
               required
               readonly
