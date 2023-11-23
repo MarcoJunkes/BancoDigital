@@ -22,4 +22,10 @@ public class AuthConsumer {
         var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
         usuarioController.cadastro(usuario);
     }
+
+    @RabbitListener(queues = "service_auth__criar_registro_cliente")
+    public void criarRegistroCliente(String msg) throws JsonMappingException, JsonProcessingException{
+        var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
+        usuarioController.cadastro(usuario);
+    }
 }

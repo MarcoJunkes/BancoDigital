@@ -27,6 +27,15 @@ public class RabbitMQConfig{
     @Value("service_conta__response_aprovar_conta")
     private String responseAprovarConta;
 
+    @Value("service_cliente__request_buscarcpf")
+    private String requestBuscarCPF;
+
+    @Value("service_cliente__response_buscarcpf")
+    private String responseBuscarCPF;
+
+    @Value("service_auth__criar_registro_cliente")
+    private String criarRegistro;
+
     @Bean
     public Queue requestAutoCadastroQueue(){
         return new Queue(requestAutoCadastro, true);
@@ -50,6 +59,21 @@ public class RabbitMQConfig{
     @Bean
     public Queue responseAprovarContaQueue(){
         return new Queue(responseAprovarConta, true);
+    }
+    
+    @Bean
+    public Queue requestBuscarCPFQueue(){
+        return new Queue(requestBuscarCPF, true);
+    }
+
+    @Bean
+    public Queue responseBuscarCPFQueue(){
+        return new Queue(responseBuscarCPF, true);
+    }
+
+    @Bean
+    public Queue criarRegistroClientQueue(){
+        return new Queue(criarRegistro, true);
     }
 
     @Bean

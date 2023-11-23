@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.net.consutarclientes.repository.ClienteRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.net.consutarclientes.repository.ClienteRepository;
+import br.net.consutarclientes.model.AuthCliente;
 import br.net.consutarclientes.model.Cliente;
 
 @CrossOrigin
@@ -25,6 +31,10 @@ public class ClienteREST {
     private ClienteRepository repo;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @GetMapping("/clientes")
     public List<Cliente> obterCliente(){
@@ -35,6 +45,18 @@ public class ClienteREST {
     @GetMapping("/clientes/{id}")
     public Cliente obterCliente(@PathVariable("id") int id){
         return repo.findById((long) id).orElse(null);
+    }
+
+    @RabbitListener(queues = "service_cliente__request_buscarcpf")
+    public void obterClientePorCPF(String cpf) throws JsonMappingException, JsonProcessingException{
+        Cliente c = repo.findByCPF(cpf);
+        AuthCliente cliente = new AuthCliente();
+        cliente.setId(c.getId());
+        cliente.setEmail(c.getEmail());
+        cliente.setCPF(c.getCPF());
+
+        String json = objectMapper.writeValueAsString(cliente);
+        rabbitTemplate.convertAndSend("service_cliente__response_buscarcpf", json);
     }
 
     @PostMapping("/clientes")
