@@ -55,9 +55,6 @@ const authServiceProxy = httpProxy(authAPI, {
 
 const autoCadastroServiceProxy = httpProxy(autoCadastroAPI, {
   proxyReqBodyDecorator: function(bodyContent, srcReq) {
-    // intercepta a chamada ao /login, alterando, o corpo da mensagem, 
-    // converte user e password para objeto Login
-
     try {
         retBody = {};
         retBody.nome = bodyContent.nome;
@@ -73,6 +70,7 @@ const autoCadastroServiceProxy = httpProxy(autoCadastroAPI, {
         retBody.cidade = bodyContent.cidade;
         retBody.estado = bodyContent.estado;
         bodyContent = retBody;
+        console.log(bodyContent);
     }
     catch(e) {
         console.log('- ERRO: ' + e);

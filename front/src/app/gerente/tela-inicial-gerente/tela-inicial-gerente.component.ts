@@ -35,8 +35,12 @@ export class TelaInicialGerenteComponent implements OnInit{
   }
 
   aprovarCliente(usuario: Usuario){
-    this.gerenteService.aprovarCliente(usuario);
-    this.abrirModal('Aprovar');
+    console.log(usuario);
+    this.gerenteService.aprovarCliente(usuario).subscribe(
+      usuario => {
+        this.abrirModal('Aprovar');
+      }
+    );
   }
 
   ngOnInit(): void {

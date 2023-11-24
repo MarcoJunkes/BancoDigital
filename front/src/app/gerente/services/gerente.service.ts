@@ -38,6 +38,7 @@ export class GerenteService {
   }
 
   aprovarCliente(usuario: Usuario): Observable<any> {
+    console.log(`${environment.api}/aprovarConta/${usuario.cpf}`);
     return this.httpClient.post<any>(`${environment.api}/aprovarConta/${usuario.cpf}`, this.httpOptions);
   }
 }
