@@ -39,7 +39,7 @@ export class AdministradorService {
   }
 
   public removerGerente(id: number): Observable<any> {
-    // return this.http.delete<any>(`${environment.api}/gerentes/remover/${id}`, this.httpOptions);
+    // return this.http.delete<any>(`${environment.api}/removerGerentes/${id}`, this.httpOptions);
     return this.http.delete<any>(`${environment.api}/gerentes/${id}`, this.httpOptions);
   }
 }

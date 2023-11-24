@@ -14,6 +14,7 @@ import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 // Máscara data
 import { VERSION } from '@angular/core';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -29,11 +30,11 @@ registerLocaleData(ptBr);
     CommonModule,
     FormsModule,
     RouterModule,
-    // NgxMaskDirective,
-    // NgxMaskPipe
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
-    // provideNgxMask(),
+    provideNgxMask(),
     GerenteService,
     {
       provide: LOCALE_ID,

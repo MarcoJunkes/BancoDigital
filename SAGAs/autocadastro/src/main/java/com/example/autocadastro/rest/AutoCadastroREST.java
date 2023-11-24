@@ -68,7 +68,7 @@ public class AutoCadastroREST {
 
         CadastroRequestDTO cadastro = new CadastroRequestDTO();
         cadastro.setEmail(email);
-        cadastro.setSenha("teste");
+        cadastro.setSenha("teste123");
         cadastro.setPerfil("cliente");
         cadastro.setCpf(cpf);
 
