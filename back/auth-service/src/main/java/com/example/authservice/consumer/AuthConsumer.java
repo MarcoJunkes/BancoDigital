@@ -1,7 +1,6 @@
 package com.example.authservice.consumer;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +16,15 @@ public class AuthConsumer {
     private ObjectMapper objectMapper;
     @Autowired
     private UsuarioController usuarioController;
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = "service_gerente__response_inserir_gerente__dados_cadastro")
     public void criarRegistroCadastro(String msg) throws JsonMappingException, JsonProcessingException{
+        var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
+        usuarioController.cadastro(usuario);
+    }
+
+    @RabbitListener(queues = "service_auth__criar_registro_cliente")
+    public void criarRegistroCliente(String msg) throws JsonMappingException, JsonProcessingException{
         var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
         usuarioController.cadastro(usuario);
     }

@@ -14,9 +14,17 @@ public class RabbitMQConfig {
     @Value("service_gerente__response_inserir_gerente__dados_cadastro")
     private String responseInserirGerenteDadosCadastro;
 
+    @Value("service_auth__criar_registro_cliente")
+    private String criarRegistro;
+
     @Bean
     public Queue responseInserirGerenteDadosCadastroQueue(){
         return new Queue(responseInserirGerenteDadosCadastro, true);
+    }
+
+    @Bean
+    public Queue criarRegistroClientQueue(){
+        return new Queue(criarRegistro, true);
     }
 
     @Bean

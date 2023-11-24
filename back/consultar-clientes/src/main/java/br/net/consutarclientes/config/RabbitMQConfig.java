@@ -17,6 +17,22 @@ public class RabbitMQConfig {
     @Value("service_cliente__response_autocadastro")
     private String responseAutoCadastro;
 
+    @Value("service_cliente__request_buscarcpf")
+    private String requestBuscarCPF;
+
+    @Value("service_cliente__response_buscarcpf")
+    private String responseBuscarCPF;
+
+    @Bean
+    public Queue requestBuscarCPFQueue(){
+        return new Queue(requestBuscarCPF, true);
+    }
+
+    @Bean
+    public Queue responseBuscarCPFQueue(){
+        return new Queue(responseBuscarCPF, true);
+    }
+
     @Bean
     public Queue requestAutoCadastroQueue(){
         return new Queue(requestAutoCadastro, true);
