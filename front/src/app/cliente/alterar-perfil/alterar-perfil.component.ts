@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Endereco, Usuario, ViaCepService } from 'src/app/shared';
+import { ContaService } from '../services/conta.service';
 
 @Component({
   selector: 'app-alterar-perfil',
@@ -16,14 +17,27 @@ export class AlterarPerfilComponent implements OnInit {
 
   constructor(
     private viacepService: ViaCepService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private contasService: ContaService,
   ) {}
 
   ngOnInit(): void {
     this.endereco = new Endereco();
     this.usuario = this.loginService.usuarioLogado;
-    this.saldo = 123;
-    this.gerente = 'Fulano';
+    this.contasService.buscarContaCliente().subscribe(
+      ({conta, cliente}) => {
+        this.saldo = conta.saldo || 0;
+        this.usuario = cliente;
+        this.endereco = new Endereco(
+          this.usuario.cep,
+          this.usuario.rua,
+          this.usuario.numero,
+          this.usuario.estado,
+          this.usuario.bairro,
+          this.usuario.cidade,
+        );
+      }
+    );
   }
 
   buscaEndereco() {
