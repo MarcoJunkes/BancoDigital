@@ -6,12 +6,25 @@
     <div class="row  justify-content-center">
         <div class="col-3"></div>
         <div class="col-8">
-            <input type="text" class="col-3 m-2" placeholder="CPF">
-            <button class="col-2 m-2 btn btn-primary" (click)="abrirModalCliente({id: 1, cpf: '123.456.789-12', nome: 'Tiago', cidade: 'Curitiba', estado: 'PR', gerente: 'Fulano', limite: 1000, salario: 1000, saldo: 2500})">
-                Pesquisar por CPF</button>
-                <!-- <a  title="Pesquisar cliente" alt="Visualizar" class="btn btn-primary btn-sm mb-1"
-                            (click)="abrirModalCliente()"></a> -->
-            <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
+            <form formConsultarCliente="ngForm">
+                <div class="control-group">
+            <input type="text"
+            class="form-control col-3 m-2"
+            placeholder="CPF"
+            mask="XXX.XXX.XXX-XX"
+            id="cpf"
+            name="cpf"
+            [(ngModel)]="usuario.cpf"
+            #cpf="ngModel">
+            <button class="col-2 m-2 btn btn-primary"
+            type="submit"
+            (click)="pesquisarCliente()"
+            [disabled]="!formConsultarCliente.form.valid">
+                Pesquisar por CPF
+            </button>
+            <button class="col-2 m-2 btn btn-primary" type="submit" (click)="limparForm()">Limpar pesquisa</button>
+        </div>
+        </form>
         </div>
     </div>
 </div>

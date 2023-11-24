@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const axios = require("axios");
 
 const { authServiceProxy, autoCadastroServiceProxy } = require("./proxy/auth-service");
-const { clientesGetServiceProxy } = require("./proxy/clientes-service");
+const { clientesGetServiceProxy, clientesPostServiceProxy } = require("./proxy/clientes-service");
 const { contasServiceProxy } = require("./proxy/contas-service");
 const { gerentesGetServiceProxy, gerentesPostServiceProxy, gerentesPutServiceProxy, gerentesDeleteServiceProxy } = require("./proxy/gerentes-service");
 
@@ -55,43 +55,46 @@ app.post('/autocadastro', (req, res, next) => {
 });
 
 // clientes-service
-app.get('/clientes', verifyJWT, (req, res, next) => {
+app.get('/clientes', /*verifyJWT,*/ (req, res, next) => {
     clientesGetServiceProxy(req, res, next);
 });
-
+// Aprovar clietne
+app.post('/aprovarConta/:cpf', /*verifyJWT,*/ (req, res, next) => {
+    clientesPostServiceProxy(req, res, next);
+});
 
 // contas-service
-app.get('/contas/:numero', verifyJWT, (req, res, next) => {
+app.get('/contas/:numero', /*verifyJWT,*/ (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
-app.get('/operacoes/:numero', verifyJWT, (req, res, next) => {
+app.get('/operacoes/:numero', /*verifyJWT,*/ (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
-app.post('/operacoes/:numero/deposito', verifyJWT, (req, res, next) => {
+app.post('/operacoes/:numero/deposito', /*verifyJWT,*/ (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
-app.post('/operacoes/:numero/saque', verifyJWT, (req, res, next) => {
+app.post('/operacoes/:numero/saque', /*verifyJWT,*/ (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
-app.post('/operacoes/:numero/transferencia', verifyJWT, (req, res, next) => {
+app.post('/operacoes/:numero/transferencia', /*verifyJWT,*/ (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
 
 // gerente-service
-app.get('/gerentes', verifyJWT, (req, res, next) => {
+app.get('/gerentes', /*verifyJWT,*/ (req, res, next) => {
     gerentesGetServiceProxy(req, res, next);
 })
-app.put('/gerentes/:id', verifyJWT, (req, res, next) => {
+app.put('/gerentes/:id', /*verifyJWT,*/ (req, res, next) => {
     gerentesPutServiceProxy(req, res, next);
 });
-app.get('/gerentes/:id', verifyJWT, (req, res, next) => {
+app.get('/gerentes/:id', /*verifyJWT,*/ (req, res, next) => {
     gerentesGetServiceProxy(req, res, next);
 });
-app.post('/gerentes/inserir', verifyJWT, (req, res, next) => {
+app.post('/gerentes/inserir', /*verifyJWT,*/ (req, res, next) => {
     gerentesPostServiceProxy(req, res, next);
 })
 // Delete depois arrumar para o nome que estiver na SAGA de remover gerentes
-app.delete('/gerentes/:id', verifyJWT, (req, res, next) => {
+app.delete('/gerentes/:id', /*verifyJWT,*/ (req, res, next) => {
     gerentesDeleteServiceProxy(req, res, next);
 })
 

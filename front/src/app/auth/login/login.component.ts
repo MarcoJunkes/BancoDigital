@@ -40,8 +40,6 @@ export class LoginComponent {
           this.loading = false;
           this.loginService.setAuthorizationToken(output.token);
           this.loginService.usuarioLogado = output.data;
-
-          console.log('Login.compose.ts: ', this.loginService.usuarioLogado.perfil);
           
           this.redirecionaUsuarioLogado();
         },
@@ -54,7 +52,6 @@ export class LoginComponent {
   }
 
   redirecionaUsuarioLogado() {
-    console.log(this.loginService.usuarioLogado)
     if (this.loginService.usuarioLogado.perfil === "cliente")
       this.router.navigate(["/cliente/home"]);
     else if (this.loginService.usuarioLogado.perfil === "gerente")

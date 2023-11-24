@@ -14,7 +14,7 @@ export class CadastroComponent implements OnInit {
   public endereco!: Endereco;
   public usuario!: Usuario;
   public message!: string;
-  private cliente!: Cliente;
+  // private cliente!: Cliente;
   @ViewChild('formCadastro') formCadastro!: NgForm;
 
   constructor(

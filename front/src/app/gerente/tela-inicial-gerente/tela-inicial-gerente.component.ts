@@ -2,38 +2,45 @@ import { Component, OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalTelaInicialComponent } from '../modal-tela-inicial/modal-tela-inicial.component';
 import { GerenteService } from '../services/gerente.service';
-import { Cliente } from 'src/app/shared/models/cliente.model';
+// import { Cliente } from 'src/app/shared/models/cliente.model';
+import { Usuario } from 'src/app/shared';
 
 @Component({
   selector: 'app-tela-inicial-gerente',
   templateUrl: './tela-inicial-gerente.component.html'
 })
 export class TelaInicialGerenteComponent implements OnInit{
-  clientes: Cliente[] = [];
-
-  constructor(private modalService: NgbModal, private gerenteService: GerenteService){}
+  usuarios: Usuario[] = [];
+  usuario!: Usuario;
+  constructor(private modalService: NgbModal,
+              private gerenteService: GerenteService){}
   
+  listarTodos(): Usuario[] {
+    this.gerenteService.listarTodos().subscribe({
+      next: (data: Usuario[]) => {
+        if (data == null) {
+          this.usuarios = [];
+        }
+        else {
+          this.usuarios = data;
+        }
+      }
+    });
+    return this.usuarios;
+  }
+
   abrirModal(acao: string){
     const modalRef = this.modalService.open(ModalTelaInicialComponent);
     modalRef.componentInstance.acao = acao;
   }
 
-  ngOnInit(): void {
-      this.clientes = [];
-      this.listarTodos();
+  aprovarCliente(usuario: Usuario){
+    this.gerenteService.aprovarCliente(usuario);
+    this.abrirModal('Aprovar');
   }
 
-  listarTodos(): Cliente[] {
-    this.gerenteService.listarTodos().subscribe({
-      next: (data: Cliente[]) => {
-        if (data == null) {
-          this.clientes = [];
-        }
-        else {
-          this.clientes = data;
-        }
-      }
-    });
-    return this.clientes;
+  ngOnInit(): void {
+      this.usuarios = [];
+      this.listarTodos();
   }
 }

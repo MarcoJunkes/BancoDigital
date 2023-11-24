@@ -1,9 +1,8 @@
 const jwt = require("jsonwebtoken");
 const httpProxy = require("express-http-proxy");
 
-// var authAPI = 'http://localhost:8080';
-var authAPI = 'http://172.18.0.10:8080';
-var autoCadastroAPI = 'http://172.18.0.4:4000';
+var authAPI = 'http://localhost:8080';
+var autoCadastroAPI = 'http://localhost:8085';
 
 const authServiceProxy = httpProxy(authAPI, {
   proxyReqBodyDecorator: function(bodyContent, srcReq) {
@@ -61,18 +60,18 @@ const autoCadastroServiceProxy = httpProxy(autoCadastroAPI, {
 
     try {
         retBody = {};
-        retBody.nome = bodyContent.email;
-        retBody.email = bodyContent.senha;
-        retBody.cpf = bodyContent.senha;
-        retBody.telefone = bodyContent.senha;
-        retBody.salario = bodyContent.senha;
-        retBody.rua = bodyContent.senha;
-        retBody.logradouro = bodyContent.senha;
-        retBody.numero = bodyContent.senha;
-        retBody.complemento = bodyContent.senha;
-        retBody.cep = bodyContent.senha;
-        retBody.cidade = bodyContent.senha;
-        retBody.estado = bodyContent.senha;
+        retBody.nome = bodyContent.nome;
+        retBody.email = bodyContent.email;
+        retBody.cpf = bodyContent.cpf;
+        retBody.telefone = bodyContent.telefone;
+        retBody.salario = bodyContent.salario;
+        retBody.rua = bodyContent.rua;
+        retBody.logradouro = bodyContent.logradouro;
+        retBody.numero = bodyContent.numero;
+        retBody.complemento = bodyContent.complemento;
+        retBody.cep = bodyContent.cep;
+        retBody.cidade = bodyContent.cidade;
+        retBody.estado = bodyContent.estado;
         bodyContent = retBody;
     }
     catch(e) {

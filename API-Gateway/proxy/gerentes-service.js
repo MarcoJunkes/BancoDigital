@@ -1,8 +1,8 @@
 const httpProxy = require("express-http-proxy");
 
 // var gerentesAPI = 'http://localhost:8082';
-var gerentesAPI = 'http://172.18.0.12:3100';
-var gerenteSagaInserir = 'http://172.18.0.2:3200';
+var gerentesAPI = 'http://localhost:8082';
+var gerenteSagaInserir = 'http://localhost:8083';
 var gerenteSagaRemover = '';
 
 const gerentesGetServiceProxy = httpProxy(gerentesAPI);
