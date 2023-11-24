@@ -1,4 +1,4 @@
-package com.example.inserir_gerente.config;
+package com.example.remover_gerente.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,12 +11,20 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("service_gerente__request_inserir_gerente")
-    private String queue;
+    @Value("service_gerente__request_remover_gerente")
+    private String requestRemoverGerente;
+
+    @Value("service_gerente__response_remover_gerente")
+    private String responseInserirGerente;
 
     @Bean
-    public Queue queue(){
-        return new Queue(queue);
+    public Queue requestRemoverGerentQueue(){
+        return new Queue(requestRemoverGerente, true);
+    }
+
+    @Bean
+    public Queue responseRemoverGerenteQueue(){
+        return new Queue(responseInserirGerente, true);
     }
 
     @Bean

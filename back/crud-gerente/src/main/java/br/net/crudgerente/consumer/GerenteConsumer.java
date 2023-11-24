@@ -32,4 +32,15 @@ public class GerenteConsumer {
             rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e);
         }
     }
+
+    @RabbitListener(queues = "service_gerente__request_remover_gerente")
+    public void removerGerente(int id) throws JsonMappingException, JsonProcessingException{
+        try{
+            gerenteREST.removerGerente(id);
+
+            rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", "Sucesso");
+        } catch(Exception e){
+            rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", e);
+        }
+    }
 }
