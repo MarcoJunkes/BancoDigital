@@ -14,8 +14,6 @@ export class ListarGerenteComponent implements OnInit {
   constructor(private adminService: AdministradorService) { }
 
   ngOnInit(): void {
-    /* Angtigo
-    this.gerentes = this.listarTodos();*/
     this.listarTodosGerentes();
   }
 
@@ -40,17 +38,4 @@ export class ListarGerenteComponent implements OnInit {
       });
     }
   }
-/* Antigo
-  listarTodos(): void[] {
-    return this.adminService.listarTodos();
-  }*/
-
-/* Antigo
-  remover($event: any, gerente: Gerente): void {
-    $event.preventDefault();
-    if (confirm(`Deseja realmente remover a pessoa ${gerente.nome}?`)) {
-      this.adminService.remover(gerente.id!);
-      this.gerentes = this.listarTodos();
-    }
-  } */
 }

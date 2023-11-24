@@ -3,6 +3,7 @@ const httpProxy = require("express-http-proxy");
 
 // var authAPI = 'http://localhost:8080';
 var authAPI = 'http://172.18.0.10:8080';
+var autoCadastroAPI = 'http://172.18.0.4:4000';
 
 const authServiceProxy = httpProxy(authAPI, {
   proxyReqBodyDecorator: function(bodyContent, srcReq) {
@@ -53,6 +54,40 @@ const authServiceProxy = httpProxy(authAPI, {
   }
 });
 
+const autoCadastroServiceProxy = httpProxy(autoCadastroAPI, {
+  proxyReqBodyDecorator: function(bodyContent, srcReq) {
+    // intercepta a chamada ao /login, alterando, o corpo da mensagem, 
+    // converte user e password para objeto Login
+
+    try {
+        retBody = {};
+        retBody.nome = bodyContent.email;
+        retBody.email = bodyContent.senha;
+        retBody.cpf = bodyContent.senha;
+        retBody.telefone = bodyContent.senha;
+        retBody.salario = bodyContent.senha;
+        retBody.rua = bodyContent.senha;
+        retBody.logradouro = bodyContent.senha;
+        retBody.numero = bodyContent.senha;
+        retBody.complemento = bodyContent.senha;
+        retBody.cep = bodyContent.senha;
+        retBody.cidade = bodyContent.senha;
+        retBody.estado = bodyContent.senha;
+        bodyContent = retBody;
+    }
+    catch(e) {
+        console.log('- ERRO: ' + e);
+    }
+    return bodyContent;
+  },
+  proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
+    proxyReqOpts.headers['Content-Type'] = 'application/json';
+    proxyReqOpts.method = 'POST';
+    return proxyReqOpts;
+  },
+});
+
 module.exports = {
   authServiceProxy,
+  autoCadastroServiceProxy
 }

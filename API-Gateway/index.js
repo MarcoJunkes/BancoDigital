@@ -9,7 +9,8 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const axios = require("axios");
 
-const { authServiceProxy } = require("./proxy/auth-service");
+const { authServiceProxy, autoCadastroServiceProxy } = require("./proxy/auth-service");
+const { clientesGetServiceProxy } = require("./proxy/clientes-service");
 const { contasServiceProxy } = require("./proxy/contas-service");
 const { gerentesGetServiceProxy, gerentesPostServiceProxy, gerentesPutServiceProxy, gerentesDeleteServiceProxy } = require("./proxy/gerentes-service");
 
@@ -49,6 +50,15 @@ app.post('/login', (req, res, next) => {
 app.post('/logout', (req, res, next) => {
     res.json({ auth: false, token: null });
 });
+app.post('/autocadastro', (req, res, next) => {
+    autoCadastroServiceProxy(req, res, next);
+});
+
+// clientes-service
+app.get('/clientes', verifyJWT, (req, res, next) => {
+    clientesGetServiceProxy(req, res, next);
+});
+
 
 // contas-service
 app.get('/contas/:numero', verifyJWT, (req, res, next) => {
