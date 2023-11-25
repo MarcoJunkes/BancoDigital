@@ -13,12 +13,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let cliente of clientes">
-                    <td>{{cliente.nome}}</td>
-                    <td>{{cliente.cpf}}</td>
-                    <td>{{cliente.salario | currency : 'BRL'}}</td>
+                <tr *ngFor="let usuario of usuarios">
+                    <td>{{usuario.nome}}</td>
+                    <td>{{usuario.cpf}}</td>
+                    <td>{{usuario.salario | currency : 'BRL'}}</td>
                     <td>
-                        <button class="btn btn-success btn-sm" (click)="abrirModal('Aprovar')">Aprovar</button>
+                        <button class="btn btn-success btn-sm" (click)="aprovarCliente(usuario)">Aprovar</button>
                         <button class="btn btn-danger btn-sm" type="button" (click)="abrirModal('Recusar')">Recusar</button>
                     </td>
                 </tr>

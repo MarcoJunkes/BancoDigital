@@ -9,14 +9,15 @@ services:
     depends_on:
       - auth-service-db
     environment:
-      - MONGODB_HOST=dac-auth-service-db-1
+      - MONGODB_HOST=auth-service-db
     volumes:
       - ./back/auth-service:/app
     networks:
       - bantads_network
 
   auth-service-db:
-    image: mongo:4.4.18
+    image: mongo:latest
+    container_name: auth-service-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -29,6 +30,7 @@ services:
 
   contas-service-db:
     image: postgres:latest
+    container_name: contas-service-db
     restart: always
     ports:
       - "5432:5432"
@@ -59,6 +61,7 @@ services:
 
   gerente-service-db:
     image: postgres:latest
+    container_name: gerente-service-db
     restart: always
     ports:
       - "5433:5432"
@@ -85,6 +88,7 @@ services:
 
   cliente-service-db:
     image: postgres:latest
+    container_name: cliente-service-db
     restart: always
     ports:
       - "5434:5432"
@@ -119,6 +123,17 @@ services:
     networks:
       - bantads_network
 
+
+  saga-autocadastro:
+    build: ./SAGAs/autocadastro
+    restart: always
+    ports:
+      - "8085:4000"
+    volumes:
+      - ./SAGAs/autocadastro:/app
+    networks:
+      - bantads_network
+
   saga-remover-gerente:
     build: ./SAGAs/remover_gerente
     restart: always
@@ -128,6 +143,8 @@ services:
       - ./SAGAs/remover_gerente:/app
     networks:
       - bantads_network
+
+    
 
   rabbitmq:
     image: rabbitmq:3.13-rc-management 

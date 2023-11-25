@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UsuarioController {
-
     @Autowired
     private UsuarioService usuarioService;
 
@@ -19,7 +18,6 @@ public class UsuarioController {
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequest) {
         Usuario usuario = usuarioService.login(loginRequest);
         if (usuario != null) {
-            // return ResponseEntity.ok().build();
             return ResponseEntity.ok().body(usuario);
         }
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
@@ -36,22 +34,3 @@ public class UsuarioController {
         return ResponseEntity.created(null).build();
     }
 }
-
-/*Código professor
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-@CrossOrigin
-@RestController
-public class UsuarioController {
-
-    @PostMapping("/login")
-    ResponseEntity<Usuario> login(@RequestBody Login login) {
-        if(login.getLogin().equals(login.getSenha())){
-            Usuario usu = new Usuario(10, login.getLogin(), login.getLogin(), "XXX", "ADMIN");
-            return ResponseEntity.ok().body(usu);
-        }
-        else {
-            return ResponseEntity.status(401).build();
-        }
-    }
-} */

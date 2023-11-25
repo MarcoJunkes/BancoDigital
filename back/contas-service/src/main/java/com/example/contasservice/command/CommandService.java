@@ -20,6 +20,10 @@ import com.example.contasservice.repository.write.ClienteRepository;
 import com.example.contasservice.repository.write.ContaRepository;
 import com.example.contasservice.repository.write.GerenteRepository;
 import com.example.contasservice.repository.write.MovimentacaoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -32,6 +36,9 @@ import java.util.*;
 
 @Service
 public class CommandService {
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     private ContaRepository contaRepository;
     private ClienteRepository clienteRepository;
     private GerenteRepository gerenteRepository;
@@ -55,45 +62,54 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__novo_cliente")
     public void createConta(NovaContaEvent novaContaEvent) {
-        LOGGER.info("started createConta", novaContaEvent);
+        try{
+            LOGGER.info("started createConta", novaContaEvent);
 
-        List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
-        if (gerenteRaw.isEmpty()) {
-            rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", new NovaContaEvent());
+            List<Object> gerenteRaw = gerenteRepository.getGerenteWithLessClients();
+            if (gerenteRaw.isEmpty()) {
+                rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", new NovaContaEvent());
+            }
+            String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
+            Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
+
+            if (gerente == null) {
+                LOGGER.error("Gerente não encontrado para CPF: {}", gerenteCpf);
+                return; // Não cria mais a conta se o gerente não for encontrado
+            }
+
+            Cliente novoCliente = new Cliente();
+            novoCliente.setCpf(novaContaEvent.getCpf());
+            novoCliente.setNome(novaContaEvent.getNome());
+            Cliente cliente = clienteRepository.save(novoCliente);
+
+            Conta conta = new Conta();
+            conta.setCliente(cliente);
+            if (novaContaEvent.getSalario() >= 2000) {
+                conta.setLimite(novaContaEvent.getSalario() / 2);
+            }
+
+            conta.setGerente(gerente);
+            conta.setSaldo(0f);
+            conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
+            Conta contaSaved = contaRepository.save(conta);
+            NovaContaDto novaContaDto = new NovaContaDto();
+            novaContaDto.setNumero(contaSaved.getNumero());
+            novaContaDto.setLimite(contaSaved.getLimite());
+            novaContaDto.setSaldo(contaSaved.getSaldo());
+            novaContaDto.setDataCriacao(contaSaved.getDataCriacao());
+            novaContaDto.setStatus(contaSaved.getStatus());
+            novaContaDto.setGerenteCpf(contaSaved.getGerente().getCpf());
+            novaContaDto.setGerenteNome(contaSaved.getGerente().getNome());
+            novaContaDto.setClienteCpf(contaSaved.getCliente().getCpf());
+            novaContaDto.setClienteNome(contaSaved.getCliente().getNome());
+
+            rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaDto);
+            rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", novaContaDto);
+
+            LOGGER.info("finished createConta");
+        } catch (Exception e) {
+            LOGGER.error("Erro ao processar nova conta: {}", e.getMessage(), e);
         }
-        String gerenteCpf = (String) ((Object[]) gerenteRaw.get(0))[1];
-        Gerente gerente = gerenteRepository.findById(gerenteCpf).get();
-
-        Cliente novoCliente = new Cliente();
-        novoCliente.setCpf(novaContaEvent.getCpf());
-        novoCliente.setNome(novaContaEvent.getNome());
-        Cliente cliente = clienteRepository.save(novoCliente);
-
-        Conta conta = new Conta();
-        conta.setCliente(cliente);
-        if (novaContaEvent.getSalario() >= 2000) {
-            conta.setLimite(novaContaEvent.getSalario() / 2);
-        }
-
-        conta.setGerente(gerente);
-        conta.setSaldo(0f);
-        conta.setStatus(Conta.StatusConta.PENDENTE_APROVACAO);
-        Conta contaSaved = contaRepository.save(conta);
-        NovaContaDto novaContaDto = new NovaContaDto();
-        novaContaDto.setNumero(contaSaved.getNumero());
-        novaContaDto.setLimite(contaSaved.getLimite());
-        novaContaDto.setSaldo(contaSaved.getSaldo());
-        novaContaDto.setDataCriacao(contaSaved.getDataCriacao());
-        novaContaDto.setStatus(contaSaved.getStatus());
-        novaContaDto.setGerenteCpf(contaSaved.getGerente().getCpf());
-        novaContaDto.setGerenteNome(contaSaved.getGerente().getNome());
-        novaContaDto.setClienteCpf(contaSaved.getCliente().getCpf());
-        novaContaDto.setClienteNome(contaSaved.getCliente().getNome());
-
-        rabbitTemplate.convertAndSend("contas_service__novo_cliente__database_sync", novaContaDto);
-        rabbitTemplate.convertAndSend("contas_service__novo_cliente__response", novaContaDto);
-
-        LOGGER.info("finished createConta");
     }
 
     @RabbitListener(queues="contas_service__alterar_perfil")
@@ -132,9 +148,11 @@ public class CommandService {
             String gerenteCpf = (String) ((Object[]) gerenteComMaisContasRaw.get(0))[1];
             Conta contaNovoGerente = contaRepository.getFirstByGerente_Cpf(gerenteCpf);
 
-            contaNovoGerente.setGerente(gerente);
-            contaRepository.save(contaNovoGerente);
-            sendContaSyncEvent(contaNovoGerente);
+            if(contaNovoGerente != null){
+                contaNovoGerente.setGerente(gerente);
+                contaRepository.save(contaNovoGerente);
+                sendContaSyncEvent(contaNovoGerente);
+            }
         }
 
         rabbitTemplate.convertAndSend("contas_service__novo_gerente__response", insercaoGerenteEvent);
@@ -170,9 +188,9 @@ public class CommandService {
         }
     }
 
-    public void depositar(Long numero, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
+    public void depositar(String clienteCpf, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
         // TODO: exception if conta is not approved
-        Conta conta = contaRepository.findById(numero).get();
+        Conta conta = contaRepository.getByClienteCpf(clienteCpf);
         if (conta == null) {
             throw new ContaNotFound();
         }
@@ -192,8 +210,8 @@ public class CommandService {
         sendMovimentacaoSyncEvent(movimentacao);
     }
 
-    public void sacar(Long numero, SaqueRequestDTO saqueRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
-        Conta conta = contaRepository.findById(numero).get();
+    public void sacar(String clienteCpf, SaqueRequestDTO saqueRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
+        Conta conta = contaRepository.getByClienteCpf(clienteCpf);
         if (conta == null) {
             throw new ContaNotFound();
         }
@@ -222,9 +240,9 @@ public class CommandService {
         sendMovimentacaoSyncEvent(movimentacao);
     }
 
-    public void transferir(Long contaOrigemId, TransferenciaRequestDTO transferenciaRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
-        Conta contaOrigem = contaRepository.findById(contaOrigemId).get();
-        Conta contaDestino = contaRepository.findById(transferenciaRequestDTO.getContaDestino()).get();
+    public void transferir(String clienteOrigemCpf, TransferenciaRequestDTO transferenciaRequestDTO) throws ContaNotFound, ValorNegativoBadRequest {
+        Conta contaOrigem = contaRepository.getByClienteCpf(clienteOrigemCpf);
+        Conta contaDestino = contaRepository.findById(transferenciaRequestDTO.getDestino()).get();
         if (contaOrigem == null || contaDestino == null) {
             throw new ContaNotFound();
         }

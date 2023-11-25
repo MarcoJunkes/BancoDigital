@@ -2,11 +2,12 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpInterceptor
 import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { LoginService } from "../auth/services/login.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(
+    private router: Router,
     private loginService: LoginService
   ) { }
 
@@ -16,29 +17,28 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (token) {
       request = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`)
+        headers: req.headers.set('x-access-token', token)
       });
     }
 
     return next.handle(request)
       .pipe(
-        catchError(this.handleError)
-      );
-  }
+        catchError((error: HttpErrorResponse) => {
+          if (error.error instanceof ErrorEvent) {
+            console.error('Ocorreu um erro: ', error.error.message);
+          } else {
+            console.error(
+              `Código do erro ${error.status}, ` +
+              `Erro: ${JSON.stringify(error.error)}`
+            );
+          }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // Erro retornado pelo cliente
-      console.error('Ocorreu um erro: ', error.error.message);
-    } else {
-      // Erro retornado pelo servidor
-      console.error(
-        `Código do erro ${error.status}, ` +
-        `Erro: ${JSON.stringify(error.error)}`
+          if (error.status === 401) {
+            this.loginService.logout();
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => error);
+        })
       );
-    }
-
-    // Retorna um observable com mensagem
-    return throwError(() => error);
   }
 }

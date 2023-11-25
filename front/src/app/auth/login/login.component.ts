@@ -30,24 +30,6 @@ export class LoginComponent {
         this.message = params['error'];
       });
   }
-/* Código Matheus
-  logar(): void {
-    this.loading = true;
-    if (this.formLogin.form.valid) {
-      this.loginService.login(this.login).subscribe((usu) => {
-        if (usu != null) {
-          this.loginService.usuarioLogado = usu;
-          this.loading = false;
-          //console.log('usu', usu);
-          //console.log('loginService usuarioLogado', this.loginService.usuarioLogado.perfil);
-          this.redirecionaUsuarioLogado();
-        } else {
-          this.message = "E-mail/Senha inválidos.";
-        }
-      });
-    }
-    this.loading = false;
-  } */
 
   public logar(): void {
     this.loading = true;
@@ -58,8 +40,6 @@ export class LoginComponent {
           this.loading = false;
           this.loginService.setAuthorizationToken(output.token);
           this.loginService.usuarioLogado = output.data;
-
-          console.log('Login.compose.ts: ', this.loginService.usuarioLogado.perfil);
           
           this.redirecionaUsuarioLogado();
         },

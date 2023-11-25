@@ -20,18 +20,21 @@ public class Gerente implements Serializable {
     private String cpf;
     @Column(name="telefone")
     private String telefone;
+    @Column(name="senha")
+    private String senha;
 
     public Gerente(){
         super();
     }
 
-    public Gerente(Long id, String nome, String email, String cpf, String telefone){
+    public Gerente(Long id, String nome, String email, String cpf, String telefone, String senha){
         super();
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;
+        this.senha = senha;
     }
 
     public Long getId(){
@@ -72,5 +75,13 @@ public class Gerente implements Serializable {
 
     public void setTelefone(String telefone){
         this.telefone = telefone;
+    }
+
+    public String getSenha(){
+        return senha;
+    }
+
+    public void setSenha(String senha){
+        this.senha = senha;
     }
 }

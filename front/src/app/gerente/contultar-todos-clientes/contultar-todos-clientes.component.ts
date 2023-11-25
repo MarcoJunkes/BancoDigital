@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GerenteService } from '../services/gerente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { NgForm } from '@angular/forms';
+import { Usuario } from 'src/app/shared';
 
 @Component({
   selector: 'app-contultar-todos-clientes',
@@ -12,6 +13,7 @@ export class ContultarTodosClientesComponent implements OnInit {
 
 
   clientes: Cliente[] = [];
+  usuarios: Usuario[] = [];
 
   @ViewChild('formCpf') formCpf!: NgForm;
 
@@ -19,6 +21,7 @@ export class ContultarTodosClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.clientes = [];
+    this.usuarios = [];
     this.listarTodos();
   }
 
@@ -41,7 +44,6 @@ export class ContultarTodosClientesComponent implements OnInit {
   }
 
   limparForm() {
-    console.log('Ok')
     this.formCpf.reset({});
   }
 }

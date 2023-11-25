@@ -1,15 +1,15 @@
 package com.example.contasservice.dto;
 
 public class TransferenciaRequestDTO {
-    private Long contaDestino;
+    private Long destino;
     private Float valor;
 
-    public Long getContaDestino() {
-        return contaDestino;
+    public Long getDestino() {
+        return destino;
     }
 
-    public void setContaDestino(Long contaDestino) {
-        this.contaDestino = contaDestino;
+    public void setDestino(Long destino) {
+        this.destino = destino;
     }
 
     public Float getValor() {
