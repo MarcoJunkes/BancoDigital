@@ -42,4 +42,8 @@ export class AdministradorService {
     // return this.http.delete<any>(`${environment.api}/removerGerentes/${id}`, this.httpOptions);
     return this.http.delete<any>(`${environment.api}/gerentes/${id}`, this.httpOptions);
   }
+
+  public listarTodosClientes(): Observable<any> {
+    return this.http.get<any>(`${environment.api}/clientes`, this.httpOptions);
+  }
 }

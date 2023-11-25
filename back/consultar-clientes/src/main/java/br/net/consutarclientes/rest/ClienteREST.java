@@ -42,10 +42,15 @@ public class ClienteREST {
         return lista.stream().map(e -> mapper.map(e, Cliente.class)).collect(Collectors.toList());
     }
 
-    @GetMapping("/clientes/{id}")
+    @GetMapping("/clientes/{cpf}")
+    public Cliente obterCliente(@PathVariable("cpf") String cpf){
+        return repo.findByCPF(cpf);
+    }
+
+    /*@GetMapping("/clientes/{id}")
     public Cliente obterCliente(@PathVariable("id") int id){
         return repo.findById((long) id).orElse(null);
-    }
+    }*/
 
     @RabbitListener(queues = "service_cliente__request_buscarcpf")
     public void obterClientePorCPF(String cpf) throws JsonMappingException, JsonProcessingException{
