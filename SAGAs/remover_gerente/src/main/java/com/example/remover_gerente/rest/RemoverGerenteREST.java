@@ -1,5 +1,7 @@
 package com.example.remover_gerente.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @CrossOrigin
 @RestController
 public class RemoverGerenteREST {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoverGerenteREST.class);
     
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -24,21 +27,19 @@ public class RemoverGerenteREST {
     private ObjectMapper objectMapper;
     
     @PostMapping("/gerentes/remover")
-    public ResponseEntity<?> removerGerentes(@RequestBody String msg) throws JsonProcessingException {
-        rabbitTemplate.convertAndSend("service_gerente__request_remover_gerente", msg);
-        return ResponseEntity.created(null).build();
+    public ResponseEntity<?> removerGerentes(@RequestBody RemocaoGerenteEvent remocaoGerenteEvent) throws JsonProcessingException {
+        String json = objectMapper.writeValueAsString(remocaoGerenteEvent);
+        rabbitTemplate.convertAndSend("service_gerente__request_remover_gerente", json);
+        LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__request_remover_gerente |"+json);
+        return ResponseEntity.ok().build();
     }
 
     @RabbitListener(queues = "service_gerente__response_remover_gerente")
-    public void receberResposta(String msg){
-        try {
-            RemocaoGerenteEvent gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
-            String json = objectMapper.writeValueAsString(gerente);
-            rabbitTemplate.convertAndSend("ccontas_service__gerente_excluido", json);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao processar a resposta do serviço de gerente");
-        }
+    public void receberResposta(String msg) throws JsonProcessingException{
+        RemocaoGerenteEvent gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
+        String json = objectMapper.writeValueAsString(gerente);
+        rabbitTemplate.convertAndSend("contas_service__gerente_excluido", json);
+        LOGGER.info("GERENTE REMOVAL -- Sent to queue: contas_service__gerente_excluido |"+json);
     }
 
 }
