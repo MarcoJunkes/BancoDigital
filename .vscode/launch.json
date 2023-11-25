@@ -19,6 +19,16 @@
             "projectName": "consultar-clientes",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EmailApplication<email>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.email.EmailApplication",
+            "projectName": "email",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
