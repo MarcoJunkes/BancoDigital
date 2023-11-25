@@ -40,9 +40,8 @@ export class ContultarTodosClientesComponent implements OnInit {
     return this.clientes;
   }
 
-  listarContas(cliente: Usuario[]): Conta[] {
-    this.gerenteService.buscarConta(cliente).subscribe();
-    return this.conta;
+  listarContas(cliente: Usuario[]){
+    this.gerenteService.listarTodos();
   }
   
   abrirModalCliente(cliente: Cliente) {
