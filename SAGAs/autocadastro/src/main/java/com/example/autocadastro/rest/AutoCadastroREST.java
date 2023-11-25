@@ -1,19 +1,12 @@
 package com.example.autocadastro.rest;
 
+import com.example.autocadastro.model.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.autocadastro.model.AuthCliente;
-import com.example.autocadastro.model.CadastroRequestDTO;
-import com.example.autocadastro.model.Cliente;
-import com.example.autocadastro.model.NovaContaEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,5 +67,25 @@ public class AutoCadastroREST {
 
         String json = objectMapper.writeValueAsString(cadastro);
         rabbitTemplate.convertAndSend("service_auth__criar_registro_cliente", json);
+    }
+
+    @PutMapping("/autocadastro")
+    public ResponseEntity alterarCadastro(@RequestBody Cliente clienteRequest) throws JsonProcessingException{
+        var json = objectMapper.writeValueAsString(clienteRequest);
+        rabbitTemplate.convertAndSend("service_cliente__request_alterar_cadastro", json);
+        return ResponseEntity.ok().build();
+    }
+
+    @RabbitListener(queues = "service_cliente__response_alterar_cadastro")
+    public void alterarRegistroConta(String msg) throws JsonMappingException, JsonProcessingException {
+        var cliente = objectMapper.readValue(msg, ClienteAtualizacao.class);
+
+        NovaContaEvent alterarPerfilDTO = new NovaContaEvent();
+        alterarPerfilDTO.setSalario(cliente.getSalario());
+        alterarPerfilDTO.setNome(cliente.getNome());
+        alterarPerfilDTO.setCpf(cliente.getCPF());
+
+        String json = objectMapper.writeValueAsString(alterarPerfilDTO);
+        rabbitTemplate.convertAndSend("contas_service__alterar_perfil", json);
     }
 }

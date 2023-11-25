@@ -53,6 +53,9 @@ app.post('/logout', (req, res, next) => {
 app.post('/autocadastro', (req, res, next) => {
     autoCadastroServiceProxy(req, res, next);
 });
+app.put('/autocadastro', (req, res, next) => {
+    autoCadastroServiceProxy(req, res, next);
+});
 
 // clientes-service
 app.get('/clientes', verifyJWT, (req, res, next) => {

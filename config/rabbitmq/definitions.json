@@ -131,6 +131,24 @@
       "arguments": {
         "x-queue-type": "classic"
       }
+    },
+    {
+      "name": "service_cliente__response_alterar_cadastro",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "service_cliente__request_alterar_cadastro",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic"
+      }
     }
   ],
   "topic_permissions": [],

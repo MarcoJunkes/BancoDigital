@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Endereco, Usuario, ViaCepService } from 'src/app/shared';
-import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
-import { autocadastroService } from '../services/autocadastro.service';
-import { Cliente } from 'src/app/shared/models/cliente.model';
+import { AutocadastroService } from '../services/autocadastro.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -14,19 +12,17 @@ export class CadastroComponent implements OnInit {
   public endereco!: Endereco;
   public usuario!: Usuario;
   public message!: string;
-  // private cliente!: Cliente;
   @ViewChild('formCadastro') formCadastro!: NgForm;
 
   constructor(
     private viacepService: ViaCepService,
-    private autocadastroService: autocadastroService,
+    private autocadastroService: AutocadastroService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.endereco = new Endereco();
     this.usuario = new Usuario();
-    // this.cliente = new Cliente();
   } 
 
   buscaEndereco() {
@@ -48,11 +44,10 @@ export class CadastroComponent implements OnInit {
   cadastro(): void {
     if (this.formCadastro.form.valid) {
       this.autocadastroService.autocadastro(this.usuario).subscribe(
-        usuario => {
-          this.router.navigate( ["/login"]);
+        () => {
+          this.router.navigate(["/login"]);
         }
       );
-      // Está enviando os dados certinho
     }
   }
 }

@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Endereco, Usuario, ViaCepService } from 'src/app/shared';
 import { ContaService } from '../services/conta.service';
+import { AutocadastroService } from 'src/app/auth/services/autocadastro.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alterar-perfil',
@@ -19,6 +21,8 @@ export class AlterarPerfilComponent implements OnInit {
     private viacepService: ViaCepService,
     private loginService: LoginService,
     private contasService: ContaService,
+    private autocadastroService: AutocadastroService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +57,15 @@ export class AlterarPerfilComponent implements OnInit {
   }
 
   alterarPerfil() {
-    if (this.formAlterarPerfil.invalid) return;
-    this.formAlterarPerfil.reset({});
+    this.usuario.cep = this.endereco.cep;
+    this.usuario.numero = this.endereco.numero;
+    this.usuario.rua = this.endereco.rua;
+    this.usuario.estado = this.endereco.estado;
+    this.usuario.bairro = this.endereco.bairro;
+    this.usuario.cidade = this.endereco.cidade;
+    
+    this.autocadastroService.alterarPerfil(this.usuario).subscribe(
+      () => this.router.navigate(["/cliente/home"])
+    );
   }
 }
