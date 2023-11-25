@@ -22,6 +22,29 @@ const contasServiceProxy = httpProxy(contasAPI, {
   }
 });
 
+const contasGetServiceProxy = httpProxy(contasAPI);
+
+const contasPostServiceProxy = httpProxy(contasAPI, {
+  proxyReqBodyDecorator: function (bodyContent, srcReq) {
+      try {
+          retBody = {};
+          retBody.cpf = bodyContent.cpf;
+          bodyContent = retBody;
+      }
+      catch (e) {
+          console.log('- ERRO: ' + e);
+      }
+      return bodyContent;
+  },
+  proxyReqOptDecorator: function (proxyReqOpts, srcReq) {
+      proxyReqOpts.headers['Content-Type'] = 'application/json';
+      proxyReqOpts.method = 'POST';
+      return proxyReqOpts;
+  }
+});
+
 module.exports = {
   contasServiceProxy,
+  contasPostServiceProxy,
+  contasGetServiceProxy,
 }

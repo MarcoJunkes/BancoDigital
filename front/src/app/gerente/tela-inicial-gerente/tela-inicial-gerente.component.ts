@@ -15,6 +15,11 @@ export class TelaInicialGerenteComponent implements OnInit{
   constructor(private modalService: NgbModal,
               private gerenteService: GerenteService){}
   
+  ngOnInit(): void {
+      this.usuarios = [];
+      this.listarTodos();
+  }
+
   listarTodos(): Usuario[] {
     this.gerenteService.listarTodos().subscribe({
       next: (data: Usuario[]) => {
@@ -35,7 +40,6 @@ export class TelaInicialGerenteComponent implements OnInit{
   }
 
   aprovarCliente(usuario: Usuario){
-    console.log(usuario);
     this.gerenteService.aprovarCliente(usuario).subscribe(
       usuario => {
         this.abrirModal('Aprovar');
@@ -43,8 +47,11 @@ export class TelaInicialGerenteComponent implements OnInit{
     );
   }
 
-  ngOnInit(): void {
-      this.usuarios = [];
-      this.listarTodos();
+  rejeitarCliente(usuario: Usuario) {
+    this.gerenteService.rejeitarCliente(usuario).subscribe(
+      usuario => {
+        this.abrirModal('Recusar')
+      }
+    );
   }
 }
