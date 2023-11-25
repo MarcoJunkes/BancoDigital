@@ -138,7 +138,7 @@ services:
     build: ./SAGAs/remover_gerente
     restart: always
     ports:
-      - "8088:8088"
+      - "8086:3200"
     volumes:
       - ./SAGAs/remover_gerente:/app
     networks:
