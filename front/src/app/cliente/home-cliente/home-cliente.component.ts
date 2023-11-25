@@ -7,12 +7,12 @@ import { ContaService } from '../services/conta.service';
 })
 export class HomeClienteComponent implements OnInit {
   @Input() saldo: number = 0;
-  
+
   constructor(private contasService: ContaService) { }
  
   ngOnInit(): void {
     this.contasService.buscarContaCliente().subscribe(
-      conta => this.saldo = conta.saldo || 0
+      conta => this.saldo = conta.conta.saldo || 0
     );
   }
 }

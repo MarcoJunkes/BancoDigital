@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const axios = require("axios");
 
 const { authServiceProxy, autoCadastroServiceProxy } = require("./proxy/auth-service");
-const { clientesGetServiceProxy } = require("./proxy/clientes-service");
+const { clientesGetServiceProxy, clientesPostServiceProxy } = require("./proxy/clientes-service");
 const { contasServiceProxy } = require("./proxy/contas-service");
 const { gerentesGetServiceProxy, gerentesPostServiceProxy, gerentesPutServiceProxy, gerentesDeleteServiceProxy } = require("./proxy/gerentes-service");
 
@@ -58,11 +58,33 @@ app.post('/autocadastro', (req, res, next) => {
 app.get('/clientes', verifyJWT, (req, res, next) => {
     clientesGetServiceProxy(req, res, next);
 });
-
+// Aprovar clietne
+app.post('/aprovarConta/:cpf', verifyJWT, (req, res, next) => {
+    clientesPostServiceProxy(req, res, next);
+});
 
 // contas-service
-app.get('/contas/:numero', verifyJWT, (req, res, next) => {
-    contasServiceProxy(req, res, next);
+var contasAPI = 'http://localhost:8081';
+var clientesAPI = 'http://localhost:8084';
+
+app.get('/contas/:numero', verifyJWT, async (req, res, next) => {
+    if (req.method === 'GET' && req.params.numero) {
+        try {
+            const contasResponse = await axios.get(`${contasAPI}/contas/${req.params.numero}`);
+            const clientesResponse = await axios.get(`${clientesAPI}/clientes/${req.params.numero}`);
+
+            res.json({
+                conta: contasResponse.data,
+                cliente: clientesResponse.data
+            });
+        } catch (error) {
+            // Handle any errors that occurred during the requests
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    } else {
+        contasServiceProxy(req, res, next);
+    }
 });
 app.get('/operacoes/:numero', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);

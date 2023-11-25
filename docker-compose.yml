@@ -123,6 +123,7 @@ services:
     networks:
       - bantads_network
 
+
   saga-autocadastro:
     build: ./SAGAs/autocadastro
     restart: always
@@ -132,6 +133,18 @@ services:
       - ./SAGAs/autocadastro:/app
     networks:
       - bantads_network
+
+  saga-remover-gerente:
+    build: ./SAGAs/remover_gerente
+    restart: always
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./SAGAs/remover_gerente:/app
+    networks:
+      - bantads_network
+
+    
 
   send-email:
     build: ./email

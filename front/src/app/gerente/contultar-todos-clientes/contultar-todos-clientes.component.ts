@@ -44,7 +44,6 @@ export class ContultarTodosClientesComponent implements OnInit {
   }
 
   limparForm() {
-    console.log('Ok')
     this.formCpf.reset({});
   }
 }
