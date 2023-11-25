@@ -16,7 +16,7 @@ services:
       - bantads_network
 
   auth-service-db:
-    image: mongo:latest
+    image: mongo:4.4.18
     container_name: auth-service-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -144,7 +144,15 @@ services:
     networks:
       - bantads_network
 
-    
+  send-email:
+    build: ./email
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./email:/app
+    networks:
+      - bantads_network
 
   rabbitmq:
     image: rabbitmq:3.13-rc-management 
