@@ -68,12 +68,6 @@ public class ContaController {
         }
     }
 
-    /*@PostMapping("/clientes/{cpf}/aprovar")
-    public ResponseEntity aprovarCliente(@PathVariable String cpf) {
-        commandService.aprovarConta(cpf);
-        return ResponseEntity.ok().build();
-    }*/
-
     @RabbitListener(queues = "service_conta__request_aprovar_conta")
     public void aprovarCliente(String msg) throws JsonMappingException, JsonProcessingException {
         String cpf = objectMapper.readValue(msg, String.class);
@@ -82,10 +76,12 @@ public class ContaController {
         rabbitTemplate.convertAndSend("service_conta__response_aprovar_conta", json);
     }
 
-    @PostMapping("/clientes/{cpf}/rejeitar")
-    public ResponseEntity rejeitarCliente(@PathVariable String cpf) {
+    @RabbitListener(queues = "service_conta__request_rejeitar_conta")
+    public void rejeitarCliente(String msg) throws JsonMappingException, JsonProcessingException{
+        String cpf = objectMapper.readValue(msg, String.class);
         commandService.rejeitarConta(cpf);
-        return ResponseEntity.ok().build();
+        String json = objectMapper.writeValueAsString(cpf);
+        rabbitTemplate.convertAndSend("service_conta__response_rejeitar_conta", json);
     }
 
     @GetMapping("/contas/{cpf}/extrato")
