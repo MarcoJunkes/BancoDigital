@@ -23,6 +23,12 @@ public class RabbitMQConfig {
     @Value("service_cliente__response_buscarcpf")
     private String responseBuscarCPF;
 
+    @Value("service_cliente__request_buscarcpf2")
+    private String rejeitarContaRequest2;
+
+    @Value("service_cliente__response_buscarcpf2")
+    private String rejeitarContaResponse2;
+
     @Bean
     public Queue requestBuscarCPFQueue(){
         return new Queue(requestBuscarCPF, true);
@@ -40,6 +46,16 @@ public class RabbitMQConfig {
 
     @Bean Queue responseAutoCadastroQueue(){
         return new Queue(responseAutoCadastro, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaRequest2Queue(){
+        return new Queue(rejeitarContaRequest2, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaResponse2Queue(){
+        return new Queue(rejeitarContaResponse2, true);
     }
 
     @Bean

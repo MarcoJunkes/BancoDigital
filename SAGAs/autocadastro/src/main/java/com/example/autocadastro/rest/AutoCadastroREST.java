@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.autocadastro.model.AuthCliente;
 import com.example.autocadastro.model.CadastroRequestDTO;
 import com.example.autocadastro.model.Cliente;
+import com.example.autocadastro.model.EmailMessage;
 import com.example.autocadastro.model.NovaContaEvent;
+import com.example.autocadastro.model.RejeitarCliente;
 import com.example.autocadastro.senha.GeradorSenhaAleatoria;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -26,6 +28,8 @@ public class AutoCadastroREST {
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private ObjectMapper objectMapper;
+
+    private String motivo;
 
     @PostMapping("/autocadastro")
     public ResponseEntity autoCadastro(@RequestBody Cliente clienteRequest) throws JsonProcessingException{
@@ -78,5 +82,34 @@ public class AutoCadastroREST {
 
         String json = objectMapper.writeValueAsString(cadastro);
         rabbitTemplate.convertAndSend("service_auth__criar_registro_cliente", json);
+    }
+
+    @PostMapping("/rejeitarConta/{cpf}")
+    public ResponseEntity rejeitarConta(@PathVariable String cpf, @RequestBody RejeitarCliente rejeitar) throws JsonProcessingException{
+        String msg = objectMapper.writeValueAsString(cpf);
+        this.motivo = rejeitar.getMotivo();
+        rabbitTemplate.convertAndSend("service_conta__request_rejeitar_conta", msg);
+        return ResponseEntity.created(null).build();
+    }
+
+    @RabbitListener(queues = "service_conta__response_rejeitar_conta")
+    public void buscarCPF2(String msg) throws JsonMappingException, JsonProcessingException{
+        String cpf = objectMapper.readValue(msg, String.class);
+        rabbitTemplate.convertAndSend("service_cliente__request_buscarcpf2", cpf);
+    }
+
+    @RabbitListener(queues = "service_cliente__response_buscarcpf2")
+    public void recusarConta(String msg) throws JsonMappingException, JsonProcessingException{
+        var cliente = objectMapper.readValue(msg, AuthCliente.class);
+
+        String email = cliente.getEmail();
+
+        EmailMessage emailMessage = new EmailMessage();
+        emailMessage.setTo(email);
+        emailMessage.setSubject("Conta Recusada");
+        emailMessage.setMessage(this.motivo);
+
+        String json = objectMapper.writeValueAsString(emailMessage);
+        rabbitTemplate.convertAndSend("service_conta__enviar_dados_recusados", json);
     }
 }

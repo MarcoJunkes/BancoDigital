@@ -36,6 +36,21 @@ public class RabbitMQConfig{
     @Value("service_auth__criar_registro_cliente")
     private String criarRegistro;
 
+    @Value("service_conta__request_rejeitar_conta")
+    private String rejeitarConta;
+
+    @Value("service_conta__response_rejeitar_conta")
+    private String rejeitarContaResponse;
+
+    @Value("service_cliente__request_buscarcpf2")
+    private String rejeitarContaRequest2;
+
+    @Value("service_cliente__response_buscarcpf2")
+    private String rejeitarContaResponse2;
+
+    @Value("service_conta__enviar_dados_recusados")
+    private String enviarDadosRecusados;
+
     @Bean
     public Queue requestAutoCadastroQueue(){
         return new Queue(requestAutoCadastro, true);
@@ -74,6 +89,31 @@ public class RabbitMQConfig{
     @Bean
     public Queue criarRegistroClientQueue(){
         return new Queue(criarRegistro, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaQueue(){
+        return new Queue(rejeitarConta, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaResponseQueue(){
+        return new Queue(rejeitarContaResponse, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaRequest2Queue(){
+        return new Queue(rejeitarContaRequest2, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaResponse2Queue(){
+        return new Queue(rejeitarContaResponse2, true);
+    }
+
+    @Bean
+    public Queue enviarDadosRecusadosQueue(){
+        return new Queue(enviarDadosRecusados, true);
     }
 
     @Bean
