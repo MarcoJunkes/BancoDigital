@@ -32,6 +32,7 @@ export class AlterarPerfilComponent implements OnInit {
       ({conta, cliente}) => {
         this.saldo = conta.saldo || 0;
         this.usuario = cliente;
+        this.gerente = conta.gerenteNome || '';
         this.endereco = new Endereco(
           this.usuario.cep,
           this.usuario.rua,
