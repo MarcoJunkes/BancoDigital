@@ -16,7 +16,7 @@ services:
       - bantads_network
 
   auth-service-db:
-    image: mongo:latest
+    image: mongo:4.4.18
     container_name: auth-service-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -123,6 +123,7 @@ services:
     networks:
       - bantads_network
 
+
   saga-autocadastro:
     build: ./SAGAs/autocadastro
     restart: always
@@ -130,6 +131,26 @@ services:
       - "8085:4000"
     volumes:
       - ./SAGAs/autocadastro:/app
+    networks:
+      - bantads_network
+
+  saga-remover-gerente:
+    build: ./SAGAs/remover_gerente
+    restart: always
+    ports:
+      - "8086:3200"
+    volumes:
+      - ./SAGAs/remover_gerente:/app
+    networks:
+      - bantads_network
+
+  send-email:
+    build: ./email
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./email:/app
     networks:
       - bantads_network
 

@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.autocadastro.model.AuthCliente;
+import com.example.autocadastro.model.CadastroRequestDTO;
+import com.example.autocadastro.model.Cliente;
+import com.example.autocadastro.model.NovaContaEvent;
+import com.example.autocadastro.senha.GeradorSenhaAleatoria;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,9 +64,12 @@ public class AutoCadastroREST {
         String email = cliente.getEmail();
         String cpf = cliente.getCPF();
 
+        String senhaAleatoria = GeradorSenhaAleatoria.gerarSenhaAleatoria(8);
+        System.out.println("Senha gerada para " + email + ": " + senhaAleatoria);
+
         CadastroRequestDTO cadastro = new CadastroRequestDTO();
         cadastro.setEmail(email);
-        cadastro.setSenha("teste123");
+        cadastro.setSenha(senhaAleatoria);
         cadastro.setPerfil("cliente");
         cadastro.setCpf(cpf);
 

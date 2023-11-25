@@ -1,4 +1,4 @@
-package com.example.authservice.config;
+package com.example.email.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -11,33 +11,17 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 
 @Configuration
 public class RabbitMQConfig {
-    @Value("service_gerente__response_inserir_gerente__dados_cadastro")
-    private String responseInserirGerenteDadosCadastro;
-
-    @Value("service_auth__criar_registro_cliente")
-    private String criarRegistro;
-
     @Value("service_auth__enviar_dados_email")
     private String enviarDadosEmail;
 
     @Bean
-    public Queue responseInserirGerenteDadosCadastroQueue(){
-        return new Queue(responseInserirGerenteDadosCadastro, true);
-    }
-
-    @Bean
-    public Queue criarRegistroClientQueue(){
-        return new Queue(criarRegistro, true);
+    public ObjectMapper objectMapper(){
+        return JsonMapper.builder().findAndAddModules().build();
     }
 
     @Bean
     public Queue enviarDadosEmailQueue(){
         return new Queue(enviarDadosEmail, true);
-    }
-
-    @Bean
-    public ObjectMapper objectMapper(){
-        return JsonMapper.builder().findAndAddModules().build();
     }
 
     @Bean

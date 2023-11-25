@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "InserirGerenteApplication",
+            "request": "launch",
+            "mainClass": "com.example.inserir_gerente.InserirGerenteApplication",
+            "projectName": "com.example-inserir_gerente"
+        },
+        {
+            "type": "java",
+            "name": "RemoverGerenteApplication",
+            "request": "launch",
+            "mainClass": "com.example.remover_gerente.RemoverGerenteApplication",
+            "projectName": "inserir_gerente"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-AuthServiceApplication<auth-service>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -17,6 +31,16 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "br.net.gerente.ConsultarClientesApplication",
             "projectName": "consultar-clientes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EmailApplication<email>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.email.EmailApplication",
+            "projectName": "email",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }

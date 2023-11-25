@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.net.crudgerente.model.Cadastro;
 import br.net.crudgerente.model.Gerente;
 import br.net.crudgerente.model.InsercaoGerenteEvent;
+import br.net.crudgerente.model.RemocaoGerenteEvent;
 import br.net.crudgerente.rest.GerenteREST;
 
 @Component
@@ -54,6 +55,22 @@ public class GerenteConsumer {
         } catch (Exception e) {
             e.printStackTrace();
             rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());
+        }
+    }
+
+    @RabbitListener(queues = "service_gerente__request_remover_gerente")
+    public void removerGerente(String msg) throws JsonMappingException, JsonProcessingException{
+        try{
+            gerenteREST.removerGerente(Integer.parseInt(msg));
+
+            RemocaoGerenteEvent remocaoGerenteEvent = new RemocaoGerenteEvent();
+            remocaoGerenteEvent.setCpf(msg);
+            String json = objectMapper.writeValueAsString(remocaoGerenteEvent);
+
+            rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", json);
+        } catch(Exception e){
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", e.getMessage());
         }
     }
 }
