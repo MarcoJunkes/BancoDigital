@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const httpProxy = require("express-http-proxy");
 
-var authAPI = 'http://localhost:8080';
-var autoCadastroAPI = 'http://localhost:8085';
+var authAPI = 'http://auth-service:8080';
+var autoCadastroAPI = 'http://saga-autocadastro:4000';
 
 const authServiceProxy = httpProxy(authAPI, {
   proxyReqBodyDecorator: function(bodyContent, srcReq) {

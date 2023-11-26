@@ -1,7 +1,7 @@
 const httpProxy = require("express-http-proxy");
 
-var clientesAPI = 'http://localhost:8084';
-var sagaAutoCadastro = 'http://localhost:8085';
+var clientesAPI = 'http://cliente-service:3300';
+var sagaAutoCadastro = 'http://saga-autocadastro:4000';
 
 const clientesGetServiceProxy = httpProxy(clientesAPI);
 

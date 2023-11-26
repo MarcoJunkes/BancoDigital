@@ -1,8 +1,8 @@
 const httpProxy = require("express-http-proxy");
 
-var gerentesAPI = 'http://localhost:8082';
-var gerenteSagaInserir = 'http://localhost:8083';
-var gerenteSagaRemover = 'http://localhost:8086';
+var gerentesAPI = 'http://gerente-service:3100';
+var gerenteSagaInserir = 'http://saga-inserir-gerente:3200';
+var gerenteSagaRemover = 'http://dac-saga-remover-gerente-1:3200';
 
 const gerentesGetServiceProxy = httpProxy(gerentesAPI);
 const gerentesDeleteServiceProxy = httpProxy(gerenteSagaRemover); 

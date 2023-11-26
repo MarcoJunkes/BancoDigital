@@ -1,6 +1,6 @@
 const httpProxy = require("express-http-proxy");
 
-var contasAPI = 'http://localhost:8081';
+var contasAPI = 'http://contas-service:8080';
 
 const contasServiceProxy = httpProxy(contasAPI, {
   proxyReqPathResolver: function (req) {

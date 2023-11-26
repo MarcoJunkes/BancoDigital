@@ -10,6 +10,7 @@ services:
       - ./API-Gateway:/app
     networks:
       - bantads_network
+
   auth-service:
     build: ./back/auth-service
     restart: always
