@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Operacao, OperacaoTipo } from "src/app/shared";
+import { Operacao } from "src/app/shared";
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,9 @@ export class OperacaoService {
   constructor(private http: HttpClient) {
   }
 
-  listar(): Observable<Operacao[]> {
+  listar(filtro: any): Observable<Operacao[]> {
     let id = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
-    return this.http.get<Operacao[]>(this.API+'/'+id);
+    return this.http.get<Operacao[]>(this.API+'/'+id, {params: {...filtro}});
   }
 
   buscarPorId(id: number): Observable<Operacao> {

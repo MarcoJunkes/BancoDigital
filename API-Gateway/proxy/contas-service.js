@@ -5,7 +5,7 @@ var contasAPI = 'http://localhost:8081';
 const contasServiceProxy = httpProxy(contasAPI, {
   proxyReqPathResolver: function (req) {
     if (req.url.startsWith('/operacoes') && req.method == 'GET') 
-      return `/contas/${req.params.numero}/extrato`;
+      return `/contas/${req.params.numero}/extrato?`+new URLSearchParams(req.query).toString();
     if (req.method === 'POST') {
       let operacao = req.url.split('/')[3];
       return `/contas/${req.params.numero}/${operacao}`;
