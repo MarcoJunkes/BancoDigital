@@ -21,12 +21,6 @@ public class AuthConsumer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = "service_gerente__response_inserir_gerente__dados_cadastro")
-    public void criarRegistroCadastro(String msg) throws JsonMappingException, JsonProcessingException{
-        var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
-        usuarioController.cadastro(usuario);
-    }
-
     @RabbitListener(queues = "service_auth__criar_registro_cliente")
     public void criarRegistroCliente(String msg) throws JsonMappingException, JsonProcessingException{
         var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
