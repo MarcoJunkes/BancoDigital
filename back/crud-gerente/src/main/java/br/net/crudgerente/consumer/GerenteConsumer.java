@@ -1,5 +1,7 @@
 package br.net.crudgerente.consumer;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -65,12 +67,20 @@ public class GerenteConsumer {
     public void removerGerente(String msg ) throws JsonMappingException, JsonProcessingException{
         try{
             var gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
-            gerenteREST.removerGerente(Integer.parseInt(gerente.getCpf()));
-            
+            List<Gerente> gerentes = gerenteREST.obterGerentes();
             String json = objectMapper.writeValueAsString(gerente);
+            for(Gerente g: gerentes){
+                if(g.getCPF().equals(gerente.getCpf())){
+                    gerenteREST.removerGerente(g.getId());
+                    rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", json);
+                    LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__response_remover_gerente"+json);
+                    return;
+                }
+            }
+             
+            LOGGER.info("GERENTE REMOVAL -- Failed deletion, CPF not found");
 
-            rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", json);
-            LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__response_remover_gerente"+json);
+            
         } catch(Exception e){
             e.printStackTrace();
             rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", e.getMessage());
