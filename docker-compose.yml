@@ -5,11 +5,12 @@ services:
     build: ./API-Gateway
     restart: always
     ports:
-      - "3000:3000"
+     - "3000:3000"
     volumes:
-      - ./API-Gateway:/app
+     - ./API-Gateway:/app
     networks:
-      - bantads_network
+     - bantads_network
+
 
   auth-service:
     build: ./back/auth-service
@@ -26,7 +27,7 @@ services:
       - bantads_network
 
   auth-service-db:
-    image: mongo:4.4.18
+    image: mongo:latest
     container_name: auth-service-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root

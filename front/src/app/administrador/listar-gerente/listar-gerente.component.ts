@@ -33,6 +33,9 @@ export class ListarGerenteComponent implements OnInit {
         error: (error: HttpErrorResponse) => {
           if (error.status === 403) {
             alert("Esse gerente não pode ser removido, pois existem contas vinculadas à ele.");
+          }else
+          if (error.status === 404) {
+            alert("Falha na conexão - erro 404");
           }
         }
       });

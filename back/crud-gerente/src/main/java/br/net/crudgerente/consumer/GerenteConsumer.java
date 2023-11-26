@@ -71,19 +71,13 @@ public class GerenteConsumer {
     @RabbitListener(queues = "service_gerente__request_remover_gerente")
     public void removerGerente(String msg ) throws JsonMappingException, JsonProcessingException{
         try{
+            
             var gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
-            List<Gerente> gerentes = gerenteREST.obterGerentes();
+            gerenteREST.removerGerente(gerente.getId());
             String json = objectMapper.writeValueAsString(gerente);
-            for(Gerente g: gerentes){
-                if(g.getCPF().equals(gerente.getCpf())){
-                    gerenteREST.removerGerente(g.getId());
-                    rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", json);
-                    LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__response_remover_gerente"+json);
-                    return;
-                }
-            }
+            rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", json);
+            LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__response_remover_gerente"+json);
              
-            LOGGER.info("GERENTE REMOVAL -- Failed deletion, CPF not found");
 
             
         } catch(Exception e){

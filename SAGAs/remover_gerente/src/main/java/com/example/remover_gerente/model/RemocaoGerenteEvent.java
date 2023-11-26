@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RemocaoGerenteEvent implements Serializable{
-    private String cpf;
+    private int id;
     
     public RemocaoGerenteEvent() {
     }
@@ -14,17 +14,17 @@ public class RemocaoGerenteEvent implements Serializable{
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             RemocaoGerenteEvent novaContaEvent = objectMapper.readValue(jsonString, RemocaoGerenteEvent.class);
-            this.cpf = novaContaEvent.getCpf();
+            this.id = novaContaEvent.getId();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
-    public String getCpf() {
-        return cpf;
+    public int getId() {
+        return id;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setId(int id) {
+        this.id = id;
     }
 }
