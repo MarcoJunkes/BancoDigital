@@ -155,7 +155,8 @@ app.get('/clientes/:id', verifyJWT, async (req, res, next) => {
     }
 });
 
-// Aprovar clietne
+// Aprovar cliente
+
 app.post('/aprovarConta/:cpf', verifyJWT, (req, res, next) => {
 
     clientesPostServiceProxy(req, res, next);
@@ -217,8 +218,7 @@ app.get('/gerentes/:id', verifyJWT, (req, res, next) => {
 app.post('/gerentes/inserir', verifyJWT, (req, res, next) => {
     gerentesPostServiceProxy(req, res, next);
 })
-// Delete depois arrumar para o nome que estiver na SAGA de remover gerentes
-app.delete('/gerentes/:id', verifyJWT, (req, res, next) => {
+app.delete('/gerentes', verifyJWT, (req, res, next) => {
     gerentesDeleteServiceProxy(req, res, next);
 })
 

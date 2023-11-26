@@ -65,7 +65,7 @@ public class GerenteConsumer {
     public void removerGerente(String msg ) throws JsonMappingException, JsonProcessingException{
         try{
             var gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
-            //gerenteREST.removerGerente(Integer.parseInt(msg));
+            gerenteREST.removerGerente(Integer.parseInt(gerente.getCpf()));
             
             String json = objectMapper.writeValueAsString(gerente);
 
