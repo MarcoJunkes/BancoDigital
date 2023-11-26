@@ -8,19 +8,17 @@ public class Gerente {
     private String email;
     private String cpf;
     private String telefone;
-    private String senha;
 
     public Gerente(){
         super();
     }
 
-    public Gerente(String nome, String email, String cpf, String telefone, String senha){
+    public Gerente(String nome, String email, String cpf, String telefone){
         super();
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.senha = senha;
     }
 
     public String getNome(){
@@ -53,13 +51,5 @@ public class Gerente {
 
     public void setTelefone(String telefone){
         this.telefone = telefone;
-    }
-
-    public String getSenha(){
-        return senha;
-    }
-
-    public void setSenha(String senha){
-        this.senha = senha;
     }
 }

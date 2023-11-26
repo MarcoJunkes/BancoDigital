@@ -16,6 +16,7 @@ import br.net.crudgerente.model.Gerente;
 import br.net.crudgerente.model.InsercaoGerenteEvent;
 import br.net.crudgerente.model.RemocaoGerenteEvent;
 import br.net.crudgerente.rest.GerenteREST;
+import br.net.crudgerente.senha.GeradorSenhaAleatoria;
 
 @Component
 public class GerenteConsumer {
@@ -36,22 +37,26 @@ public class GerenteConsumer {
             String cpf = gerente.getCPF();
             String nome = gerente.getNome();
             String email = gerente.getEmail();
-            String senha = gerente.getSenha();
 
             InsercaoGerenteEvent insercaoGerenteEvent = new InsercaoGerenteEvent();
             insercaoGerenteEvent.setCpf(cpf);
             insercaoGerenteEvent.setNome(nome);
 
+            String senhaAleatoria = GeradorSenhaAleatoria.gerarSenhaAleatoria(8);
+            System.out.println("Senha gerada para " + email + ": " + senhaAleatoria);
+
             Cadastro cadastro = new Cadastro();
             cadastro.setEmail(email);
-            cadastro.setSenha(senha);
+            cadastro.setSenha(senhaAleatoria);
             cadastro.setPerfil("gerente");
+            cadastro.setCpf(cpf);
 
             String json = objectMapper.writeValueAsString(insercaoGerenteEvent);
             rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", json);
 
             String json2 = objectMapper.writeValueAsString(cadastro);
-            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente__dados_cadastro",json2);
+            System.out.println("Dados enviados: " + json2);
+            rabbitTemplate.convertAndSend("service_auth__criar_registro_cliente",json2);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());
