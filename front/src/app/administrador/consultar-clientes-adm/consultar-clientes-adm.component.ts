@@ -17,8 +17,8 @@ export class ConsultarClientesAdmComponent implements OnInit {
 
   listarTodosClientes() {
     this.adminService.listarTodosClientes()
-      .subscribe((clientes: Cliente[]) => {
-        this.clientes = clientes;
+      .subscribe((clientes) => {
+        this.clientes = clientes.clientes;
       });
   } 
 }

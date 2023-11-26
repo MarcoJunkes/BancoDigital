@@ -18,10 +18,6 @@ public interface ContaReadRepository extends JpaRepository<ContaRead, Long> {
             @Param("cpf") String cpf,
             @Param("nome") String nome,
             @Param("gerenteCpf") String gerenteCpf);
-    @Query(value = "SELECT * FROM read.conta WHERE gerente_cpf = :gerenteCpf AND status = :status", nativeQuery = true)
-    List<ContaRead> findAllClientesByStatus(
-            @Param("gerenteCpf") String gerenteCpf,
-            @Param("status") Conta.StatusConta status);
     List<ContaRead> findByGerenteCpfAndStatus(String gerenteCpf, Conta.StatusConta status);
     @Query(
         "SELECT " +

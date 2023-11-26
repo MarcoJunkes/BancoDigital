@@ -64,7 +64,11 @@ app.put('/autocadastro', (req, res, next) => {
 app.get('/clientes', verifyJWT, async (req, res, next) => {
     if (req.method === 'GET') {
         try {
-            const {data: contasData} = await axios.get(`${contasAPI}/clientes?`+new URLSearchParams(req.query).toString());
+            const contasUrl = `${contasAPI}/clientes?`+new URLSearchParams(req.query).toString()
+            if (!req.query) {
+                contasUrl = `${contasAPI}/clientes`
+            }
+            const {data: contasData} = await axios.get(contasUrl);
             const clientesPromises = contasData.map(async (conta) => {
                 const { data: clienteData } = await axios.get(`${clientesAPI}/clientes/${conta.clienteCpf}`);
                 return clienteData;
