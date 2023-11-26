@@ -81,14 +81,14 @@ public class ClienteREST {
     public Cliente alterarCliente(@PathVariable("id") int id, @RequestBody Cliente cliente){
         Cliente c = repo.findById((long) id).orElse(null);
 
-        if(c != null){
+        if (c != null) {
             c.setNome(cliente.getNome());
             c.setEmail(cliente.getEmail());
             c.setCPF(cliente.getCPF());
             c.setTelefone(cliente.getTelefone());
             c.setSalario(cliente.getSalario());
             c.setRua(cliente.getRua());
-            c.setLogradouro(cliente.getLogradouro());
+            c.setBairro(cliente.getBairro());
             c.setNumero(cliente.getNumero());
             c.setComplemento(cliente.getComplemento());
             c.setCEP(cliente.getCEP());

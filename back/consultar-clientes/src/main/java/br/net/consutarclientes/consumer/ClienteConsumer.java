@@ -1,5 +1,6 @@
 package br.net.consutarclientes.consumer;
 
+import br.net.consutarclientes.services.ClienteService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ClienteConsumer {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private ClienteREST clienteREST;
+    private ClienteService clienteService;
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
@@ -26,7 +27,7 @@ public class ClienteConsumer {
     public void autoCadastro(String msg) throws JsonMappingException, JsonProcessingException{
         try{
             var cliente = objectMapper.readValue(msg, Cliente.class);
-            clienteREST.inserirCliente(cliente);
+            clienteService.inserirCliente(cliente);
 
             String cpf = cliente.getCPF();
             String nome = cliente.getNome();
@@ -45,6 +46,23 @@ public class ClienteConsumer {
         } catch (Exception e) {
             e.printStackTrace();
             rabbitTemplate.convertAndSend("service_cliente__response_autocadastro", e.getMessage());
+        }
+    }
+
+    @RabbitListener(queues = "service_cliente__request_alterar_cadastro")
+    public void alterarCadastro(String msg) throws JsonMappingException, JsonProcessingException{
+        try{
+            var cliente = objectMapper.readValue(msg, Cliente.class);
+            clienteService.alterarCliente(cliente);
+
+            String json = objectMapper.writeValueAsString(cliente);
+            rabbitTemplate.convertAndSend("service_cliente__response_alterar_cadastro", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_cliente__response_alterar_cadastro", e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            rabbitTemplate.convertAndSend("service_cliente__response_alterar_cadastro", e.getMessage());
         }
     }
 }
