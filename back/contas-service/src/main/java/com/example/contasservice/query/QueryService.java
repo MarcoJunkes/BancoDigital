@@ -98,10 +98,11 @@ public class QueryService {
         for (Object object : objects) {
             Object[] obj = (Object[]) object;
             ContasGerenteDTO contasGerenteDTO = new ContasGerenteDTO();
-//            contasGerenteDTO.setGerenteCpf((String) obj[0]);
-            contasGerenteDTO.setSaldoNegativo((Double) obj[1]);
-            contasGerenteDTO.setSaldoPositivo((Double) obj[2]);
-            contasGerenteDTO.setNumeroClientes((Long) obj[3]);
+            contasGerenteDTO.setGerenteCpf((String) obj[0]);
+            contasGerenteDTO.setGerenteNome((String) obj[1]);
+            contasGerenteDTO.setSaldoNegativo((Double) obj[2]);
+            contasGerenteDTO.setSaldoPositivo((Double) obj[3]);
+            contasGerenteDTO.setNumeroClientes((Long) obj[4]);
             contas.add(contasGerenteDTO);
         }
 

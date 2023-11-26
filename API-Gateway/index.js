@@ -107,6 +107,9 @@ app.get('/contas/gerentes', /*verifyJWT,*/ (req, res, next) => {
 app.post('/clientes/:cpf/rejeitar', /*verifyJWT,*/ (req, res, next) => {
     contasPostServiceProxy(req, res, next);
 });
+app.get('/contas/gerente', verifyJWT, (req, res, next) => {
+    contasServiceProxy(req, res, next);
+});
 
 
 // gerente-service

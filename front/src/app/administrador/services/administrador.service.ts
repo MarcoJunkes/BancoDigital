@@ -26,6 +26,10 @@ export class AdministradorService {
     return this.http.get<any>(`${environment.api}/gerentes`, this.httpOptions);
   }
 
+  public listarTodosGerentes2(): Observable<any> {
+    return this.http.get<any>(`${environment.api}/contas/gerentes`, this.httpOptions);
+  }
+
   public criarGerente(gerente: Gerente): Observable<any> {
     return this.http.post<any>(`${environment.api}/gerentes/inserir`, gerente, this.httpOptions);
   }
@@ -46,4 +50,6 @@ export class AdministradorService {
   public listarTodosClientes(): Observable<any> {
     return this.http.get<any>(`${environment.api}/clientes`, this.httpOptions);
   }
+
+
 }

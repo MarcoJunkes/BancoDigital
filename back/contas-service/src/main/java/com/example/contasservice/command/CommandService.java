@@ -138,7 +138,7 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__novo_gerente")
     public void createGerente(InsercaoGerenteEvent insercaoGerenteEvent) {
-        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithLessContas();
+        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithMoreContas();
 
         Gerente gerente = new Gerente();
         gerente.setNome(insercaoGerenteEvent.getNome());
