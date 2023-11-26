@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +27,10 @@ public class RemoverGerenteREST {
     @Autowired
     private ObjectMapper objectMapper;
     
-    @DeleteMapping("/gerentes")
-    public ResponseEntity<?> removerGerentes(@RequestBody RemocaoGerenteEvent remocaoGerenteEvent) throws JsonProcessingException {
+    @DeleteMapping("/gerentes/{id}")
+    public ResponseEntity<?> removerGerentes(@PathVariable int id) throws JsonProcessingException {
+        RemocaoGerenteEvent remocaoGerenteEvent = new RemocaoGerenteEvent();
+        remocaoGerenteEvent.setId(id);
         String json = objectMapper.writeValueAsString(remocaoGerenteEvent);
         rabbitTemplate.convertAndSend("service_gerente__request_remover_gerente", json);
         LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__request_remover_gerente |");

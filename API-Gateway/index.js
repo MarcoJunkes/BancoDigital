@@ -211,7 +211,7 @@ app.get('/gerentes/:id', verifyJWT, (req, res, next) => {
 app.post('/gerentes/inserir', verifyJWT, (req, res, next) => {
     gerentesPostServiceProxy(req, res, next);
 })
-app.delete('/gerentes', verifyJWT, (req, res, next) => {
+app.delete('/gerentes/:id', verifyJWT, (req, res, next) => {
     gerentesDeleteServiceProxy(req, res, next);
 })
 

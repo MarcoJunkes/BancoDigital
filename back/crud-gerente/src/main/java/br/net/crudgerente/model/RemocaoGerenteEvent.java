@@ -2,14 +2,29 @@ package br.net.crudgerente.model;
 
 import java.io.Serializable;
 
-public class RemocaoGerenteEvent implements Serializable {
-    private String cpf;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-    public String getCpf() {
-        return cpf;
+public class RemocaoGerenteEvent implements Serializable{
+    private int id;
+    
+    public RemocaoGerenteEvent() {
+    }
+    public RemocaoGerenteEvent(String jsonString) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            RemocaoGerenteEvent novaContaEvent = objectMapper.readValue(jsonString, RemocaoGerenteEvent.class);
+            this.id = novaContaEvent.getId();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

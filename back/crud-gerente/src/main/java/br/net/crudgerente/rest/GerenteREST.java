@@ -60,8 +60,8 @@ public class GerenteREST {
     @DeleteMapping("/gerentes/{id}")
     public Gerente removerGerente(@PathVariable("id") long id) {
         Gerente gerente = repo.findById((long) id).orElse(null);
-    
-        if (gerente != null) {
+
+        if ((gerente != null)&&(repo.count()>1)) {
             repo.deleteById((long) id);
             return mapper.map(gerente, Gerente.class);
         }
