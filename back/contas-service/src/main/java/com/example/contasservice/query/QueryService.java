@@ -74,11 +74,13 @@ public class QueryService {
         return extrato;
     }
 
-    public List<ContaResponseDTO> consultaClientes(String cpf, String nome, String gerenteCpf) {
+    public List<ContaResponseDTO> consultaClientes(String cpf, String nome, String gerenteCpf, Conta.StatusConta status) {
         List<ContaResponseDTO> clientes = new ArrayList<>();
         List<ContaRead> contas;
         if (cpf != null || nome != null) {
             contas = contaReadRepository.findAllClientes(cpf, nome, gerenteCpf);
+        } else if (status != null) {
+            contas = contaReadRepository.findByGerenteCpfAndStatus(gerenteCpf, status);
         } else {
             contas = contaReadRepository.findAll();
         }

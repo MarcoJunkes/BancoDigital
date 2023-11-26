@@ -50,10 +50,10 @@ export class GerenteService {
     modalRef.componentInstance.cliente = cliente;
   }
 
-  aprovarCliente(usuario: Usuario): Observable<any> {
-    return this.httpClient.post<any>(`${environment.api}/aprovarConta/${usuario.cpf}`, this.httpOptions);
+  aprovarCliente(cliente: Cliente): Observable<any> {
+    return this.httpClient.post<any>(`${environment.api}/aprovarConta/${cliente.cpf}`, this.httpOptions);
   }
-  rejeitarCliente(usuario: Usuario): Observable<any> {
-    return this.httpClient.post<any>(`${environment.api}/clientes/${usuario.cpf}/rejeitar`, this.httpOptions);
+  rejeitarCliente(cliente: Cliente): Observable<any> {
+    return this.httpClient.post<any>(`${environment.api}/clientes/${cliente.cpf}/rejeitar`, this.httpOptions);
   }
 }

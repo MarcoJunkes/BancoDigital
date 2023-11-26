@@ -6,11 +6,14 @@ import com.example.contasservice.dto.SaqueRequestDTO;
 import com.example.contasservice.dto.TransferenciaRequestDTO;
 import com.example.contasservice.exceptions.ContaNotFound;
 import com.example.contasservice.exceptions.ValorNegativoBadRequest;
+import com.example.contasservice.model.Conta;
 import com.example.contasservice.query.QueryService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,7 @@ public class ContaController {
     private ObjectMapper objectMapper;
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContaController.class);
 
     ContaController(CommandService commandService, QueryService queryService) {
         this.commandService = commandService;
@@ -113,6 +117,7 @@ public class ContaController {
         try {
             return ResponseEntity.ok(queryService.consultarTop3(gerenteCpf));
         } catch (Exception e) {
+
             return ResponseEntity.notFound().build();
         }
     }
@@ -121,10 +126,12 @@ public class ContaController {
     public ResponseEntity getClientes(
             @RequestParam(value = "cpf", required = false) String cpf,
             @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "gerenteCpf", required = false) String gerenteCpf) {
+            @RequestParam(value = "gerenteCpf", required = false) String gerenteCpf,
+            @RequestParam(value = "status", required = false) Conta.StatusConta status) {
         try {
-            return ResponseEntity.ok(queryService.consultaClientes(cpf, nome, gerenteCpf));
+            return ResponseEntity.ok(queryService.consultaClientes(cpf, nome, gerenteCpf, status));
         } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
