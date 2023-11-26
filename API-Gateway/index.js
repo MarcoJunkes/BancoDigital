@@ -29,8 +29,8 @@ app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser());
 
 // API Gateway
-var contasAPI = 'http://localhost:8081';
-var clientesAPI = 'http://localhost:8084';
+var contasAPI = 'http://contas-service:8080';
+var clientesAPI = 'http://cliente-service:3300';
 
 function verifyJWT(req, res, next) {
     const token = req.headers['x-access-token'];
