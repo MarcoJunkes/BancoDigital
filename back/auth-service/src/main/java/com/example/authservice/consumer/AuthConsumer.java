@@ -21,23 +21,6 @@ public class AuthConsumer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = "service_gerente__response_inserir_gerente__dados_cadastro")
-    public void criarRegistroCadastro(String msg) throws JsonMappingException, JsonProcessingException{
-        var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);
-        usuarioController.cadastro(usuario);
-
-        String email = objectMapper.writeValueAsString(usuario.getEmail());
-        String senha = objectMapper.writeValueAsString(usuario.getSenha());
-
-        EmailMessage emailMessage = new EmailMessage();
-        emailMessage.setTo(email);
-        emailMessage.setSubject("Criação de conta de Gerente");
-        emailMessage.setMessage("Parabéns, sua conta foi aprovada. Aqui está sua senha de acesso: " + senha);
-        
-        String json = objectMapper.writeValueAsString(emailMessage);
-        rabbitTemplate.convertAndSend("service_auth__enviar_dados_email", json);
-    }
-
     @RabbitListener(queues = "service_auth__criar_registro_cliente")
     public void criarRegistroCliente(String msg) throws JsonMappingException, JsonProcessingException{
         var usuario = objectMapper.readValue(msg, CadastroRequestDTO.class);

@@ -49,12 +49,14 @@ public class GerenteConsumer {
             cadastro.setEmail(email);
             cadastro.setSenha(senhaAleatoria);
             cadastro.setPerfil("gerente");
+            cadastro.setCpf(cpf);
 
             String json = objectMapper.writeValueAsString(insercaoGerenteEvent);
             rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", json);
 
             String json2 = objectMapper.writeValueAsString(cadastro);
-            rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente__dados_cadastro",json2);
+            System.out.println("Dados enviados: " + json2);
+            rabbitTemplate.convertAndSend("service_auth__criar_registro_cliente",json2);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             rabbitTemplate.convertAndSend("service_gerente__response_inserir_gerente", e.getMessage());

@@ -26,6 +26,9 @@ public class RabbitMQConfig {
     @Value("service_gerente__response_remover_gerente")
     private String removerGerenteResponse;
 
+    @Value("service_auth__criar_registro_cliente")
+    private String criarRegistro;
+
     @Bean
     public Queue requestInserirGerentQueue(){
         return new Queue(requestInserirGerente, true);
@@ -49,6 +52,11 @@ public class RabbitMQConfig {
     @Bean
     public Queue removerGerenteResponseQueue(){
         return new Queue(removerGerenteResponse, true);
+    }
+
+    @Bean
+    public Queue criarRegistroQueue(){
+        return new Queue(criarRegistro, true);
     }
     
     @Bean
