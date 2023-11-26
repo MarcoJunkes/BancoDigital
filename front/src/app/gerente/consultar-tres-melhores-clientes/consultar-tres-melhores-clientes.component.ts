@@ -7,25 +7,16 @@ import { Cliente } from 'src/app/shared/models/cliente.model';
   templateUrl: './consultar-tres-melhores-clientes.component.html'
 })
 export class ConsultarTresMelhoresClientesComponent implements OnInit {
-  clientes: Cliente[] = [];
+  public clientes: Cliente[] = [];
+
   constructor(private gerenteService : GerenteService){}
+
   ngOnInit(): void {
-    this.clientes = [];
     this.listarTodos();
   }
 
-  listarTodos(): Cliente[] {
-    this.gerenteService.listarTodos().subscribe({
-      next: (data: Cliente[]) => {
-        if (data == null) {
-          this.clientes = [];
-        }
-        else {
-          this.clientes = data;
-        }
-      }
-    });
-    return this.clientes;
+  listarTodos(): void {
+    this.gerenteService.listarTop3().subscribe(({clientes}) => this.clientes = clientes);
   }
   
   abrirModalCliente(cliente: Cliente) {

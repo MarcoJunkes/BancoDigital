@@ -7,19 +7,41 @@
       <div class="row">
         <div class="col">
           <label for="dataInicial">Data inicial</label>
-          <input type="date" id="dataInicial" name="dataInicial" class="form-control">
+          <input 
+            type="date"
+            id="dataInicial"
+            name="dataInicial"
+            class="form-control"
+            [(ngModel)]="filtro.dataInicial"
+            #valor="ngModel"
+          >
         </div>
         <div class="col">
           <label for="dataFinal">Data final</label>
-          <input type="date" id="dataFinal" name="dataFinal" class="form-control">
+          <input 
+            type="date"
+            id="dataFinal"
+            name="dataFinal"
+            class="form-control"
+            [(ngModel)]="filtro.dataFinal"
+            #valor="ngModel"
+          >
         </div>
         <div class="col d-flex align-items-end">
           <button 
             class="btn btn-primary btn-sm mb-1 ml-2 padding-bottom-5" 
             type="button"
-          >Filtrar</button>
-          <button class="btn btn-primary btn-sm mb-1 ml-2" type="button">Remover
-            Filtro</button>
+            (click)="getOperacoes()"
+          >
+            Filtrar
+          </button>
+          <button 
+            class="btn btn-primary btn-sm mb-1 ml-2" 
+            type="button"
+            (click)="limparFiltro()"
+          >
+            Remover Filtro
+          </button>
         </div>
       </div>
 
@@ -38,7 +60,7 @@
                 <h5 class="card-title">{{operacao.tipo}}</h5>
                 <div class="row card-text">
                   <div class="col-6">
-                    <strong>Horário</strong> {{operacao.data}} <br>
+                    <strong>Horário</strong> {{operacao.data | date : 'dd/MM/yyyy' }} <br>
                     <strong>Valor</strong> R$ {{operacao.valor}}
                   </div>
                   <div class="col-6" *ngIf="operacao.origem && operacao.destino">

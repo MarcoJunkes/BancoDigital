@@ -7,20 +7,23 @@ import { environment } from "src/environments/environment";
 @Injectable({
     providedIn: 'root'
 })
-export class autocadastroService {
+export class AutocadastroService {
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  public autocadastro(usuario: Usuario): Observable<any> {
+    return this.http.post<any>(`${environment.api}/autocadastro`, usuario, this.httpOptions);
+  }
   
-    constructor(
-        private http: HttpClient
-    ) { }
-
-    httpOptions = {
-        headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-        })
-    };
-
-    public autocadastro(usuario: Usuario): Observable<any> {
-        return this.http.post<any>(`${environment.api}/autocadastro`, usuario, this.httpOptions);
-    }
+  public alterarPerfil(usuario: Usuario): Observable<any> {
+    return this.http.put<any>(`${environment.api}/autocadastro`, usuario, this.httpOptions);
+  }
 }
   

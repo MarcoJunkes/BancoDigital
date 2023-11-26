@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 
-// import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
-
-// const LS_CHAVE: string = "cliente";
+import { Cliente } from 'src/app/shared/models/cliente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +22,22 @@ export class GerenteService {
   constructor(private httpClient: HttpClient,
               private modalService: NgbModal) { }
 
-  listarTodos(): Observable<any[]> {
-    return this.httpClient.get<any>(`${environment.api}/clientes`, this.httpOptions);
+  listarTodos(filtro: any): Observable<{clientes: Cliente[]}> {
+    let gerenteCpf = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
+    const options = {
+      ...this.httpOptions,
+      params: filtro
+    }
+
+    return this.httpClient.get<any>(`${environment.api}/clientes?gerenteCpf=${gerenteCpf}`, options);
   }
 
-  buscarPorId(id: number): Observable<Usuario> {
+  listarTop3(): Observable<{clientes: Cliente[]}> {
+    let gerenteCpf = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
+    return this.httpClient.get<any>(`${environment.api}/clientes/top3?gerenteCpf=${gerenteCpf}`, this.httpOptions);
+  }
+
+  buscarPorId(id: string): Observable<Usuario> {
     return this.httpClient.get<Usuario>(`${environment.api}/clientes/${id}`, this.httpOptions);
   }
 
@@ -37,8 +46,10 @@ export class GerenteService {
     modalRef.componentInstance.cliente = cliente;
   }
 
-  aprovarCliente(usuario: Usuario): Observable<any> {
-    console.log(`${environment.api}/aprovarConta/${usuario.cpf}`);
-    return this.httpClient.post<any>(`${environment.api}/aprovarConta/${usuario.cpf}`, this.httpOptions);
+  aprovarCliente(cliente: Cliente): Observable<any> {
+    return this.httpClient.post<any>(`${environment.api}/aprovarConta/${cliente.cpf}`, this.httpOptions);
+  }
+  rejeitarCliente(cliente: Cliente): Observable<any> {
+    return this.httpClient.post<any>(`${environment.api}/clientes/${cliente.cpf}/rejeitar`, this.httpOptions);
   }
 }

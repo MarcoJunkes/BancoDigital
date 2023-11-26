@@ -3,7 +3,7 @@ package com.example.contasservice.event;
 public class AlteracaoPerfilEvent {
     private String nome;
     private Float salario;
-    private Long numeroConta;
+    private String cpf;
 
     public String getNome() {
         return nome;
@@ -21,11 +21,11 @@ public class AlteracaoPerfilEvent {
         this.salario = salario;
     }
 
-    public Long getNumeroConta() {
-        return numeroConta;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setNumeroConta(Long numeroConta) {
-        this.numeroConta = numeroConta;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

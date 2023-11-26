@@ -11,7 +11,7 @@ const axios = require("axios");
 
 const { authServiceProxy, autoCadastroServiceProxy } = require("./proxy/auth-service");
 const { clientesGetServiceProxy, clientesPostServiceProxy } = require("./proxy/clientes-service");
-const { contasServiceProxy } = require("./proxy/contas-service");
+const { contasServiceProxy, contasPostServiceProxy, contasGetServiceProxy } = require("./proxy/contas-service");
 const { gerentesGetServiceProxy, gerentesPostServiceProxy, gerentesPutServiceProxy, gerentesDeleteServiceProxy } = require("./proxy/gerentes-service");
 
 const app = express();
@@ -29,6 +29,9 @@ app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser());
 
 // API Gateway
+var contasAPI = 'http://localhost:8081';
+var clientesAPI = 'http://localhost:8084';
+
 function verifyJWT(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token)
@@ -53,20 +56,113 @@ app.post('/logout', (req, res, next) => {
 app.post('/autocadastro', (req, res, next) => {
     autoCadastroServiceProxy(req, res, next);
 });
+app.put('/autocadastro', (req, res, next) => {
+    autoCadastroServiceProxy(req, res, next);
+});
 
 // clientes-service
-app.get('/clientes', verifyJWT, (req, res, next) => {
-    clientesGetServiceProxy(req, res, next);
+app.get('/clientes', verifyJWT, async (req, res, next) => {
+    if (req.method === 'GET') {
+        try {
+            const contasUrl = `${contasAPI}/clientes?`+new URLSearchParams(req.query).toString()
+            if (!req.query) {
+                contasUrl = `${contasAPI}/clientes`
+            }
+            const {data: contasData} = await axios.get(contasUrl);
+            const clientesPromises = contasData.map(async (conta) => {
+                const { data: clienteData } = await axios.get(`${clientesAPI}/clientes/${conta.clienteCpf}`);
+                return clienteData;
+            });
+            const clientesDatas = await Promise.all(clientesPromises);
+
+            const clientes = contasData.map((conta, index) => {
+                const clienteData = clientesDatas[index];
+
+                return {
+                    id: clienteData.id,
+                    nome: clienteData.nome,
+                    cpf: clienteData.cpf,
+                    cidade: clienteData.cidade,
+                    estado: clienteData.estado,
+                    saldo: conta.saldo,
+                    dataCriacao: conta.dataCriacao,
+                    limite: conta.limite,
+                    gerente: conta.gerenteNome,
+                    salario: clienteData.salario
+                };
+            });
+            
+            res.json({
+                clientes
+            });
+        } catch (error) {
+            // Handle any errors that occurred during the requests
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
 });
+app.get('/clientes/:id', verifyJWT, async (req, res, next) => {
+    try {
+        if (req.method === 'GET' && req.params.id !== 'top3') {
+            const {data: conta} = await axios.get(`${contasAPI}/contas/${req.params.id}`);
+            const {data: clienteData} = await axios.get(`${clientesAPI}/clientes/${req.params.id}`);
+            res.json({
+                id: clienteData.id,
+                nome: clienteData.nome,
+                cpf: clienteData.cpf,
+                cidade: clienteData.cidade,
+                estado: clienteData.estado,
+                saldo: conta.saldo,
+                dataCriacao: conta.dataCriacao,
+                limite: conta.limite,
+                gerente: conta.gerenteNome,
+                salario: clienteData.salario
+            });
+        } else {
+            const {data: contasData} = await axios.get(`${contasAPI}/contas/top3?`+new URLSearchParams(req.query).toString());
+            const clientesPromises = contasData.map(async (conta) => {
+                const { data: clienteData } = await axios.get(`${clientesAPI}/clientes/${conta.clienteCpf}`);
+                return clienteData;
+            });
+            const clientesDatas = await Promise.all(clientesPromises);
+
+            const clientes = contasData.map((conta, index) => {
+                const clienteData = clientesDatas[index];
+
+                return {
+                    id: clienteData.id,
+                    nome: clienteData.nome,
+                    cpf: clienteData.cpf,
+                    cidade: clienteData.cidade,
+                    estado: clienteData.estado,
+                    saldo: conta.saldo,
+                    dataCriacao: conta.dataCriacao,
+                    limite: conta.limite,
+                    gerente: conta.gerenteNome,
+                    salario: clienteData.salario
+                };
+            });
+            
+            res.json({
+                clientes
+            });
+        }
+    } catch (error) {
+        // Handle any errors that occurred during the requests
+        // console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // Aprovar cliente
+
 app.post('/aprovarConta/:cpf', verifyJWT, (req, res, next) => {
+
     clientesPostServiceProxy(req, res, next);
 });
 
 // contas-service
-var contasAPI = 'http://localhost:8081';
-var clientesAPI = 'http://localhost:8084';
-
 app.get('/contas/:numero', verifyJWT, async (req, res, next) => {
     if (req.method === 'GET' && req.params.numero) {
         try {
@@ -98,6 +194,16 @@ app.post('/operacoes/:numero/saque', verifyJWT, (req, res, next) => {
 app.post('/operacoes/:numero/transferencia', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
+app.get('/contas/gerentes', /*verifyJWT,*/ (req, res, next) => {
+    contasServiceProxy(req, res, next);
+});
+app.post('/clientes/:cpf/rejeitar', /*verifyJWT,*/ (req, res, next) => {
+    contasPostServiceProxy(req, res, next);
+});
+app.get('/contas/gerente', verifyJWT, (req, res, next) => {
+    contasServiceProxy(req, res, next);
+});
+
 
 // gerente-service
 app.get('/gerentes', verifyJWT, (req, res, next) => {

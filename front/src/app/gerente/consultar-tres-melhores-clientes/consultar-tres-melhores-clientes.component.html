@@ -3,18 +3,6 @@
       <h1 class="display-4 m-0">Consultar os 3 melhores clientes</h1>
     </div>
 
-    <div class="row  justify-content-center">
-        <div class="col-8">
-            <input type="text" class="col-3 m-2" placeholder="CPF">
-            <button class="col-3 m-2 btn btn-primary" (click)="abrirModalCliente({id: 1, cpf: '123.456.789-12', nome: 'Tiago', cidade: 'Curitiba', estado: 'PR', gerente: 'Fulano', limite: 1000, salario: 1000, saldo: 2500})">Pesquisar por CPF</button>
-            <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
-
-            <input type="text" class="col-6 m-2" placeholder="Nome">
-            <button class="col-3 m-2 btn btn-primary" (click)="abrirModalCliente({id: 1, cpf: '123.456.789-12', nome: 'Tiago', cidade: 'Curitiba', estado: 'PR', gerente: 'Fulano', limite: 1000, salario: 1000, saldo: 2500})">Pesquisar por nome</button>
-            <button class="col-2 m-2 btn btn-primary">Limpar pesquisa</button>
-        </div>
-    </div>
-
     <div class="row justify-content-center">
         <div class="col-12 col-sm-8 mb-5">
             <table class="table table-striped">
@@ -29,8 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Ordenado em ordem crescente dos nomes -->
-                    <tr  *ngFor="let cliente of clientes.slice(0, 3)">
+                    <tr  *ngFor="let cliente of clientes">
                         <td> {{cliente.cpf}}</td>
                         <td> {{cliente.nome}}</td>
                         <td> {{cliente.cidade}}</td>

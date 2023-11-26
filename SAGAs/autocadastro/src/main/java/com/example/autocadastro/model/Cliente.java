@@ -2,14 +2,14 @@ package com.example.autocadastro.model;
 
 import java.io.Serializable;
 
-public class Cliente implements Serializable{
+public class Cliente implements Serializable {
     private String nome;
     private String email;
     private String cpf;
     private String telefone;
     private float salario;
     private String rua;
-    private String logradouro;
+    private String bairro;
     private String numero;
     private String complemento;
     private String CEP;
@@ -20,7 +20,7 @@ public class Cliente implements Serializable{
         super();
     }
 
-    public Cliente(String nome, String email, String cpf, String telefone, float salario, String rua, String logradouro, String numero, String complemento, String CEP, String cidade, String estado){
+    public Cliente(String nome, String email, String cpf, String telefone, float salario, String rua, String bairro, String numero, String complemento, String CEP, String cidade, String estado){
         super();
         this.nome = nome;
         this.email = email;
@@ -28,7 +28,7 @@ public class Cliente implements Serializable{
         this.telefone = telefone;
         this.salario = salario;
         this.rua = rua;
-        this.logradouro = logradouro;
+        this.bairro = bairro;
         this.numero = numero;
         this.complemento = complemento;
         this.CEP = CEP;
@@ -84,12 +84,12 @@ public class Cliente implements Serializable{
         this.rua = rua;
     }
 
-    public String getLogradouro(){
-        return logradouro;
+    public String getBairro(){
+        return bairro;
     }
 
-    public void setLogradouro(String logradouro){
-        this.logradouro = logradouro;
+    public void setBairro(String bairro){
+        this.bairro = bairro;
     }
 
     public String getNumero(){

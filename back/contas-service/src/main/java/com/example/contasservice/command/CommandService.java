@@ -114,9 +114,11 @@ public class CommandService {
     }
 
     @RabbitListener(queues="contas_service__alterar_perfil")
-    public void alterarPerfil(AlteracaoPerfilEvent alteracaoPerfilEvent) {
-        Conta conta = contaRepository.findById(alteracaoPerfilEvent.getNumeroConta()).get();
-        Cliente cliente = clienteRepository.getByCpf(conta.getCliente().getCpf());
+    public void alterarPerfil(NovaContaEvent alteracaoPerfilEvent) {
+        LOGGER.info("started alterarPerfil to cliente: "+ alteracaoPerfilEvent.getCpf());
+
+        Conta conta = contaRepository.getByClienteCpf(alteracaoPerfilEvent.getCpf());
+        Cliente cliente = conta.getCliente();
         cliente.setNome(alteracaoPerfilEvent.getNome());
         clienteRepository.save(cliente);
 
@@ -134,11 +136,13 @@ public class CommandService {
 
         sendContaSyncEvent(conta);
         rabbitTemplate.convertAndSend("contas_service__alterar_perfil__response", alteracaoPerfilEvent);
+
+        LOGGER.info("finished alterarPerfil, cliente:"+alteracaoPerfilEvent.getCpf());
     }
 
     @RabbitListener(queues="contas_service__novo_gerente")
     public void createGerente(InsercaoGerenteEvent insercaoGerenteEvent) {
-        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithLessContas();
+        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithMoreContas();
 
         Gerente gerente = new Gerente();
         gerente.setNome(insercaoGerenteEvent.getNome());

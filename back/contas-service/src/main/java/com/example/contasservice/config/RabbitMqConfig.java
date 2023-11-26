@@ -24,6 +24,12 @@ public class RabbitMqConfig implements RabbitListenerConfigurer {
     @Value("service_conta__response_aprovar_conta")
     private String responseAprovarConta;
 
+    @Value("service_conta__request_rejeitar_conta")
+    private String rejeitarConta;
+
+    @Value("service_conta__response_rejeitar_conta")
+    private String rejeitarContaResponse;
+
     @Bean
     public Queue requestAprovarContaQueue(){
         return new Queue(requestAprovarConta, true);
@@ -32,6 +38,16 @@ public class RabbitMqConfig implements RabbitListenerConfigurer {
     @Bean
     public Queue responseAprovarContaQueue(){
         return new Queue(responseAprovarConta, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaQueue(){
+        return new Queue(rejeitarConta, true);
+    }
+
+    @Bean
+    public Queue rejeitarContaResponseQueue(){
+        return new Queue(rejeitarContaResponse, true);
     }
 
     @Bean

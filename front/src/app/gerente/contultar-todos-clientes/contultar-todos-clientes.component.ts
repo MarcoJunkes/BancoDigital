@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GerenteService } from '../services/gerente.service';
 import { Cliente } from 'src/app/shared/models/cliente.model';
 import { NgForm } from '@angular/forms';
-import { Usuario } from 'src/app/shared';
+import { Conta, Usuario } from 'src/app/shared';
 
 @Component({
   selector: 'app-contultar-todos-clientes',
@@ -10,40 +10,42 @@ import { Usuario } from 'src/app/shared';
 })
 
 export class ContultarTodosClientesComponent implements OnInit {
-
-
+  filtro = {
+    cpf: '',
+    nome: ''
+  }
   clientes: Cliente[] = [];
-  usuarios: Usuario[] = [];
-
-  @ViewChild('formCpf') formCpf!: NgForm;
+  conta: Conta[] = [];
 
   constructor(private gerenteService : GerenteService){}
 
   ngOnInit(): void {
     this.clientes = [];
-    this.usuarios = [];
     this.listarTodos();
   }
 
   listarTodos(): Cliente[] {
-    this.gerenteService.listarTodos().subscribe({
-      next: (data: Cliente[]) => {
-        if (data == null) {
-          this.clientes = [];
-        }
-        else {
-          this.clientes = data;
-        }
-      }
-    });
+    const filtro: any = {};
+    if (this.filtro.cpf) {
+      filtro['cpf'] = this.filtro.cpf.trim();
+    }
+    if (this.filtro.nome) {
+      filtro['nome'] = this.filtro.nome.trim();
+    }
+
+    this.gerenteService.listarTodos(filtro).subscribe(({ clientes }) => this.clientes = clientes);
     return this.clientes;
   }
   
-  abrirModalCliente(cliente: Cliente) {
-    this.gerenteService.abrirModalCliente(cliente)
+  limparFiltro() {
+    this.filtro = {
+      cpf: '',
+      nome: ''
+    }
+    this.listarTodos();
   }
 
-  limparForm() {
-    this.formCpf.reset({});
+  abrirModalCliente(cliente: Cliente) {
+    this.gerenteService.abrirModalCliente(cliente)
   }
 }
