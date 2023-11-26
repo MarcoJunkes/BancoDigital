@@ -100,7 +100,7 @@ public class AutoCadastroREST {
         String json = objectMapper.writeValueAsString(alterarPerfilDTO);
         rabbitTemplate.convertAndSend("contas_service__alterar_perfil", json);
     }
-    @PostMapping("/rejeitarConta/{cpf}")
+    @PostMapping("/clientes/{cpf}/rejeitar")
     public ResponseEntity rejeitarConta(@PathVariable String cpf, @RequestBody RejeitarCliente rejeitar) throws JsonProcessingException{
         String msg = objectMapper.writeValueAsString(cpf);
         this.motivo = rejeitar.getMotivo();

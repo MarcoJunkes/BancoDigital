@@ -187,11 +187,11 @@ app.post('/operacoes/:numero/saque', verifyJWT, (req, res, next) => {
 app.post('/operacoes/:numero/transferencia', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
-app.get('/contas/gerentes', /*verifyJWT,*/ (req, res, next) => {
+app.get('/contas/gerentes', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
-app.post('/clientes/:cpf/rejeitar', /*verifyJWT,*/ (req, res, next) => {
-    contasPostServiceProxy(req, res, next);
+app.post('/clientes/:cpf/rejeitar', verifyJWT, (req, res, next) => {
+    autoCadastroServiceProxy(req, res, next);
 });
 app.get('/contas/gerente', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
