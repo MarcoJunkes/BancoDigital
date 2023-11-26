@@ -22,9 +22,14 @@ export class GerenteService {
   constructor(private httpClient: HttpClient,
               private modalService: NgbModal) { }
 
-  listarTodos(): Observable<any[]> {
+  listarTodos(filtro: any): Observable<{clientes: Cliente[]}> {
     let gerenteCpf = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
-    return this.httpClient.get<any>(`${environment.api}/clientes`, this.httpOptions);
+    const options = {
+      ...this.httpOptions,
+      params: filtro
+    }
+
+    return this.httpClient.get<any>(`${environment.api}/clientes?gerenteCpf=${gerenteCpf}`, options);
   }
 
   listarTop3(): Observable<{clientes: Cliente[]}> {

@@ -20,18 +20,10 @@ export class TelaInicialGerenteComponent implements OnInit{
       this.listarTodos();
   }
 
-  listarTodos(): Usuario[] {
-    this.gerenteService.listarTodos().subscribe({
-      next: (data: Usuario[]) => {
-        if (data == null) {
-          this.usuarios = [];
-        }
-        else {
-          this.usuarios = data;
-        }
-      }
-    });
-    return this.usuarios;
+  listarTodos(): void {
+    // TODO: include status filter
+    // this.gerenteService.listarTodos().subscribe(({clientes}) => this.clientes = clientes);
+    // return this.usuarios;
   }
 
   abrirModal(acao: string){

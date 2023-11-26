@@ -111,7 +111,6 @@ public class ContaController {
     @GetMapping("/contas/top3")
     public ResponseEntity top3(@RequestParam("gerenteCpf") String gerenteCpf) {
         try {
-            // TODO: add gerenteCpf
             return ResponseEntity.ok(queryService.consultarTop3(gerenteCpf));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -121,9 +120,10 @@ public class ContaController {
     @GetMapping("/clientes")
     public ResponseEntity getClientes(
             @RequestParam(value = "cpf", required = false) String cpf,
-            @RequestParam(value = "nome", required = false) String nome) {
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "gerenteCpf", required = false) String gerenteCpf) {
         try {
-            return ResponseEntity.ok(queryService.consultaClientes(cpf, nome));
+            return ResponseEntity.ok(queryService.consultaClientes(cpf, nome, gerenteCpf));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

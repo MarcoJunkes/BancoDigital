@@ -74,20 +74,25 @@ public class QueryService {
         return extrato;
     }
 
-    public List<ClienteDTO> consultaClientes(String cpf, String nome) {
-        List<ClienteDTO> clientes = new ArrayList<>();
+    public List<ContaResponseDTO> consultaClientes(String cpf, String nome, String gerenteCpf) {
+        List<ContaResponseDTO> clientes = new ArrayList<>();
         List<ContaRead> contas;
         if (cpf != null || nome != null) {
-            contas = contaReadRepository.findAllClientes(cpf, nome);
+            contas = contaReadRepository.findAllClientes(cpf, nome, gerenteCpf);
         } else {
             contas = contaReadRepository.findAll();
         }
 
         for (ContaRead conta : contas) {
-            ClienteDTO clienteDTO = new ClienteDTO();
-            clienteDTO.setCpf(conta.getClienteCpf());
-            clienteDTO.setNome(conta.getClienteNome());
-            clientes.add(clienteDTO);
+            ContaResponseDTO contaResponseDTO = new ContaResponseDTO();
+            contaResponseDTO.setGerenteCpf(conta.getGerenteCpf());
+            contaResponseDTO.setGerenteNome(conta.getGerenteNome());
+            contaResponseDTO.setClienteCpf(conta.getClienteCpf());
+            contaResponseDTO.setNumero(conta.getNumero());
+            contaResponseDTO.setLimite(conta.getLimite());
+            contaResponseDTO.setSaldo(conta.getSaldo());
+            contaResponseDTO.setDataCriacao(conta.getDataCriacao());
+            clientes.add(contaResponseDTO);
         }
 
         return clientes;

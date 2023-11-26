@@ -10,45 +10,42 @@ import { Conta, Usuario } from 'src/app/shared';
 })
 
 export class ContultarTodosClientesComponent implements OnInit {
-
+  filtro = {
+    cpf: '',
+    nome: ''
+  }
   clientes: Cliente[] = [];
-  usuarios: Usuario[] = [];
   conta: Conta[] = [];
-
-  @ViewChild('formCpf') formCpf!: NgForm;
 
   constructor(private gerenteService : GerenteService){}
 
   ngOnInit(): void {
     this.clientes = [];
-    this.usuarios = [];
     this.listarTodos();
   }
 
   listarTodos(): Cliente[] {
-    this.gerenteService.listarTodos().subscribe({
-      next: (data: Cliente[]) => {
-        if (data == null) {
-          this.clientes = [];
-        }
-        else {
-          this.clientes = data;
-          this.listarContas(this.clientes);
-        }
-      }
-    });
+    const filtro: any = {};
+    if (this.filtro.cpf) {
+      filtro['cpf'] = this.filtro.cpf.trim();
+    }
+    if (this.filtro.nome) {
+      filtro['nome'] = this.filtro.nome.trim();
+    }
+
+    this.gerenteService.listarTodos(filtro).subscribe(({ clientes }) => this.clientes = clientes);
     return this.clientes;
   }
-
-  listarContas(cliente: Usuario[]){
-    this.gerenteService.listarTodos();
-  }
   
+  limparFiltro() {
+    this.filtro = {
+      cpf: '',
+      nome: ''
+    }
+    this.listarTodos();
+  }
+
   abrirModalCliente(cliente: Cliente) {
     this.gerenteService.abrirModalCliente(cliente)
-  }
-
-  limparForm() {
-    this.formCpf.reset({});
   }
 }

@@ -61,8 +61,42 @@ app.put('/autocadastro', (req, res, next) => {
 });
 
 // clientes-service
-app.get('/clientes', verifyJWT, (req, res, next) => {
-    clientesGetServiceProxy(req, res, next);
+app.get('/clientes', verifyJWT, async (req, res, next) => {
+    if (req.method === 'GET') {
+        try {
+            const {data: contasData} = await axios.get(`${contasAPI}/clientes?`+new URLSearchParams(req.query).toString());
+            const clientesPromises = contasData.map(async (conta) => {
+                const { data: clienteData } = await axios.get(`${clientesAPI}/clientes/${conta.clienteCpf}`);
+                return clienteData;
+            });
+            const clientesDatas = await Promise.all(clientesPromises);
+
+            const clientes = contasData.map((conta, index) => {
+                const clienteData = clientesDatas[index];
+
+                return {
+                    id: clienteData.id,
+                    nome: clienteData.nome,
+                    cpf: clienteData.cpf,
+                    cidade: clienteData.cidade,
+                    estado: clienteData.estado,
+                    saldo: conta.saldo,
+                    dataCriacao: conta.dataCriacao,
+                    limite: conta.limite,
+                    gerente: conta.gerenteNome,
+                    salario: clienteData.salario
+                };
+            });
+            
+            res.json({
+                clientes
+            });
+        } catch (error) {
+            // Handle any errors that occurred during the requests
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
 });
 app.get('/clientes/top3', verifyJWT, async (req, res, next) => {
     if (req.method === 'GET') {
