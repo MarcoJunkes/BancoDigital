@@ -20,6 +20,12 @@ public class RabbitMQConfig {
     @Value("service_gerente__response_inserir_gerente__dados_cadastro")
     private String responseInserirGerenteDadosCadastro;
 
+    @Value("service_gerente__request_remover_gerente")
+    private String removerGerente;
+
+    @Value("service_gerente__response_remover_gerente")
+    private String removerGerenteResponse;
+
     @Bean
     public Queue requestInserirGerentQueue(){
         return new Queue(requestInserirGerente, true);
@@ -33,6 +39,16 @@ public class RabbitMQConfig {
     @Bean
     public Queue responseInserirGerenteDadosCadastroQueue(){
         return new Queue(responseInserirGerenteDadosCadastro, true);
+    }
+
+    @Bean
+    public Queue removerGerenteQueue(){
+        return new Queue(removerGerente, true);
+    }
+
+    @Bean
+    public Queue removerGerenteResponseQueue(){
+        return new Queue(removerGerenteResponse, true);
     }
     
     @Bean
