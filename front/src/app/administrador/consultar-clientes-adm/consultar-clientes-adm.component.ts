@@ -7,7 +7,6 @@ import { AdministradorService } from '../services/administrador.service';
   templateUrl: './consultar-clientes-adm.component.html'
 })
 export class ConsultarClientesAdmComponent implements OnInit {
-
   clientes: Cliente[] =[];
 
   constructor(private adminService: AdministradorService) {}

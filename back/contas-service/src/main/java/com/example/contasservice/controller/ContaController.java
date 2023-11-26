@@ -109,9 +109,10 @@ public class ContaController {
     }
 
     @GetMapping("/contas/top3")
-    public ResponseEntity top3() {
+    public ResponseEntity top3(@RequestParam("gerenteCpf") String gerenteCpf) {
         try {
-            return ResponseEntity.ok(queryService.consultarTop3());
+            // TODO: add gerenteCpf
+            return ResponseEntity.ok(queryService.consultarTop3(gerenteCpf));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

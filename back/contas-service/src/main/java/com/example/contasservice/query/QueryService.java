@@ -93,15 +93,19 @@ public class QueryService {
         return clientes;
     }
 
-    public List<ContaResponseDTO> consultarTop3() {
+    public List<ContaResponseDTO> consultarTop3(String gerenteCpf) {
         List<ContaResponseDTO> top3 = new ArrayList<>();
-        Set<ContaRead> contas = contaReadRepository.findTop3();
+        Set<ContaRead> contas = contaReadRepository.findTop3(gerenteCpf);
 
         for (ContaRead conta : contas) {
             ContaResponseDTO contaResponseDTO = new ContaResponseDTO();
+            contaResponseDTO.setGerenteCpf(conta.getGerenteCpf());
+            contaResponseDTO.setGerenteNome(conta.getGerenteNome());
+            contaResponseDTO.setClienteCpf(conta.getClienteCpf());
             contaResponseDTO.setNumero(conta.getNumero());
             contaResponseDTO.setLimite(conta.getLimite());
             contaResponseDTO.setSaldo(conta.getSaldo());
+            contaResponseDTO.setDataCriacao(conta.getDataCriacao());
             top3.add(contaResponseDTO);
         }
 

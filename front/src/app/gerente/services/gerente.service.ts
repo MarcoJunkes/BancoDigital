@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 
-// import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ModalClienteComponent } from '../modal-cliente/modal-cliente.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
-
-// const LS_CHAVE: string = "cliente";
+import { Cliente } from 'src/app/shared/models/cliente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +23,13 @@ export class GerenteService {
               private modalService: NgbModal) { }
 
   listarTodos(): Observable<any[]> {
+    let gerenteCpf = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
     return this.httpClient.get<any>(`${environment.api}/clientes`, this.httpOptions);
+  }
+
+  listarTop3(): Observable<{clientes: Cliente[]}> {
+    let gerenteCpf = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
+    return this.httpClient.get<any>(`${environment.api}/clientes/top3?gerenteCpf=${gerenteCpf}`, this.httpOptions);
   }
 
   buscarConta(usuario: Usuario): Observable<any[]> {
