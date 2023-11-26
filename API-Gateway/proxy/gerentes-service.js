@@ -2,10 +2,10 @@ const httpProxy = require("express-http-proxy");
 
 var gerentesAPI = 'http://localhost:8082';
 var gerenteSagaInserir = 'http://localhost:8083';
-var gerenteSagaRemover = '';
+var gerenteSagaRemover = 'http://localhost:8086';
 
 const gerentesGetServiceProxy = httpProxy(gerentesAPI);
-const gerentesDeleteServiceProxy = httpProxy(gerentesAPI); // mudar para (gerenteSagaRemover)
+const gerentesDeleteServiceProxy = httpProxy(gerenteSagaRemover); 
 const gerentesPostServiceProxy = httpProxy(gerenteSagaInserir, {
     proxyReqBodyDecorator: function (bodyContent, srcReq) {
         try {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +26,7 @@ public class RemoverGerenteREST {
     @Autowired
     private ObjectMapper objectMapper;
     
-    @PostMapping("/gerentes/remover")
+    @DeleteMapping("/gerentes")
     public ResponseEntity<?> removerGerentes(@RequestBody RemocaoGerenteEvent remocaoGerenteEvent) throws JsonProcessingException {
         String json = objectMapper.writeValueAsString(remocaoGerenteEvent);
         rabbitTemplate.convertAndSend("service_gerente__request_remover_gerente", json);
