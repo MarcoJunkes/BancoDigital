@@ -98,9 +98,24 @@ app.get('/clientes', verifyJWT, async (req, res, next) => {
         }
     }
 });
-app.get('/clientes/top3', verifyJWT, async (req, res, next) => {
-    if (req.method === 'GET') {
-        try {
+app.get('/clientes/:id', verifyJWT, async (req, res, next) => {
+    try {
+        if (req.method === 'GET' && req.params.id !== 'top3') {
+            const {data: conta} = await axios.get(`${contasAPI}/contas/${req.params.id}`);
+            const {data: clienteData} = await axios.get(`${clientesAPI}/clientes/${req.params.id}`);
+            res.json({
+                id: clienteData.id,
+                nome: clienteData.nome,
+                cpf: clienteData.cpf,
+                cidade: clienteData.cidade,
+                estado: clienteData.estado,
+                saldo: conta.saldo,
+                dataCriacao: conta.dataCriacao,
+                limite: conta.limite,
+                gerente: conta.gerenteNome,
+                salario: clienteData.salario
+            });
+        } else {
             const {data: contasData} = await axios.get(`${contasAPI}/contas/top3?`+new URLSearchParams(req.query).toString());
             const clientesPromises = contasData.map(async (conta) => {
                 const { data: clienteData } = await axios.get(`${clientesAPI}/clientes/${conta.clienteCpf}`);
@@ -128,11 +143,11 @@ app.get('/clientes/top3', verifyJWT, async (req, res, next) => {
             res.json({
                 clientes
             });
-        } catch (error) {
-            // Handle any errors that occurred during the requests
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
         }
+    } catch (error) {
+        // Handle any errors that occurred during the requests
+        // console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

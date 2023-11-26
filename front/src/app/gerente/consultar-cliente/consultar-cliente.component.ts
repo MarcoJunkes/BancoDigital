@@ -8,28 +8,25 @@ import { Usuario } from 'src/app/shared';
   templateUrl: './consultar-cliente.component.html'
 })
 export class ConsultarClienteComponent {
-  clientes: Cliente[] = [];
-  usuarios: Usuario[] = [];
-  usuario!: Usuario;
-  data!: Cliente;
+  filtro = {
+    cpf: ''
+  }
   cliente!: Cliente;
-  @ViewChild('formConsultarCliente') formConsultarCliente!: NgForm;
 
   constructor(
-    private gerenteService : GerenteService
+    private gerenteService: GerenteService
   ){}
 
-  pesquisarCliente(): void{
-    if (this.formConsultarCliente.form.valid) {
-      this.gerenteService.abrirModalCliente(this.usuario);
-    }
+  pesquisarCliente(): void {
+    this.gerenteService.buscarPorId(this.filtro.cpf)
+      .subscribe(cliente => {
+        this.gerenteService.abrirModalCliente(cliente);
+      });
   }
 
-  abrirModalCliente(cliente: Cliente) {
-    this.gerenteService.abrirModalCliente(cliente)
-  }
-
-  limparForm() {
-    this.formConsultarCliente.reset({});
+  limparForm(): void {
+    this.filtro = {
+      cpf: ''
+    };
   }
 }

@@ -33,6 +33,8 @@ public class QueryService {
         contaResponseDTO.setSaldo(contaRead.getSaldo());
         contaResponseDTO.setGerenteCpf(contaRead.getGerenteCpf());
         contaResponseDTO.setGerenteNome(contaRead.getGerenteNome());
+        contaResponseDTO.setClienteCpf(contaRead.getClienteCpf());
+        contaResponseDTO.setDataCriacao(contaRead.getDataCriacao());
 
         return contaResponseDTO;
     }
