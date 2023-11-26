@@ -16,6 +16,7 @@ import br.net.crudgerente.model.Gerente;
 import br.net.crudgerente.model.InsercaoGerenteEvent;
 import br.net.crudgerente.model.RemocaoGerenteEvent;
 import br.net.crudgerente.rest.GerenteREST;
+import br.net.crudgerente.senha.GeradorSenhaAleatoria;
 
 @Component
 public class GerenteConsumer {
@@ -36,15 +37,17 @@ public class GerenteConsumer {
             String cpf = gerente.getCPF();
             String nome = gerente.getNome();
             String email = gerente.getEmail();
-            String senha = gerente.getSenha();
 
             InsercaoGerenteEvent insercaoGerenteEvent = new InsercaoGerenteEvent();
             insercaoGerenteEvent.setCpf(cpf);
             insercaoGerenteEvent.setNome(nome);
 
+            String senhaAleatoria = GeradorSenhaAleatoria.gerarSenhaAleatoria(8);
+            System.out.println("Senha gerada para " + email + ": " + senhaAleatoria);
+
             Cadastro cadastro = new Cadastro();
             cadastro.setEmail(email);
-            cadastro.setSenha(senha);
+            cadastro.setSenha(senhaAleatoria);
             cadastro.setPerfil("gerente");
 
             String json = objectMapper.writeValueAsString(insercaoGerenteEvent);
