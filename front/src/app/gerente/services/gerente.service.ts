@@ -28,6 +28,10 @@ export class GerenteService {
     return this.httpClient.get<any>(`${environment.api}/clientes`, this.httpOptions);
   }
 
+  buscarConta(usuario: Usuario): Observable<any[]> {
+    return this.httpClient.get<any>(`${environment.api}/contas/${usuario.cpf}`, this.httpOptions);
+  } 
+
   buscarPorId(id: number): Observable<Usuario> {
     return this.httpClient.get<Usuario>(`${environment.api}/clientes/${id}`, this.httpOptions);
   }
@@ -38,7 +42,9 @@ export class GerenteService {
   }
 
   aprovarCliente(usuario: Usuario): Observable<any> {
-    console.log(`${environment.api}/aprovarConta/${usuario.cpf}`);
     return this.httpClient.post<any>(`${environment.api}/aprovarConta/${usuario.cpf}`, this.httpOptions);
+  }
+  rejeitarCliente(usuario: Usuario): Observable<any> {
+    return this.httpClient.post<any>(`${environment.api}/clientes/${usuario.cpf}/rejeitar`, this.httpOptions);
   }
 }

@@ -11,7 +11,7 @@ const axios = require("axios");
 
 const { authServiceProxy, autoCadastroServiceProxy } = require("./proxy/auth-service");
 const { clientesGetServiceProxy, clientesPostServiceProxy } = require("./proxy/clientes-service");
-const { contasServiceProxy } = require("./proxy/contas-service");
+const { contasServiceProxy, contasPostServiceProxy, contasGetServiceProxy } = require("./proxy/contas-service");
 const { gerentesGetServiceProxy, gerentesPostServiceProxy, gerentesPutServiceProxy, gerentesDeleteServiceProxy } = require("./proxy/gerentes-service");
 
 const app = express();
@@ -61,12 +61,15 @@ app.put('/autocadastro', (req, res, next) => {
 app.get('/clientes', verifyJWT, (req, res, next) => {
     clientesGetServiceProxy(req, res, next);
 });
+
 // Aprovar clietne
 app.post('/aprovarConta/:cpf', verifyJWT, (req, res, next) => {
+
     clientesPostServiceProxy(req, res, next);
 });
 
 // contas-service
+
 var contasAPI = 'http://localhost:8081';
 var clientesAPI = 'http://localhost:8084';
 
@@ -101,6 +104,13 @@ app.post('/operacoes/:numero/saque', verifyJWT, (req, res, next) => {
 app.post('/operacoes/:numero/transferencia', verifyJWT, (req, res, next) => {
     contasServiceProxy(req, res, next);
 });
+app.get('/contas/gerentes', /*verifyJWT,*/ (req, res, next) => {
+    contasServiceProxy(req, res, next);
+});
+app.post('/clientes/:cpf/rejeitar', /*verifyJWT,*/ (req, res, next) => {
+    contasPostServiceProxy(req, res, next);
+});
+
 
 // gerente-service
 app.get('/gerentes', verifyJWT, (req, res, next) => {

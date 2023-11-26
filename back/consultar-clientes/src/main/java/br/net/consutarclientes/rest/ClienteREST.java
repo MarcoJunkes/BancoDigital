@@ -59,6 +59,18 @@ public class ClienteREST {
         rabbitTemplate.convertAndSend("service_cliente__response_buscarcpf", json);
     }
 
+    @RabbitListener(queues = "service_cliente__request_buscarcpf2")
+    public void obterClientePorCPF2(String cpf) throws JsonMappingException, JsonProcessingException{
+        Cliente c = repo.findByCPF(cpf);
+        AuthCliente cliente = new AuthCliente();
+        cliente.setId(c.getId());
+        cliente.setEmail(c.getEmail());
+        cliente.setCPF(c.getCPF());
+
+        String json = objectMapper.writeValueAsString(cliente);
+        rabbitTemplate.convertAndSend("service_cliente__response_buscarcpf2", json);
+    }
+
     @PostMapping("/clientes")
     public Cliente inserirCliente(@RequestBody Cliente cliente){
         Cliente clienteSalvo = repo.save(mapper.map(cliente, Cliente.class));

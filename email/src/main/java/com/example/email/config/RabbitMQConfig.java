@@ -14,14 +14,23 @@ public class RabbitMQConfig {
     @Value("service_auth__enviar_dados_email")
     private String enviarDadosEmail;
 
-    @Bean
-    public ObjectMapper objectMapper(){
-        return JsonMapper.builder().findAndAddModules().build();
-    }
+    @Value("service_conta__enviar_dados_recusados")
+    private String enviarDadosRecusados;
 
     @Bean
     public Queue enviarDadosEmailQueue(){
         return new Queue(enviarDadosEmail, true);
+    }
+
+
+    @Bean
+    public Queue enviarDadosRecusadosQueue(){
+        return new Queue(enviarDadosRecusados, true);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        return JsonMapper.builder().findAndAddModules().build();
     }
 
     @Bean
