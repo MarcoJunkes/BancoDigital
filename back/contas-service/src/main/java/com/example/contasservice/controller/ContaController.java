@@ -14,8 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 public class ContaController {
@@ -85,9 +88,12 @@ public class ContaController {
     }
 
     @GetMapping("/contas/{cpf}/extrato")
-    public ResponseEntity extrato(@PathVariable String cpf) {
+    public ResponseEntity extrato(
+            @PathVariable String cpf,
+            @RequestParam(value = "dataInicial", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX") Date dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX") Date dataFinal) {
         try {
-            return ResponseEntity.ok(queryService.consultaExtrato(cpf));
+            return ResponseEntity.ok(queryService.consultaExtrato(cpf, dataInicial, dataFinal));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

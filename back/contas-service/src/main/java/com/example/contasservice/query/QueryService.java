@@ -12,9 +12,8 @@ import com.example.contasservice.repository.read.MovimentacaoReadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.Instant;
+import java.util.*;
 
 @Service
 public class QueryService {
@@ -38,9 +37,25 @@ public class QueryService {
         return contaResponseDTO;
     }
 
-    public List<ExtratoDTO> consultaExtrato(String cpf) {
+    public List<ExtratoDTO> consultaExtrato(String cpf, Date startDate, Date endDate) {
         List<ExtratoDTO> extrato = new ArrayList<>();
-        Set<MovimentacaoRead> movimentacoes = movimentacaoReadRepository.findByClienteCpf(cpf);
+        Set<MovimentacaoRead> movimentacoes = new HashSet<>();
+
+        try {
+            Date now = new Date();
+            Instant instant = Instant.parse("2000-01-01T00:00:00.00Z");
+            Date beggining = Date.from(instant);
+
+            if (startDate == null) {
+                startDate = beggining;
+            }
+            if (endDate == null) {
+                endDate = now;
+            }
+            movimentacoes = movimentacaoReadRepository.findByDataIsBetweenAndClienteCpf(startDate, endDate, cpf);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         for (MovimentacaoRead movimentacao : movimentacoes) {
             ExtratoDTO extratoDTO = new ExtratoDTO();
