@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
+import { Conta } from 'src/app/shared';
+import { Cliente } from 'src/app/shared/models/cliente.model';
 import { Gerente } from 'src/app/shared/models/gerente.model';
 import { environment } from 'src/environments/environment';
 
@@ -47,9 +49,7 @@ export class AdministradorService {
     return this.http.delete<any>(`${environment.api}/gerentes/${id}`, this.httpOptions);
   }
 
-  public listarTodosClientes(): Observable<any> {
+  public listarTodosClientes(): Observable<{clientes: Cliente[]}> {
     return this.http.get<any>(`${environment.api}/clientes`, this.httpOptions);
   }
-
-
 }

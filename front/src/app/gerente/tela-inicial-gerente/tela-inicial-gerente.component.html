@@ -11,18 +11,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let usuario of usuarios">
-                    <td>{{usuario.nome}}</td>
-                    <td>{{usuario.cpf}}</td>
-                    <td>{{usuario.salario | currency : 'BRL'}}</td>
+                <tr *ngFor="let cliente of clientes">
+                    <td>{{cliente.nome}}</td>
+                    <td>{{cliente.cpf}}</td>
+                    <td>{{cliente.salario | currency : 'BRL'}}</td>
                     <td>
                         <button class="btn btn-success btn-sm"
-                            (click)="aprovarCliente(usuario)">
+                            (click)="aprovarCliente(cliente)">
                                 Aprovar
                         </button>
                         <button class="btn btn-danger btn-sm"
                             type="button"
-                            (click)="rejeitarCliente(usuario)">
+                            (click)="rejeitarCliente(cliente)">
                                 Recusar
                         </button>
                     </td>
@@ -30,8 +30,5 @@
             </tbody>
         </table>
     </div>
-    <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-cliente']">Consultar Cliente</a>
-    <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-todos']">Consultar Todos</a>
-    <a class="btn btn-primary btn-sm mt-3" [routerLink]="['/gerente/consultar-tres-melhores']">Consultar Melhores</a>
 </div>
 

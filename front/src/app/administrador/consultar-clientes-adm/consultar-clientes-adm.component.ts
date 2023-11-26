@@ -7,7 +7,6 @@ import { AdministradorService } from '../services/administrador.service';
   templateUrl: './consultar-clientes-adm.component.html'
 })
 export class ConsultarClientesAdmComponent implements OnInit {
-
   clientes: Cliente[] =[];
 
   constructor(private adminService: AdministradorService) {}
@@ -18,8 +17,8 @@ export class ConsultarClientesAdmComponent implements OnInit {
 
   listarTodosClientes() {
     this.adminService.listarTodosClientes()
-      .subscribe((clientes: Cliente[]) => {
-        this.clientes = clientes;
+      .subscribe((clientes) => {
+        this.clientes = clientes.clientes;
       });
   } 
 }

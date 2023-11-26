@@ -33,6 +33,8 @@ public class QueryService {
         contaResponseDTO.setSaldo(contaRead.getSaldo());
         contaResponseDTO.setGerenteCpf(contaRead.getGerenteCpf());
         contaResponseDTO.setGerenteNome(contaRead.getGerenteNome());
+        contaResponseDTO.setClienteCpf(contaRead.getClienteCpf());
+        contaResponseDTO.setDataCriacao(contaRead.getDataCriacao());
 
         return contaResponseDTO;
     }
@@ -74,34 +76,45 @@ public class QueryService {
         return extrato;
     }
 
-    public List<ClienteDTO> consultaClientes(String cpf, String nome) {
-        List<ClienteDTO> clientes = new ArrayList<>();
+    public List<ContaResponseDTO> consultaClientes(String cpf, String nome, String gerenteCpf, Conta.StatusConta status) {
+        List<ContaResponseDTO> clientes = new ArrayList<>();
         List<ContaRead> contas;
         if (cpf != null || nome != null) {
-            contas = contaReadRepository.findAllClientes(cpf, nome);
+            contas = contaReadRepository.findAllClientes(cpf, nome, gerenteCpf);
+        } else if (status != null) {
+            contas = contaReadRepository.findByGerenteCpfAndStatus(gerenteCpf, status);
         } else {
             contas = contaReadRepository.findAll();
         }
 
         for (ContaRead conta : contas) {
-            ClienteDTO clienteDTO = new ClienteDTO();
-            clienteDTO.setCpf(conta.getClienteCpf());
-            clienteDTO.setNome(conta.getClienteNome());
-            clientes.add(clienteDTO);
+            ContaResponseDTO contaResponseDTO = new ContaResponseDTO();
+            contaResponseDTO.setGerenteCpf(conta.getGerenteCpf());
+            contaResponseDTO.setGerenteNome(conta.getGerenteNome());
+            contaResponseDTO.setClienteCpf(conta.getClienteCpf());
+            contaResponseDTO.setNumero(conta.getNumero());
+            contaResponseDTO.setLimite(conta.getLimite());
+            contaResponseDTO.setSaldo(conta.getSaldo());
+            contaResponseDTO.setDataCriacao(conta.getDataCriacao());
+            clientes.add(contaResponseDTO);
         }
 
         return clientes;
     }
 
-    public List<ContaResponseDTO> consultarTop3() {
+    public List<ContaResponseDTO> consultarTop3(String gerenteCpf) {
         List<ContaResponseDTO> top3 = new ArrayList<>();
-        Set<ContaRead> contas = contaReadRepository.findTop3();
+        Set<ContaRead> contas = contaReadRepository.findTop3(gerenteCpf);
 
         for (ContaRead conta : contas) {
             ContaResponseDTO contaResponseDTO = new ContaResponseDTO();
+            contaResponseDTO.setGerenteCpf(conta.getGerenteCpf());
+            contaResponseDTO.setGerenteNome(conta.getGerenteNome());
+            contaResponseDTO.setClienteCpf(conta.getClienteCpf());
             contaResponseDTO.setNumero(conta.getNumero());
             contaResponseDTO.setLimite(conta.getLimite());
             contaResponseDTO.setSaldo(conta.getSaldo());
+            contaResponseDTO.setDataCriacao(conta.getDataCriacao());
             top3.add(contaResponseDTO);
         }
 

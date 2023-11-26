@@ -60,7 +60,7 @@
                 <h5 class="card-title">{{operacao.tipo}}</h5>
                 <div class="row card-text">
                   <div class="col-6">
-                    <strong>Horário</strong> {{operacao.data}} <br>
+                    <strong>Horário</strong> {{operacao.data | date : 'dd/MM/yyyy' }} <br>
                     <strong>Valor</strong> R$ {{operacao.valor}}
                   </div>
                   <div class="col-6" *ngIf="operacao.origem && operacao.destino">
