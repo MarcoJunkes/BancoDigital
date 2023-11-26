@@ -16,10 +16,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let gerente of gerentes">
-            <td> {{gerente.nome}}</td>
-            <td> {{gerente.quantidadeContas}}</td>
-            <td style="color: green;"> {{gerente.somaSaldosPositivos | currency: 'BRL'}}</td>
-            <td style="color: red;"> {{gerente.somaSaldosNegativos | currency: 'BRL'}}</td>
+            <td> {{gerente.gerenteNome}}</td>
+            <td> {{gerente.numeroClientes}}</td>
+            <td style="color: green;"> {{gerente.saldoPositivo | currency: 'BRL'}}</td>
+            <td style="color: red;"> {{gerente.saldoNegativo | currency: 'BRL'}}</td>
           </tr>
         </tbody>
       </table>

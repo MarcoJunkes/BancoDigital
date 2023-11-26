@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
 @Configuration
 public class RabbitMqConfig implements RabbitListenerConfigurer {
 
@@ -69,6 +72,11 @@ public class RabbitMqConfig implements RabbitListenerConfigurer {
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
+    }
+    
+    @Bean
+    public ObjectMapper objectMapper(){
+        return JsonMapper.builder().findAndAddModules().build();
     }
 
     @Override

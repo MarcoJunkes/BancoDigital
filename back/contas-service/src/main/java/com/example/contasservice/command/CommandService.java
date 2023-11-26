@@ -45,6 +45,7 @@ public class CommandService {
     private MovimentacaoRepository movimentacaoRepository;
     private RabbitTemplate rabbitTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandService.class);
+    
     @Autowired
     public CommandService(
             ContaRepository contaRepository,
@@ -141,7 +142,7 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__novo_gerente")
     public void createGerente(InsercaoGerenteEvent insercaoGerenteEvent) {
-        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithLessContas();
+        List<Object> gerenteComMaisContasRaw = gerenteRepository.getGerenteWithMoreContas();
 
         Gerente gerente = new Gerente();
         gerente.setNome(insercaoGerenteEvent.getNome());
@@ -163,9 +164,10 @@ public class CommandService {
     }
 
     @RabbitListener(queues="contas_service__gerente_excluido")
-    @Transactional
     public void removeGerente(RemocaoGerenteEvent remocaoGerenteEvent) {
+        LOGGER.info("chegou no commandservice");
         try {
+            //RemocaoGerenteEvent remocaoGerenteEvent = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
             List<Object> gerenteComMenosContasRaw = gerenteRepository.getGerenteWithLessContas();
             if (gerenteComMenosContasRaw.size() <= 1) {
                 // nao remove o ultimo gerente ou se nao tiver nenhum
@@ -185,10 +187,10 @@ public class CommandService {
             }
 
             gerenteRepository.delete(gerenteParaExcluir);
+            rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", remocaoGerenteEvent);
+
         } catch (NoSuchElementException e) {
             rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", new Object());
-        } finally {
-            rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", remocaoGerenteEvent);
         }
     }
 

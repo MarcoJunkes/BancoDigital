@@ -1,5 +1,7 @@
 package br.net.crudgerente.consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import br.net.crudgerente.rest.GerenteREST;
 
 @Component
 public class GerenteConsumer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GerenteConsumer.class);
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -59,15 +62,15 @@ public class GerenteConsumer {
     }
 
     @RabbitListener(queues = "service_gerente__request_remover_gerente")
-    public void removerGerente(String msg) throws JsonMappingException, JsonProcessingException{
+    public void removerGerente(String msg ) throws JsonMappingException, JsonProcessingException{
         try{
-            gerenteREST.removerGerente(Integer.parseInt(msg));
-
-            RemocaoGerenteEvent remocaoGerenteEvent = new RemocaoGerenteEvent();
-            remocaoGerenteEvent.setCpf(msg);
-            String json = objectMapper.writeValueAsString(remocaoGerenteEvent);
+            var gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
+            //gerenteREST.removerGerente(Integer.parseInt(msg));
+            
+            String json = objectMapper.writeValueAsString(gerente);
 
             rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", json);
+            LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__response_remover_gerente"+json);
         } catch(Exception e){
             e.printStackTrace();
             rabbitTemplate.convertAndSend("service_gerente__response_remover_gerente", e.getMessage());

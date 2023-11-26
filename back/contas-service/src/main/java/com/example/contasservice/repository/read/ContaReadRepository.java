@@ -17,10 +17,11 @@ public interface ContaReadRepository extends JpaRepository<ContaRead, Long> {
     @Query(
         "SELECT " +
         "c.gerenteCpf, " +
+        "c.gerenteNome, " +
         "SUM(CASE WHEN c.saldo <= 0 THEN c.saldo ELSE 0 END) as saldoNegativo, " +
         "SUM(CASE WHEN c.saldo > 0 THEN c.saldo ELSE 0 END) as saldoPositivo, " +
         "COUNT(c.numero) as numeroClientes " +
         "FROM ContaRead c " +
-        "GROUP BY c.gerenteCpf")
+        "GROUP BY c.gerenteCpf, c.gerenteNome")
     List<Object> getGerenteContas();
 }

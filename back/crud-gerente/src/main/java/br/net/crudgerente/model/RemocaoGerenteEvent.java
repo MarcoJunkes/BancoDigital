@@ -1,6 +1,8 @@
 package br.net.crudgerente.model;
 
-public class RemocaoGerenteEvent {
+import java.io.Serializable;
+
+public class RemocaoGerenteEvent implements Serializable {
     private String cpf;
 
     public String getCpf() {

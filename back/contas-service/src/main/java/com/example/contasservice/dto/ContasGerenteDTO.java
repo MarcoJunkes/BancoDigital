@@ -1,9 +1,27 @@
 package com.example.contasservice.dto;
 
 public class ContasGerenteDTO {
+    private String cpf;
+    private String nome;
     private Long numeroClientes;
     private Double saldoPositivo;
     private Double saldoNegativo;
+
+    public String getGerenteCpf(){
+        return cpf;
+    }
+
+    public void setGerenteCpf(String cpf){
+        this.cpf = cpf;
+    }
+
+    public String getGerenteNome(){
+        return nome;
+    }
+
+    public void setGerenteNome(String nome){
+        this.nome = nome;
+    }
 
     public Long getNumeroClientes() {
         return numeroClientes;
