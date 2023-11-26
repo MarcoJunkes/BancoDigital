@@ -30,7 +30,7 @@ public class RemoverGerenteREST {
     public ResponseEntity<?> removerGerentes(@RequestBody RemocaoGerenteEvent remocaoGerenteEvent) throws JsonProcessingException {
         String json = objectMapper.writeValueAsString(remocaoGerenteEvent);
         rabbitTemplate.convertAndSend("service_gerente__request_remover_gerente", json);
-        LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__request_remover_gerente |"+json);
+        LOGGER.info("GERENTE REMOVAL -- Sent to queue: service_gerente__request_remover_gerente |");
         return ResponseEntity.ok().build();
     }
 
@@ -39,7 +39,7 @@ public class RemoverGerenteREST {
         RemocaoGerenteEvent gerente = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
         String json = objectMapper.writeValueAsString(gerente);
         rabbitTemplate.convertAndSend("contas_service__gerente_excluido", json);
-        LOGGER.info("GERENTE REMOVAL -- Sent to queue: contas_service__gerente_excluido |"+json);
+        LOGGER.info("GERENTE REMOVAL -- Sent to queue: contas_service__gerente_excluido |");
     }
 
 }

@@ -161,12 +161,14 @@ public class CommandService {
 
     @RabbitListener(queues="contas_service__gerente_excluido")
     public void removeGerente(RemocaoGerenteEvent remocaoGerenteEvent) {
-        LOGGER.info("chegou no commandservice");
+        LOGGER.info("GERENTE REMOVAL -- Started on Contas MS");
         try {
             //RemocaoGerenteEvent remocaoGerenteEvent = objectMapper.readValue(msg, RemocaoGerenteEvent.class);
             List<Object> gerenteComMenosContasRaw = gerenteRepository.getGerenteWithLessContas();
             if (gerenteComMenosContasRaw.size() <= 1) {
                 // nao remove o ultimo gerente ou se nao tiver nenhum
+                LOGGER.info("GERENTE REMOVAL -- Ultimo ou nenhum gerente, nada será deletado");
+                rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", "FAILED ---- Ultimo ou nenhum gerente, nada será deletado -- "+remocaoGerenteEvent.getCpf());
                 return;
             }
             String gerenteCpf = (String) ((Object[]) gerenteComMenosContasRaw.get(0))[1];
@@ -178,7 +180,6 @@ public class CommandService {
             for (Conta conta : contasDoGerenteExcluido) {
                 conta.setGerente(gerenteComMenosContas);
                 contaRepository.save(conta);
-
                 sendContaSyncEvent(conta);
             }
 
@@ -186,8 +187,9 @@ public class CommandService {
             rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", remocaoGerenteEvent);
 
         } catch (NoSuchElementException e) {
-            rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", new Object());
+            rabbitTemplate.convertAndSend("contas_service__gerente_excluido__response", "FAILED ---- Ultimo ou nenhum gerente, nada será deletado -- "+remocaoGerenteEvent.getCpf());
         }
+        LOGGER.info("GERENTE REMOVAL -- Finished on Contas MS");
     }
 
     public void depositar(String clienteCpf, DepositoRequestDTO depositoRequestDTO) throws ContaNotFound {
