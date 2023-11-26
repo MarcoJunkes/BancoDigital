@@ -22,10 +22,15 @@ export class OperacaoService {
   }
 
   salvar(operacao: Operacao): Observable<Operacao> {
+    
     let id = JSON.parse(localStorage.getItem('usuarioLogado') || '')['cpf'];
     let url = this.API+'/'+id+'/'+operacao.tipo?.toLowerCase();
+    const operacaoObj = {
+      valor: operacao.valor,
+      destino: operacao.destino
+    }
     
-    return this.http.post<Operacao>(url, operacao);
+    return this.http.post<Operacao>(url, operacaoObj);
 
   }
 }

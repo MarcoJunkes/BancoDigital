@@ -87,6 +87,8 @@ public class CommandService {
             conta.setCliente(cliente);
             if (novaContaEvent.getSalario() >= 2000) {
                 conta.setLimite(novaContaEvent.getSalario() / 2);
+            } else {
+                conta.setLimite(0f);
             }
 
             conta.setGerente(gerente);
